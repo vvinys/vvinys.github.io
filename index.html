@@ -1,0 +1,1538 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="แบบฝึกคำศัพท์ภาษาอังกฤษ 195 คำ 5 รูปแบบข้อสอบ พร้อมโหมดไกด์แตะคำเพื่อดูคำแปล">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0E6E6E">
+<title>Vocab Quiz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+<style>
+:root{
+  --paper:#F5F7F5;
+  --surface:#FFFFFF;
+  --surface-2:#EDF1EF;
+  --ink:#14201F;
+  --ink-dim:#5C6B68;
+  --ink-faint:#8A9794;
+  --accent:#0E6E6E;
+  --accent-soft:#DCEDEB;
+  --accent-ink:#FFFFFF;
+  --gold:#A8751A;
+  --gold-soft:#F6EDD9;
+  --correct:#1B7A4B;
+  --correct-soft:#DDF0E5;
+  --wrong:#AF3A2C;
+  --wrong-soft:#FAE4E0;
+  --border:#D9E1DE;
+  --border-strong:#B9C6C2;
+  --shadow:0 1px 2px rgba(20,32,31,.05), 0 8px 24px -16px rgba(20,32,31,.25);
+  --font-th:"IBM Plex Sans Thai", system-ui, -apple-system, sans-serif;
+  --font-en:"Newsreader", Georgia, serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1615;
+    --surface:#18211F;
+    --surface-2:#212C2A;
+    --ink:#E7EFEC;
+    --ink-dim:#94A5A1;
+    --ink-faint:#6D7C79;
+    --accent:#4FC2BC;
+    --accent-soft:#16302F;
+    --accent-ink:#0B1A19;
+    --gold:#DFA83F;
+    --gold-soft:#2B2413;
+    --correct:#5ECB92;
+    --correct-soft:#142D21;
+    --wrong:#F38474;
+    --wrong-soft:#331915;
+    --border:#2A3634;
+    --border-strong:#3C4B48;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -16px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1615;
+  --surface:#18211F;
+  --surface-2:#212C2A;
+  --ink:#E7EFEC;
+  --ink-dim:#94A5A1;
+  --ink-faint:#6D7C79;
+  --accent:#4FC2BC;
+  --accent-soft:#16302F;
+  --accent-ink:#0B1A19;
+  --gold:#DFA83F;
+  --gold-soft:#2B2413;
+  --correct:#5ECB92;
+  --correct-soft:#142D21;
+  --wrong:#F38474;
+  --wrong-soft:#331915;
+  --border:#2A3634;
+  --border-strong:#3C4B48;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -16px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-th);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:680px;
+  margin:0 auto;
+  padding-inline:16px;
+  padding-block:0 40px;
+}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;
+  top:env(safe-area-inset-top, 0px);
+  z-index:20;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  margin-inline:-16px;
+  padding-inline:16px;
+}
+.topbar-inner{
+  max-width:680px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-block:11px;
+}
+.brand{
+  font-family:var(--font-en);
+  font-weight:600;
+  font-size:17px;
+  letter-spacing:-.01em;
+  white-space:nowrap;
+}
+.brand span{color:var(--accent)}
+.topbar-stats{
+  margin-left:auto;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  font-size:13px;
+  color:var(--ink-dim);
+  font-variant-numeric:tabular-nums;
+}
+.topbar-stats b{color:var(--ink);font-weight:600}
+.topbar-stats .flame{color:var(--gold);font-weight:600}
+.track{
+  height:3px;
+  background:var(--surface-2);
+  margin-inline:-16px;
+}
+.track i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:var(--accent);
+  transition:width .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- setup ---------- */
+.intro{padding-block:30px 8px}
+.intro h1{
+  font-family:var(--font-en);
+  font-weight:600;
+  font-size:clamp(30px,8vw,42px);
+  line-height:1.12;
+  letter-spacing:-.02em;
+  margin:0 0 10px;
+  text-wrap:balance;
+}
+.intro p{color:var(--ink-dim);margin:0;max-width:52ch}
+.intro .src{
+  margin-top:14px;
+  font-size:13px;
+  color:var(--ink-faint);
+  border-left:2px solid var(--border-strong);
+  padding-left:10px;
+}
+
+.setup-group{margin-top:26px}
+.setup-label{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--ink-faint);
+  margin-bottom:9px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-family:inherit;
+  font-size:14px;
+  border:1px solid var(--border-strong);
+  background:var(--surface);
+  color:var(--ink-dim);
+  border-radius:999px;
+  padding:8px 15px;
+  cursor:pointer;
+  transition:all .14s;
+  line-height:1.3;
+}
+.chip:hover{border-color:var(--accent);color:var(--ink)}
+.chip[aria-pressed="true"]{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+  font-weight:600;
+}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.start-btn{
+  margin-top:30px;
+  width:100%;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:600;
+  background:var(--accent);
+  color:var(--accent-ink);
+  border:none;
+  border-radius:12px;
+  padding:15px;
+  cursor:pointer;
+  transition:filter .15s;
+}
+.start-btn:hover{filter:brightness(1.08)}
+.start-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.lifetime{
+  margin-top:16px;
+  text-align:center;
+  font-size:13px;
+  color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- question card ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:26px 22px 22px;
+  margin-top:22px;
+}
+.qtype{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--accent);
+  background:var(--accent-soft);
+  border-radius:999px;
+  padding:4px 11px;
+  margin-bottom:16px;
+}
+.prompt-en{
+  font-family:var(--font-en);
+  font-size:clamp(32px,8.5vw,44px);
+  font-weight:600;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin:0;
+  word-break:break-word;
+}
+.prompt-th{
+  font-size:clamp(23px,6vw,30px);
+  font-weight:600;
+  line-height:1.35;
+  margin:0;
+  text-wrap:balance;
+}
+.prompt-sentence{
+  font-family:var(--font-en);
+  font-size:clamp(18px,4.6vw,22px);
+  line-height:1.6;
+  margin:0;
+}
+.prompt-sentence .blank{
+  display:inline-block;
+  min-width:80px;
+  border-bottom:2.5px solid var(--accent);
+  color:var(--accent);
+  text-align:center;
+  font-family:var(--font-th);
+  font-size:.8em;
+  font-weight:600;
+  vertical-align:baseline;
+  padding-inline:6px;
+}
+.pos-tag{
+  display:inline-block;
+  font-family:var(--font-en);
+  font-style:italic;
+  font-size:15px;
+  color:var(--ink-faint);
+  margin-top:4px;
+}
+.hint{
+  margin:14px 0 0;
+  font-size:14px;
+  color:var(--ink-dim);
+}
+
+/* ---------- options ---------- */
+.options{
+  list-style:none;
+  margin:20px 0 0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.opt{
+  width:100%;
+  font-family:inherit;
+  font-size:15.5px;
+  line-height:1.45;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:1.5px solid var(--border);
+  background:var(--surface);
+  color:var(--ink);
+  border-radius:11px;
+  padding:12px 14px;
+  cursor:pointer;
+  transition:border-color .13s, background .13s;
+}
+.opt .key{
+  flex:0 0 auto;
+  width:25px;height:25px;
+  border-radius:7px;
+  background:var(--surface-2);
+  color:var(--ink-faint);
+  font-size:12.5px;
+  font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  font-variant-numeric:tabular-nums;
+}
+.opt .txt{flex:1;min-width:0}
+.opt .txt.en{font-family:var(--font-en);font-size:17px}
+.opt .mark{flex:0 0 auto;font-size:15px;font-weight:700;opacity:0}
+.opt:hover:not([aria-disabled="true"]){border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt[aria-disabled="true"]{cursor:default}
+.opt.is-correct{border-color:var(--correct);background:var(--correct-soft)}
+.opt.is-correct .key{background:var(--correct);color:#fff}
+.opt.is-correct .mark{opacity:1;color:var(--correct)}
+.opt.is-wrong{border-color:var(--wrong);background:var(--wrong-soft)}
+.opt.is-wrong .key{background:var(--wrong);color:#fff}
+.opt.is-wrong .mark{opacity:1;color:var(--wrong)}
+.opt.is-dim{opacity:.5}
+
+/* ---------- feedback ---------- */
+.feedback{
+  margin-top:18px;
+  border-radius:11px;
+  padding:14px 15px;
+  font-size:14.5px;
+  line-height:1.6;
+  display:none;
+}
+.feedback.show{display:block}
+.feedback.ok{background:var(--correct-soft);border:1px solid color-mix(in srgb, var(--correct) 35%, transparent)}
+.feedback.no{background:var(--wrong-soft);border:1px solid color-mix(in srgb, var(--wrong) 35%, transparent)}
+.feedback .verdict{font-weight:700;display:block;margin-bottom:4px}
+.feedback.ok .verdict{color:var(--correct)}
+.feedback.no .verdict{color:var(--wrong)}
+.feedback .sentence{
+  font-family:var(--font-en);
+  font-size:15.5px;
+  line-height:1.55;
+  margin-top:9px;
+  padding-top:9px;
+  border-top:1px dashed var(--border-strong);
+  color:var(--ink-dim);
+}
+.feedback .sentence em{font-style:normal;font-weight:600;color:var(--ink)}
+.feedback .syns{
+  margin-top:8px;
+  font-size:13.5px;
+  color:var(--ink-dim);
+}
+.feedback .syns b{
+  font-family:var(--font-en);
+  font-weight:500;
+  color:var(--ink);
+  font-size:14.5px;
+}
+
+.rowbtns{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:18px;
+}
+.btn-next{
+  margin-left:auto;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  background:var(--accent);
+  color:var(--accent-ink);
+  border:none;
+  border-radius:10px;
+  padding:11px 22px;
+  cursor:pointer;
+  visibility:hidden;
+}
+.btn-next.show{visibility:visible}
+.btn-next:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn-ghost{
+  font-family:inherit;
+  font-size:13.5px;
+  background:none;
+  border:none;
+  color:var(--ink-faint);
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  padding:6px 0;
+}
+.btn-ghost:hover{color:var(--ink-dim)}
+.kbdhint{
+  margin-top:14px;
+  font-size:12px;
+  color:var(--ink-faint);
+  text-align:center;
+}
+.kbdhint kbd{
+  font-family:var(--font-th);
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:5px;
+  padding:1px 6px;
+  font-size:11.5px;
+}
+@media (hover:none){.kbdhint{display:none}}
+
+/* ---------- results ---------- */
+.result-head{text-align:center;padding-block:14px 4px}
+.result-score{
+  font-family:var(--font-en);
+  font-size:64px;
+  font-weight:600;
+  line-height:1;
+  letter-spacing:-.03em;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+.result-pct{font-size:14px;color:var(--ink-faint);margin-top:6px}
+.result-msg{font-size:16px;font-weight:600;margin-top:14px;text-wrap:balance}
+.result-actions{display:flex;flex-direction:column;gap:9px;margin-top:22px}
+.result-actions button{
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  border-radius:10px;
+  padding:13px;
+  cursor:pointer;
+  border:1.5px solid var(--border-strong);
+  background:var(--surface);
+  color:var(--ink);
+  transition:border-color .14s;
+}
+.result-actions button:hover{border-color:var(--accent)}
+.result-actions button.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+.review-title{
+  font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint);margin:30px 0 10px;
+}
+.review-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.review-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--wrong);
+  border-radius:10px;
+  padding:12px 14px;
+}
+.review-item .rw{font-family:var(--font-en);font-size:18px;font-weight:600}
+.review-item .rt{font-size:14px;color:var(--ink-dim);margin-top:2px}
+.review-item .rs{
+  font-size:13px;color:var(--ink-faint);margin-top:6px;
+  font-family:var(--font-en);
+}
+.allclear{
+  text-align:center;padding:26px 16px;
+  background:var(--correct-soft);
+  border-radius:12px;
+  color:var(--correct);
+  font-weight:600;
+  margin-top:26px;
+}
+
+/* ---------- guide mode ---------- */
+.guide-btn{
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1.5px solid var(--border-strong);
+  background:var(--surface);
+  color:var(--ink-dim);
+  border-radius:999px;
+  padding:5px 12px 5px 10px;
+  cursor:pointer;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.guide-btn .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--border-strong);
+  transition:background .15s;
+}
+.guide-btn[aria-pressed="true"]{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:var(--accent-soft);
+}
+.guide-btn[aria-pressed="true"] .dot{background:var(--accent)}
+.guide-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.guide-setup{
+  margin-top:26px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px 14px;
+}
+.guide-setup .gs-text{flex:1;min-width:0;font-size:14px;color:var(--ink-dim);line-height:1.5}
+.guide-setup .gs-text b{color:var(--ink);display:block;font-size:15px}
+
+.guide-note{
+  display:none;
+  font-size:13px;
+  color:var(--accent);
+  background:var(--accent-soft);
+  border-radius:9px;
+  padding:8px 11px;
+  margin:-4px 0 16px;
+  line-height:1.5;
+}
+body.guide-on .guide-note{display:block}
+
+body.guide-on .gw{
+  cursor:help;
+  border-bottom:1.5px dotted var(--accent);
+  border-radius:2px;
+  transition:background .12s;
+}
+body.guide-on .gw:hover{background:var(--accent-soft)}
+body.guide-on .gw.active{background:var(--accent-soft);border-bottom-style:solid}
+body.guide-on .opt:not([aria-disabled="true"]) .key{box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--accent)}
+
+.gpop{
+  position:fixed;
+  left:16px;
+  top:16px;
+  transform:translateY(6px);
+  width:min(400px, calc(100vw - 32px));
+  z-index:50;
+  background:var(--surface);
+  border:1px solid var(--border-strong);
+  border-radius:16px;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.08);
+  padding:16px 18px 16px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .16s, transform .16s;
+}
+.gpop.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.gpop-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:34px}
+.gpop-word{font-family:var(--font-en);font-size:26px;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+.gpop-pos{font-family:var(--font-en);font-style:italic;color:var(--ink-faint);font-size:15px}
+.gpop-tag{
+  font-size:11.5px;font-weight:600;letter-spacing:.04em;
+  border-radius:999px;padding:2px 9px;
+  background:var(--surface-2);color:var(--ink-dim);
+}
+.gpop-tag.book{background:var(--gold-soft);color:var(--gold)}
+.gpop-th{font-size:19px;font-weight:600;margin-top:6px;line-height:1.45}
+.gpop-extra{font-size:13.5px;color:var(--ink-dim);margin-top:6px;line-height:1.55}
+.gpop-extra .en{font-family:var(--font-en);font-size:14.5px;color:var(--ink)}
+.gpop-close{
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-dim);
+  font-size:18px;line-height:1;cursor:pointer;
+  font-family:inherit;
+}
+.gpop-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){ .gpop{transition:none} }
+
+footer{
+  margin-top:34px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+  color:var(--ink-faint);
+  text-align:center;
+  line-height:1.7;
+}
+</style>
+</head>
+<body>
+
+
+<div class="topbar" id="topbar" hidden>
+  <div class="topbar-inner">
+    <div class="brand">Vocab<span>Quiz</span></div>
+    <div class="topbar-stats">
+      <span>ข้อ <b id="sQ">0</b>/<b id="sT">0</b></span>
+      <span>ถูก <b id="sC">0</b></span>
+      <span class="flame" id="sS">0 ติด</span>
+      <button class="guide-btn" data-guide-toggle aria-pressed="false" type="button"><span class="dot"></span>ไกด์</button>
+    </div>
+  </div>
+  <div class="track"><i id="bar"></i></div>
+</div>
+
+<div class="wrap">
+
+  <!-- SETUP -->
+  <section id="setup">
+    <div class="intro">
+      <h1>ฝึกศัพท์ 195 คำ<br>ให้แม่นก่อนสอบ</h1>
+      <p>ข้อสอบ 5 รูปแบบ สุ่มใหม่ทุกครั้ง และไม่ถามคำซ้ำภายในรอบเดียวกัน ตัวเลือกลวงถูกคัดให้ไม่ชนความหมายกับคำตอบที่ถูก</p>
+      <div class="src">คำศัพท์ คำแปล คำพ้องความหมาย และประโยคตัวอย่าง คัดจากหนังสือ <i>สรุปเข้ม VOCAB พร้อมแนวข้อสอบ</i> — รศ.ดร.ศุภวัฒน์ พุกเจริญ</div>
+    </div>
+
+    <div class="setup-group">
+      <div class="setup-label">รูปแบบข้อสอบ</div>
+      <div class="chips" id="modeChips">
+        <button class="chip" data-mode="mix" aria-pressed="true">รวมทุกแบบ</button>
+        <button class="chip" data-mode="e2t" aria-pressed="false">อังกฤษ → ไทย</button>
+        <button class="chip" data-mode="t2e" aria-pressed="false">ไทย → อังกฤษ</button>
+        <button class="chip" data-mode="syn" aria-pressed="false">คำพ้องความหมาย</button>
+        <button class="chip" data-mode="cloze" aria-pressed="false">เติมคำในประโยค</button>
+        <button class="chip" data-mode="odd" aria-pressed="false">หาคำไม่เข้าพวก</button>
+      </div>
+    </div>
+
+    <div class="setup-group">
+      <div class="setup-label">จำนวนข้อ</div>
+      <div class="chips" id="lenChips">
+        <button class="chip" data-len="10" aria-pressed="false">10 ข้อ</button>
+        <button class="chip" data-len="20" aria-pressed="true">20 ข้อ</button>
+        <button class="chip" data-len="40" aria-pressed="false">40 ข้อ</button>
+        <button class="chip" data-len="0" aria-pressed="false">ทั้งหมด</button>
+      </div>
+    </div>
+
+    <div class="guide-setup">
+      <div class="gs-text"><b>โหมดไกด์</b>แตะคำภาษาอังกฤษคำไหนก็ได้ในโจทย์ ตัวเลือก หรือประโยค เพื่อดูคำแปลไทย</div>
+      <button class="guide-btn" data-guide-toggle aria-pressed="false" type="button"><span class="dot"></span>ไกด์</button>
+    </div>
+
+    <button class="start-btn" id="startBtn">เริ่มทำข้อสอบ</button>
+    <div class="lifetime" id="lifetime"></div>
+
+    <footer>
+      เนื้อหาคำศัพท์จากหนังสือ “สรุปเข้ม VOCAB พร้อมแนวข้อสอบ” โดย รศ.ดร.ศุภวัฒน์ พุกเจริญ<br>
+      ใช้เพื่อการทบทวนส่วนตัวเท่านั้น
+    </footer>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" hidden>
+    <div class="card">
+      <div class="qtype" id="qtype">แปลเป็นไทย</div>
+      <div class="guide-note">โหมดไกด์เปิดอยู่ — แตะคำที่ขีดเส้นประเพื่อดูคำแปล · แตะหมายเลขหน้าตัวเลือกเพื่อตอบ</div>
+      <div id="promptBox"></div>
+      <ul class="options" id="options"></ul>
+      <div class="feedback" id="feedback"></div>
+      <div class="rowbtns">
+        <button class="btn-ghost" id="quitBtn">ออกจากรอบนี้</button>
+        <button class="btn-next" id="nextBtn">ข้อถัดไป →</button>
+      </div>
+      <div class="kbdhint">กด <kbd>1</kbd>–<kbd>4</kbd> เพื่อตอบ · <kbd>Enter</kbd> ไปข้อถัดไป</div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" hidden>
+    <div class="card">
+      <div class="result-head">
+        <div class="result-score" id="rScore">0/0</div>
+        <div class="result-pct" id="rPct"></div>
+        <div class="result-msg" id="rMsg"></div>
+      </div>
+      <div class="result-actions">
+        <button class="primary" id="againBtn">ทำรอบใหม่ (สุ่มคำใหม่)</button>
+        <button id="retryWrongBtn" hidden>ฝึกเฉพาะข้อที่ตอบผิด</button>
+        <button id="homeBtn">กลับไปตั้งค่า</button>
+      </div>
+    </div>
+    <div id="reviewWrap"></div>
+  </section>
+
+</div>
+
+<div class="gpop" id="gpop" role="dialog" aria-live="polite" aria-label="คำแปล">
+  <button class="gpop-close" id="gpopClose" type="button" aria-label="ปิด">×</button>
+  <div class="gpop-top">
+    <span class="gpop-word" id="gpWord"></span>
+    <span class="gpop-pos" id="gpPos"></span>
+    <span class="gpop-tag" id="gpTag"></span>
+  </div>
+  <div class="gpop-th" id="gpTh"></div>
+  <div class="gpop-extra" id="gpExtra"></div>
+</div>
+
+<script>
+const VOCAB = [
+{w:"abandon",pos:"v.",th:"ละทิ้ง ปล่อย เลิกคิด",syn:["desert","forsake","surrender","give up","abdicate"],ex:"We had to abandon our car and walk back home."},
+{w:"abbreviate",pos:"v.",th:"ย่อ เขียนให้สั้นลง",syn:["abridge","compress","condense","digest","shorten"],ex:"Matthew is often abbreviated to Matt."},
+{w:"abduct",pos:"v.",th:"ลักพาตัว",syn:["steal","kidnap"],ex:"Her daughter was abducted late last night."},
+{w:"ability",pos:"n.",th:"ความสามารถ",syn:["capacity","capability","qualification","efficiency"],ex:"He completed the job to the best of his ability."},
+{w:"abolish",pos:"v.",th:"กำจัด ล้มล้าง",syn:["eradicate","get rid of","dispose of"],ex:"In the US, slavery was abolished in the 19th century."},
+{w:"absolutely",pos:"adv.",th:"อย่างแน่นอน",syn:["completely","entirely","totally","wholly"],ex:"Our new teacher has absolutely no experience of teaching."},
+{w:"abundant",pos:"adj.",th:"มากมาย สมบูรณ์",syn:["ample","plentiful"],ex:"The food at the hotel was abundant and delicious."},
+{w:"accelerate",pos:"v.",th:"เร่งความเร็ว",syn:["expedite","hasten","speed up"],ex:"Measures to accelerate the rate of economic growth have been approved."},
+{w:"accessible",pos:"adj.",th:"เข้าถึงได้ง่าย",syn:["approachable","attainable","available","reachable","at hand"],ex:"Computers are readily accessible to students."},
+{w:"accessory",pos:"n.",th:"อุปกรณ์ เครื่องมือ",syn:["equipment","appliance","device","instrument","gadget","utensil","apparatus"],ex:"Accessories such as a carrying case are free with the purchase of a cellphone."},
+{w:"accidentally",pos:"adv.",th:"โดยบังเอิญ",syn:["by accident","by chance","unexpectedly","unintentionally"],ex:"If you accidentally delete a file, you can often recover it."},
+{w:"accommodation",pos:"n.",th:"ที่พักอาศัย",syn:["housing","lodging","shelter"],ex:"This price includes flights and accommodation for 3 nights in Las Vegas."},
+{w:"accompany",pos:"v.",th:"ไปเป็นเพื่อน",syn:["escort","go along with"],ex:"Children under 15 must be accompanied by an adult."},
+{w:"accomplice",pos:"n.",th:"ผู้สมรู้ร่วมคิด",syn:["helper","collaborator"],ex:"He has been accused of being an accomplice in the kidnapping."},
+{w:"accomplish",pos:"v.",th:"ทำสำเร็จ",syn:["achieve","complete","fulfill","carry out"],ex:"My son is proud of what he has accomplished."},
+{w:"accumulate",pos:"v.",th:"สะสม เพิ่มพูน",syn:["aggregate","amass","collect","gather"],ex:"The National Library collection has been accumulated since the library's foundation in 1920."},
+{w:"accurate",pos:"adj.",th:"ถูกต้อง แม่นยำ",syn:["correct","exact","precise"],ex:"She is trying to give the police an accurate description of her attacker."},
+{w:"accuse",pos:"v.",th:"กล่าวหา",syn:["blame","charge","denounce"],ex:"My next-door neighbor was accused of murder."},
+{w:"acquaintance",pos:"n.",th:"คนรู้จัก ความรู้",syn:["colleague","fellowship","familiarity"],ex:"I first heard of this brilliant idea from an acquaintance in New York."},
+{w:"acquire",pos:"v.",th:"ได้รับมา ได้เรียนรู้",syn:["gain","earn","obtain","receive"],ex:"Research helps us acquire some insight into the way we learn a foreign language."},
+{w:"activate",pos:"v.",th:"กระตุ้น ก่อให้เกิด",syn:["energize","trigger"],ex:"The smoke activated the fire alarms."},
+{w:"adapt",pos:"v.",th:"ปรับตัว ปรับให้เหมาะ",syn:["adjust","conform","accustom"],ex:"These teaching materials can be adapted for young learners."},
+{w:"addicted",pos:"adj.",th:"เสพติด ติดนิสัย",syn:["dependent","hooked"],ex:"By the time my younger brother was 20, he was addicted to nicotine."},
+{w:"additional",pos:"adj.",th:"เพิ่มเติมเข้ามา",syn:["added","extra","further","supplementary"],ex:"Additional information can be found by visiting the school's website."},
+{w:"adequate",pos:"adj.",th:"เพียงพอ",syn:["enough","sufficient","satisfactory"],ex:"Employers must provide adequate supervision and support during training."},
+{w:"administration",pos:"n.",th:"การบริหาร",syn:["management","execution","supervision"],ex:"Some hospitals spend too much on administration."},
+{w:"adolescent",pos:"n., adj.",th:"วัยรุ่น",syn:["teenage","youthful","immature","juvenile"],ex:"George changed from a friendly and cheerful young boy into a confused adolescent."},
+{w:"adopt",pos:"v.",th:"นำมาใช้ รับบุตรบุญธรรม",syn:["embrace","endorse"],ex:"The government adopted this plan for fighting crimes."},
+{w:"advantage",pos:"n.",th:"ผลประโยชน์ ข้อดี",syn:["benefit","profit","usefulness"],ex:"People who have been to university have a big advantage when it comes to finding jobs."},
+{w:"advocate",pos:"n., v.",th:"ทนาย ผู้สนับสนุน",syn:["supporter","propose","recommend"],ex:"There were some people who advocated using force to stop abortion."},
+{w:"affordable",pos:"adj.",th:"ซื้อหามาได้",syn:["inexpensive","reasonable","moderate","modest"],ex:"We offer high quality work of art at an affordable price."},
+{w:"aggravate",pos:"v.",th:"ทำให้แย่ลงหรือโกรธ",syn:["intensify","exacerbate","irritate","annoy"],ex:"Reductions in interest rates aggravated the situation."},
+{w:"aggressive",pos:"adj.",th:"ก้าวร้าว",syn:["assertive","offensive","attacking"],ex:"Kids who play violent video games often show much more aggressive behavior."},
+{w:"ailment",pos:"n.",th:"ความเจ็บป่วย โรคภัย",syn:["affliction","disease","infirmity","malady","sickness"],ex:"All cultures have natural cures for a wide range of ailments."},
+{w:"allergic",pos:"adj.",th:"มีอาการแพ้",syn:["hypersensitive","susceptible"],ex:"Some people can be allergic to seafoods."},
+{w:"alleviate",pos:"v.",th:"บรรเทา เยียวยา",syn:["abate","relieve","lessen","soothe"],ex:"You can't cure a common cold, but you can alleviate the symptoms."},
+{w:"alternative",pos:"n., adj.",th:"ทางเลือก",syn:["choice","option","selection"],ex:"For vegetarian guests there is an alternative menu."},
+{w:"ambiguous",pos:"adj.",th:"กำกวม คลุมเครือ",syn:["ambivalent","enigmatic","obscure","unclear","vague"],ex:"The document's ambiguous wording makes it difficult to understand."},
+{w:"ambition",pos:"n.",th:"ความทะเยอทะยาน",syn:["drive","enthusiasm"],ex:"James always had this burning ambition to start his own business."},
+{w:"ameliorate",pos:"v.",th:"ทำให้ดีขึ้น ปรับปรุง",syn:["better"],ex:"Measures to ameliorate working conditions have had little effect."},
+{w:"analysis",pos:"n.",th:"การวิเคราะห์",syn:["breakdown","examination","investigation","scrutiny"],ex:"Our analysis shows that proposed cost for the new highway is unrealistic."},
+{w:"annual",pos:"n., adj.",th:"ซึ่งเกิดขึ้นทุกปี",syn:["yearly"],ex:"His father's annual income is about 240,000 baht."},
+{w:"anticipate",pos:"v.",th:"คาดการณ์",syn:["expect","predict","forecast","foresee","foretell"],ex:"A skilled waiter can anticipate a customer's needs."},
+{w:"antique",pos:"n., v.",th:"โบราณวัตถุ เก่าแก่",syn:["ancient","archaic","obsolete","outdated","out-of-date"],ex:"Dennis loves collecting antique fountain pens."},
+{w:"anxiety",pos:"n.",th:"ความวิตกกังวล",syn:["worry","concern","stress","strain","angst"],ex:"Her anxiety about the pain of childbirth is understandable."},
+{w:"apology",pos:"n.",th:"คำขอโทษ",syn:["excuse","acknowledgement","confession"],ex:"Please accept our apologies for taking so long to deliver the materials."},
+{w:"apparent",pos:"adj.",th:"เห็นได้ชัด",syn:["conspicuous","evident","noticeable","obvious"],ex:"Anne was upset by her father-in-law's apparent dislike of her."},
+{w:"apply",pos:"v.",th:"ประยุกต์ใช้ สมัคร",syn:["utilize","employ","implement"],ex:"Some of the children seem unable to apply what they have learned."},
+{w:"appreciate",pos:"v.",th:"ซาบซึ้ง เห็นคุณค่า",syn:["admire","acknowledge","be grateful for"],ex:"I don't need any help, but I do appreciate your offer."},
+{w:"appropriate",pos:"adj.",th:"เหมาะสม",syn:["proper","suitable","well-suited","fitting"],ex:"Considering what he did, I think the punishment was appropriate."},
+{w:"approve",pos:"v.",th:"เห็นชอบ ยอมรับ",syn:["consent","authorize"],ex:"Ken will only buy the car if his parents approve."},
+{w:"aptitude",pos:"n.",th:"ความถนัด",syn:["competence","talent"],ex:"All applicants are given aptitude tests before being invited for interview."},
+{w:"arouse",pos:"v.",th:"กระตุ้น",syn:["provoke","stimulate","urge"],ex:"Their strange behavior aroused my suspicions."},
+{w:"artificial",pos:"adj.",th:"ปลอม เทียม",syn:["made-up","man-made","synthetic","false","fake"],ex:"On the table was a vase filled with artificial flowers."},
+{w:"aspiration",pos:"n.",th:"ความปรารถนา",syn:["aim","craving","desire"],ex:"Virtually all students express high levels of hope and aspiration for their futures."},
+{w:"assist",pos:"v.",th:"ช่วยเหลือ",syn:["aid","contribute","sustain"],ex:"Citizens have a duty to assist the police."},
+{w:"associate",pos:"n., v.",th:"คบค้า เชื่อมโยง",syn:["make friends","keep company","join up","socialize"],ex:"Shoppers tend to associate certain brand names with high quality."},
+{w:"assume",pos:"v.",th:"สันนิษฐาน ทึกทัก",syn:["presume","guess","suppose","take for granted"],ex:"I just assumed that the man standing next to Jane was her boyfriend."},
+{w:"assure",pos:"v.",th:"รับรอง ทำให้มั่นใจ",syn:["affirm","guarantee","promise","make sure"],ex:"The airline has assured travelers there will be no further delays."},
+{w:"astonish",pos:"v.",th:"ทำให้ประหลาดใจ",syn:["amaze","astound","surprise","shock"],ex:"Einstein's work still astonishes physicists."},
+{w:"attain",pos:"v.",th:"บรรลุ ทำสำเร็จ",syn:["achieve"],ex:"Our school's ambition is to attain excellence."},
+{w:"attend",pos:"v.",th:"เข้าร่วม ดูแล เอาใจใส่",syn:["join","visit","participate","be present"],ex:"After attending church, we would go back home."},
+{w:"attract",pos:"v.",th:"ดึงดูดใจ",syn:["allure","appeal to","captivate","fascinate","tempt","seduce"],ex:"Disney World attracts millions of tourists each year."},
+{w:"authority",pos:"n.",th:"อำนาจหน้าที่",syn:["license","permission","influence"],ex:"The airline has been given authority to fly to several U.S. destinations."},
+{w:"aware",pos:"adj.",th:"ตระหนัก รับรู้ รู้ตัว",syn:["acquainted","appreciative"],ex:"Local police are well aware of the problem but choose not to intervene."},
+{w:"awkward",pos:"adj.",th:"งุ่มง่าม เคอะเขิน",syn:["clumsy","inept","inexpert","maladroit","unskillful"],ex:"His kids started asking awkward questions."},
+{w:"banish",pos:"v.",th:"เนรเทศ ขจัดออกไป",syn:["excommunicate","exile"],ex:"They tried to banish all our doubts and fears."},
+{w:"behavior",pos:"n.",th:"ความประพฤติ",syn:["comportment","conduct","courtesy","manners","performance"],ex:"Brian's behavior towards his family surprised me."},
+{w:"beneficial",pos:"adj.",th:"เป็นประโยชน์",syn:["constructive","fruitful","helpful"],ex:"Moderate amounts of alcohol are beneficial to health."},
+{w:"betray",pos:"v.",th:"ทรยศ หักหลัง",syn:["be dishonest to"],ex:"He betrayed his friends in order to save his own life."},
+{w:"bewilder",pos:"v.",th:"ทำให้สับสน งุนงง",syn:["confuse","perplex","puzzle"],ex:"He was bewildered by her students' reaction."},
+{w:"biography",pos:"n.",th:"ชีวประวัติ",syn:["life-story","memoirs","recollections"],ex:"She is the author of several books, including a biography of the famous artist Vincent van Gogh."},
+{w:"bizarre",pos:"adj.",th:"แปลก พิสดาร",syn:["strange","odd","weird","queer","eccentric","peculiar"],ex:"It was bizarre — if we took longer than five minutes, we had to explain why to our manager."},
+{w:"boastful",pos:"adj.",th:"คุยโตโอ้อวด",syn:["conceited","big-headed","bragging"],ex:"After they had drunk more wine, they started to become loud and boastful."},
+{w:"bribe",pos:"n., v.",th:"สินบน ติดสินบน",syn:["backhander","enticement","inducement"],ex:"He alleged that the manager had tried to bribe him during a business lunch."},
+{w:"broadcast",pos:"n., v.",th:"กระจายเสียง",syn:["advertise","make public","be on air"],ex:"Don't go broadcasting what I've told you all over the office."},
+{w:"brutal",pos:"adj.",th:"โหดร้ายทารุณ",syn:["atrocious","ferocious","barbaric","beastly","blood-thirsty"],ex:"The police are searching for the brutal attacker of an 87-year-old woman."},
+{w:"burglar",pos:"n.",th:"คนขโมย นักย่องเบา",syn:["robber","intruder","house-breaker"],ex:"The burglar got in through the kitchen window."},
+{w:"calamity",pos:"n.",th:"ภัยพิบัติ หายนะ",syn:["misfortune"],ex:"Hurricane George was just the latest calamity to hit the state."},
+{w:"carnivore",pos:"n.",th:"สัตว์กินเนื้อเป็นอาหาร",syn:[],ex:"Lions are voracious carnivores; they can require up to seven kilograms of meat per day."},
+{w:"category",pos:"n.",th:"ชนิด ประเภท",syn:["class","classification","division","kind","sort","type"],ex:"Emma Thompson won an Oscar in the Best Actress category."},
+{w:"certain",pos:"adj.",th:"แน่นอน",syn:["assured","confident","positive","sure"],ex:"He was certain about one thing — she would come back one day."},
+{w:"chronic",pos:"adj.",th:"เรื้อรัง",syn:["ceaseless","incessant","lasting","persistent"],ex:"Older people can quickly become dispirited and depressed by chronic illness."},
+{w:"circulate",pos:"v.",th:"หมุนเวียน แพร่กระจาย",syn:["disseminate","publicize","spread","make known"],ex:"Rumors are circulating that the Prime Minister's health is getting worse."},
+{w:"circumspect",pos:"adj.",th:"รอบคอบ ระวัง",syn:["cautious","prudent","mindful","vigilant"],ex:"The President was usually circumspect when dealing with the media."},
+{w:"circumstance",pos:"n.",th:"สถานการณ์",syn:["event","happening","incident","situation","case"],ex:"Some doctors in the province will perform abortions in certain circumstances."},
+{w:"clarify",pos:"v.",th:"ทำให้กระจ่าง",syn:["clear up","explain","make clear","elucidate"],ex:"This statement has helped to clarify a few points."},
+{w:"collaborate",pos:"v.",th:"ทำงานร่วมมือกัน",syn:["team up","work together"],ex:"Students collaborate in pairs, in small groups, and with their teachers."},
+{w:"commit",pos:"v.",th:"กระทำผิด ผูกมัด",syn:["be guilty of"],ex:"Women commit far fewer crimes than men."},
+{w:"compensation",pos:"n.",th:"การชดเชย",syn:["refund","reimbursement","repayment"],ex:"She received compensation from the government for the damage caused to her property."},
+{w:"complicated",pos:"adj.",th:"ซับซ้อน",syn:["complex","perplexing","sophisticated","tricky"],ex:"The brain is like a very powerful, very complicated computer."},
+{w:"compliment",pos:"n., v.",th:"คำชม ชมเชย",syn:["admiration","praise","commendation"],ex:"He's always paying her compliments and buying her flowers."},
+{w:"comprehend",pos:"v.",th:"เข้าใจ ครอบคลุม",syn:["apprehend","conceive","perceive","understand"],ex:"The dream is easy to describe, difficult to comprehend."},
+{w:"compulsory",pos:"adj.",th:"เป็นการบังคับ",syn:["obligatory","mandatory","imperative","unavoidable"],ex:"Math and English are compulsory for all students."},
+{w:"concentrate",pos:"v.",th:"จดจ่อ ทำสมาธิ",syn:["focus","centralize","pay attention to"],ex:"There were so many people talking that I couldn't concentrate on the music."},
+{w:"concise",pos:"adj.",th:"กระชับ รัดกุม",syn:["brief","compact","succinct","short"],ex:"Make sure that your answers are as clear and concise as possible."},
+{w:"confess",pos:"v.",th:"สารภาพ",syn:["admit","concede","disclose","divulge"],ex:"Sandra confessed that she had killed her husband."},
+{w:"confidential",pos:"adj.",th:"เป็นความลับ",syn:["secret","personal","private","concealed","hidden"],ex:"We treat all information we receive as confidential."},
+{w:"conscious",pos:"adj.",th:"มีสติ รับรู้",syn:["alert","awake","knowing","sensible"],ex:"This man was so drunk that he was barely conscious."},
+{w:"consent",pos:"n., v.",th:"การอนุญาต ยินยอม",syn:["agreement","accede"],ex:"The young couple were married without their parents' consent."},
+{w:"consequence",pos:"n.",th:"ผลที่ตามมา",syn:["result","effect","outcome","upshot"],ex:"We are very much aware of the consequences our actions will have."},
+{w:"conserve",pos:"v.",th:"สงวน อนุรักษ์",syn:["maintain","protect","save","store up"],ex:"Everyone needs to make efforts to conserve natural resources."},
+{w:"considerable",pos:"adj.",th:"มากมาย สำคัญ",syn:["substantial"],ex:"Attracting tourists to the area is going to take considerable effort."},
+{w:"considerate",pos:"adj.",th:"นึกถึงผู้อื่น",syn:["caring","sympathetic","thoughtful"],ex:"Children must learn to be considerate to others."},
+{w:"constantly",pos:"adv.",th:"อย่างคงที่",syn:["consistently","firmly","stably","steadily"],ex:"Sophie constantly complained about the fidgeting child next to her."},
+{w:"contaminate",pos:"v.",th:"ทำให้ปนเปื้อน",syn:["adulterate","pollute","stain"],ex:"Lead in plumbing can contaminate drinking water."},
+{w:"contradictory",pos:"adj.",th:"ซึ่งขัดแย้งกัน",syn:["contrary","conflicting","discrepant","incompatible"],ex:"Upon further questioning, the witnesses gave inconsistent and sometimes contradictory answers."},
+{w:"contribute",pos:"v.",th:"บริจาค สนับสนุน",syn:["provide","supply","bestow"],ex:"Readers are invited to contribute their opinions on any of the issues discussed in the article."},
+{w:"cooperate",pos:"v.",th:"ร่วมมือกัน",syn:["combine","support each other"],ex:"Thailand would continue to cooperate with neighboring countries in the fight against drugs."},
+{w:"courteous",pos:"adj.",th:"สุภาพ",syn:["polite","respectful","well-mannered"],ex:"Airline staff must be courteous at all times."},
+{w:"criticize",pos:"v.",th:"วิจารณ์",syn:["appraise","fault"],ex:"Several artists criticized each other's work."},
+{w:"crucial",pos:"adj.",th:"สำคัญมาก",syn:["central","critical","major"],ex:"Learning to work together is a crucial part of the training program."},
+{w:"curiosity",pos:"n.",th:"ความอยากรู้อยากเห็น",syn:["interest","inquisitiveness","nosiness"],ex:"Children have a natural curiosity about the world around them."},
+{w:"deceive",pos:"v.",th:"หลอกลวง",syn:["fool","mislead","beguile","cheat","trick"],ex:"If you think that everyone is happy with the plan, you're deceiving yourself."},
+{w:"deficiency",pos:"n.",th:"ความบกพร่อง",syn:["lack","absence","scarcity","shortage"],ex:"One of the symptoms of vitamin C deficiency is extreme tiredness."},
+{w:"deliberate",pos:"adj.",th:"เจตนา ตั้งใจ",syn:["arranged","intentional","calculated"],ex:"It was a deliberate attempt to prevent the truth from being known."},
+{w:"delicate",pos:"adj.",th:"ประณีต ละเอียด",syn:["fragile","frail","intricate","sensitive"],ex:"She is seeking your useful advice on this very delicate matter."},
+{w:"demolish",pos:"v.",th:"ทำลาย",syn:["destroy","devastate","ruin","wreck","annihilate"],ex:"Several houses were demolished to make way for the new road."},
+{w:"demonstrate",pos:"v.",th:"สาธิต ประท้วง",syn:["display","exhibit","march","protest"],ex:"If you don't understand, I'll be happy to demonstrate."},
+{w:"depressed",pos:"adj.",th:"รู้สึกเศร้าหมอง",syn:["unhappy","dispirited","gloomy","miserable"],ex:"Many people eat too much when they're depressed."},
+{w:"deserve",pos:"v.",th:"สมควรได้รับ",syn:["merit","be worthy of"],ex:"She deserves an apology after all the cruel things you said about her."},
+{w:"desperate",pos:"adj.",th:"หมดหวัง สิ้นคิด",syn:["hopeless","bleak"],ex:"The hospital is full of people in desperate need of medical attention."},
+{w:"deteriorate",pos:"v.",th:"ทำให้แย่หรือเสื่อมลง",syn:["weaken","decay","degenerate"],ex:"Air quality is rapidly deteriorating in Bangkok."},
+{w:"determine",pos:"v.",th:"ตั้งใจแน่วแน่ ตัดสิน",syn:["decide","resolve","establish"],ex:"The survey determined that seat belts reduced serious injuries by up to 90%."},
+{w:"devote",pos:"v.",th:"อุทิศ ทุ่มเท",syn:["dedicate","endeavor"],ex:"Sarah intends to devote the next ten years to her charitable work."},
+{w:"diagnose",pos:"v.",th:"ตรวจโรค วินิจฉัย",syn:["detect","pinpoint"],ex:"Several years ago, she was diagnosed as having Alzheimer's disease."},
+{w:"disaster",pos:"n.",th:"ความหายนะ",syn:["catastrophe","tragedy","fiasco"],ex:"Natural disasters are common occurrences in California."},
+{w:"discriminate",pos:"v.",th:"แยกแยะ แบ่งแยก",syn:["separate","be biased","be prejudiced"],ex:"A test is useful for discriminating those students who have reached a higher level."},
+{w:"distinguish",pos:"v.",th:"จำแนก ทำให้เด่น",syn:["differentiate","make a distinction"],ex:"A tiny baby soon learns to distinguish its mother's face from other adults' faces."},
+{w:"distract",pos:"v.",th:"ดึงความสนใจ",syn:["bother","interrupt"],ex:"The couple kept distracting everyone by talking during the movie."},
+{w:"distribute",pos:"v.",th:"แจกจ่าย กระจาย",syn:["allocate","give out","hand out","share out"],ex:"The Red Cross has started distributing food to villages in the flood area."},
+{w:"diverse",pos:"adj.",th:"แตกต่าง หลากหลาย",syn:["dissimilar","distinct","varied","various"],ex:"New York is one of the most culturally diverse cities in the world."},
+{w:"dominate",pos:"v.",th:"ครอบงำ เห็นเด่นชัด",syn:["control","direct","govern"],ex:"You shouldn't allow your job to dominate your life like that."},
+{w:"donate",pos:"v.",th:"บริจาค",syn:["grant","hand over"],ex:"The concert organizers say they will donate all profits to charity."},
+{w:"dramatically",pos:"adv.",th:"อย่างมาก น่าทึ่ง",syn:["greatly","suddenly","extremely","considerably","impressively"],ex:"The publishers have dramatically increased textbook prices over the past few years."},
+{w:"dwindle",pos:"v.",th:"ค่อยๆลดน้อยลง",syn:["decrease","diminish","reduce"],ex:"The money available to build new parks has dwindled."},
+{w:"economical",pos:"adj.",th:"ประหยัด มัธยัสถ์",syn:["saving","sparing","frugal","thrifty","provident"],ex:"I'm trying to be more economical when I go shopping, and only buying what I really need."},
+{w:"effective",pos:"adj.",th:"ได้ผล มีผลบังคับใช้",syn:["capable","efficacious","powerful"],ex:"Our training program covers a range of effective management techniques."},
+{w:"efficient",pos:"adj.",th:"มีประสิทธิภาพ",syn:["well-organized","businesslike","productive"],ex:"My new computer is much faster and more efficient than the old one was."},
+{w:"elaborate",pos:"v., adj.",th:"บรรยาย ละเอียด",syn:["expand","give more details","thorough"],ex:"This argument will be elaborated more fully in the next chapter."},
+{w:"election",pos:"n.",th:"การเลือกตั้ง",syn:["voting","ballot","poll","referendum"],ex:"The presidential election will take place tomorrow."},
+{w:"eliminate",pos:"v.",th:"กำจัด",syn:["exterminate"],ex:"The credit card eliminates the need for cash or cheques."},
+{w:"embarrass",pos:"v.",th:"ทำให้อึดอัดใจ",syn:["abash","mortify","shame","upset"],ex:"My girlfriend was trying to embarrass me by asking me questions I couldn't answer."},
+{w:"emerge",pos:"v.",th:"ปรากฏ โผล่ออกมา",syn:["appear","arise","come out","emanate"],ex:"People stood behind a metal fence waiting for passengers to emerge from customs."},
+{w:"emigrate",pos:"v.",th:"อพยพ ออกประเทศ",syn:["depart","relocate","resettle"],ex:"My parents emigrated from France to Italy."},
+{w:"emphasize",pos:"v.",th:"เน้นย้ำ",syn:["highlight","accentuate","stress","focus on","insist on"],ex:"They emphasized the importance of studying hard."},
+{w:"endangered",pos:"adj.",th:"ถูกคุกคาม",syn:["jeopardized","threatened"],ex:"An animal and plant may become endangered if steps are not taken to protect it."},
+{w:"endure",pos:"v.",th:"ทนทาน อดทน",syn:["tolerate","undergo","can stand","go through","put up with"],ex:"Many patients have to endure a great deal of pain."},
+{w:"enormous",pos:"adj.",th:"มหึมา มากมาย",syn:["huge","massive","gigantic","colossal","immense","tremendous"],ex:"Steve has an enormous amount of work to finish before Monday."},
+{w:"enthusiastic",pos:"adj.",th:"กระตือรือร้น",syn:["active","eager","energetic","keen","lively","zealous"],ex:"Several enthusiastic young teachers work here."},
+{w:"envy",pos:"n., v.",th:"ความรู้สึกอิจฉา ริษยา",syn:["jealousy","resentment","greed","crave"],ex:"Everyone in the neighborhood envied his new car."},
+{w:"equivalent",pos:"n., adj.",th:"เท่ากัน",syn:["alike","equal","comparable","corresponding","parallel"],ex:"His monthly US salary is equivalent to a year's pay here in Thailand."},
+{w:"essential",pos:"adj.",th:"จำเป็นอย่างยิ่ง",syn:["necessary","vital","indispensable"],ex:"Calcium is essential for the development of healthy teeth and bones."},
+{w:"establish",pos:"v.",th:"ก่อตั้ง",syn:["found","organize","initiate","construct","constitute"],ex:"Thammasat University was established in 1934."},
+{w:"estimate",pos:"n., v.",th:"ค่าประเมิน คาดคะเน",syn:["approximation","assessment","calculate"],ex:"The committee did not estimate how much this program would cost."},
+{w:"evaluate",pos:"v.",th:"ประเมินผล หาค่า",syn:["assess","critique","value"],ex:"There was not enough time to evaluate the information before the meeting."},
+{w:"eventually",pos:"adv.",th:"ในท้ายที่สุด",syn:["finally","ultimately","conclusively","in the end","at last"],ex:"Eventually, the sky cleared up and we went to the beach."},
+{w:"evolve",pos:"v.",th:"พัฒนา",syn:["develop","progress","mature"],ex:"Many scientists now believe that birds evolved from dinosaurs."},
+{w:"exaggerate",pos:"v.",th:"พูดหรือทำเกินจริง",syn:["overstate","amplify","embroider","overemphasize"],ex:"Sam didn't exaggerate when he said Mike was the best football player the team ever had."},
+{w:"excessive",pos:"adj.",th:"มากเกินไป",syn:["extreme","immoderate","disproportionate"],ex:"The campaign is trying to stop the excessive use of chemicals in farming."},
+{w:"exclude",pos:"v.",th:"กีดกัน เอาออก",syn:["ban","blacklist","eject","expel"],ex:"Jane felt we were excluding her from our plans."},
+{w:"exhibition",pos:"n.",th:"นิทรรศการ",syn:["exposition","presentation"],ex:"Art exhibitions are traditionally the space in which art objects meet an audience."},
+{w:"exist",pos:"v.",th:"มีอยู่จริง มีชีวิตอยู่",syn:["occur","survive","remain alive"],ex:"We cannot continue to pretend that the problem of homelessness does not exist in Bangkok."},
+{w:"expert",pos:"n., adj.",th:"ผู้เชี่ยวชาญ",syn:["professional","specialist","master","veteran","connoisseur"],ex:"This team of experts includes psychiatrists, psychologists and social workers."},
+{w:"exploit",pos:"v.",th:"แสวงหาผลประโยชน์",syn:["manipulate","capitalize","take advantage of"],ex:"Christmas has been exploited for commercial reasons."},
+{w:"extravagant",pos:"adj.",th:"ฟุ่มเฟือย",syn:["lavish","prodigal","wasteful"],ex:"Rich and extravagant parents are spending much money on their children's parties."},
+{w:"facilitate",pos:"v.",th:"สนับสนุน ช่วยเหลือ",syn:["ease","foster","promote","spoon-feed"],ex:"Dividing students into small groups usually helps facilitate discussion."},
+{w:"familiar",pos:"adj.",th:"คุ้นเคย สนิทสนม",syn:["accustomed","conventional","habitual","common"],ex:"The voice on the phone sounded familiar."},
+{w:"fatal",pos:"adj.",th:"ถึงตาย หายนะ",syn:["deadly","lethal","mortal"],ex:"The gas can be fatal if inhaled in large amounts."},
+{w:"fertile",pos:"adj.",th:"อุดมสมบูรณ์",syn:["luxuriant","prolific"],ex:"The valley was fertile, and a good crop was a near certainty."},
+{w:"flexible",pos:"adj.",th:"ยืดหยุ่น",syn:["adaptable","alterable","variable","easygoing","bendable"],ex:"Henry said the key to his business success was not forgetting to stay flexible."},
+{w:"fluctuate",pos:"v.",th:"เปลี่ยนแปลงขึ้นๆลงๆ",syn:["alternate","vary","shift","swing"],ex:"Cholesterol levels in the blood fluctuate in the course of a day."},
+{w:"fortunate",pos:"adj.",th:"โชคดี",syn:["lucky","blessed","auspicious","favorable","prosperous"],ex:"I am fortunate to work in a school where all the children are extremely motivated."},
+{w:"frustrate",pos:"v.",th:"ทำให้หงุดหงิด",syn:["baffle","discourage","hinder","impede","inhibit"],ex:"You frustrated me with your argumentative views, objecting to anything I said."},
+{w:"generate",pos:"v.",th:"ผลิต ก่อให้เกิด",syn:["cause","create","produce","bring about","give rise to"],ex:"Completing the project on time generated a feeling of pride among the team."},
+{w:"genuine",pos:"adj.",th:"แท้จริง ซื่อสัตย์ จริงใจ",syn:["actual","authentic","legitimate","original","candid","frank","sincere"],ex:"For years people thought the picture was a genuine Van Gogh, but in fact it's a fake."},
+{w:"gradually",pos:"adv.",th:"ทีละเล็กละน้อย",syn:["slowly","regularly","little by little"],ex:"Some patients experience a slow decline in their health as the effectiveness of the drugs gradually decreases."},
+{w:"grateful",pos:"adj.",th:"กตัญญู รู้สึกขอบคุณ",syn:["thankful","gratified","indebted"],ex:"I'm really grateful for everything you've done for me."},
+{w:"guilty",pos:"adj.",th:"มีความผิด รู้สึกผิด",syn:["culpable","blamable","liable","responsible"],ex:"This 23-year-old woman was found guilty of murder."},
+{w:"habitual",pos:"adj.",th:"เป็นนิสัย โดยปกติ",syn:["customary"],ex:"Even close friends considered Ben a habitual liar."},
+{w:"hazardous",pos:"adj.",th:"อันตราย",syn:["dangerous","harmful","perilous","risky"],ex:"Being the President's bodyguard is obviously a hazardous occupation."},
+{w:"hesitate",pos:"v.",th:"ลังเล รีรอ",syn:["be in two minds","be indecisive"],ex:"If you need any more information, please do not hesitate to contact me."},
+{w:"hospitality",pos:"n.",th:"อัธยาศัยไมตรี",syn:["catering","cordiality"],ex:"The atmosphere and hospitality made a great impression on all our crews."},
+{w:"hostile",pos:"adj.",th:"เป็นศัตรู เกลียดชัง",syn:["adverse","bellicose","belligerent","confrontational","opposed"],ex:"He was hostile towards me when I arrived."},
+{w:"humiliate",pos:"v.",th:"ทำให้อับอาย",syn:["discredit","disgrace"],ex:"Why did you humiliate me in front of your friends?"},
+{w:"identical",pos:"adj.",th:"เหมือนกันทุกประการ",syn:["indistinguishable"],ex:"The tablets were identical in size, shape, and color."},
+{w:"illegal",pos:"adj.",th:"ผิดกฎหมาย",syn:["illicit","outlawed","unlawful","forbidden","prohibited"],ex:"Andrew was arrested for being in possession of illegal drugs."},
+{w:"illustrate",pos:"v.",th:"ยกตัวอย่างประกอบ",syn:["depict","exemplify","show"],ex:"The experiment illustrates how careful you have to be when interpreting results."},
+{w:"imply",pos:"v.",th:"บอกเป็นนัย",syn:["hint","signify","denote"],ex:"The article implied that unemployed people are lazy and do not want to work."},
+{w:"impressive",pos:"adj.",th:"น่าประทับใจ",syn:["awesome","distinguished","formidable","magnificent","splendid"],ex:"The school's examination results were impressive."},
+{w:"impulsive",pos:"adj.",th:"หุนหันพลันแล่น",syn:["rash","hasty","impetuous","intuitive","spontaneous"],ex:"She's so impulsive; she saw the house for the first time and said she would buy it straight away."},
+{w:"incredible",pos:"adj.",th:"เหลือเชื่อ",syn:["unbelievable","implausible","farfetched","unlikely"],ex:"The divorce rate in the U.S. is pretty incredible."},
+{w:"indicate",pos:"v.",th:"แสดงให้เห็น บ่งชี้",syn:["identify","manifest","notify","reveal"],ex:"Research indicates that this drug can be harmful to pregnant women."},
+{w:"indifferent",pos:"adj.",th:"ไม่แยแส เพิกเฉย",syn:["apathetic","dispassionate","uncaring","uninterested"],ex:"Her father was friendly, but her mother seemed somewhat cold and indifferent."},
+{w:"infect",pos:"v.",th:"ติดเชื้อ แพร่เชื้อ",syn:["poison","spoil"],ex:"You had better clean the wound so that it does not get infected."},
+];
+
+</script>
+<script>
+const DICT_SYN = {
+"abash":"ทำให้อับอาย","abate":"ลดลง บรรเทา","abdicate":"สละ (ตำแหน่ง) ละทิ้ง","abridge":"ย่อ ตัดให้สั้น","absence":"การขาด การไม่มี","accede":"ยินยอม ตกลง","accentuate":"เน้น ทำให้เด่น","accustom":"ทำให้เคยชิน","accustomed":"เคยชิน คุ้นเคย","achieve":"ทำสำเร็จ บรรลุ","acknowledge":"ยอมรับ รับรู้","acknowledgement":"การยอมรับ","acquainted":"คุ้นเคย รู้จัก","active":"กระตือรือร้น คล่องแคล่ว","actual":"จริง แท้จริง","adaptable":"ปรับตัวได้","added":"ที่เพิ่มเข้ามา","adjust":"ปรับ ปรับตัว","admiration":"ความชื่นชม","admire":"ชื่นชม","admit":"ยอมรับ สารภาพ","adulterate":"ปลอมปน ทำให้ไม่บริสุทธิ์","adverse":"เป็นปฏิปักษ์ ไม่เป็นผลดี","advertise":"โฆษณา ประกาศ","affirm":"ยืนยัน","affliction":"ความทุกข์ทรมาน โรค","aggregate":"รวม สะสม","agreement":"ข้อตกลง ความเห็นพ้อง","aid":"ช่วยเหลือ","aim":"เป้าหมาย","alert":"ตื่นตัว มีสติ","alike":"เหมือนกัน","allocate":"จัดสรร แบ่งให้","allure":"ล่อใจ ดึงดูด","alterable":"เปลี่ยนแปลงได้","alternate":"สลับกัน","amass":"สะสม รวบรวม","amaze":"ทำให้ประหลาดใจ","ambivalent":"ลังเล สองจิตสองใจ กำกวม","ample":"มากมาย เพียงพอ","amplify":"ขยาย ทำให้มากเกินจริง","ancient":"โบราณ","angst":"ความวิตกกังวล","annihilate":"ทำลายล้าง","annoy":"ทำให้รำคาญ","apathetic":"เฉยเมย ไม่สนใจ","apparatus":"อุปกรณ์ เครื่องมือ","appeal to":"ดึงดูดใจ","appear":"ปรากฏ ดูเหมือน","appliance":"เครื่องใช้","appraise":"ประเมินค่า","appreciative":"ซาบซึ้ง เห็นคุณค่า","apprehend":"เข้าใจ จับกุม","approachable":"เข้าถึงได้ง่าย","approximation":"การประมาณ ค่าโดยประมาณ","archaic":"เก่าแก่ ล้าสมัย","arise":"เกิดขึ้น","arranged":"ที่จัดไว้ ที่วางแผนไว้","assertive":"กล้าแสดงออก เด็ดขาด","assess":"ประเมิน","assessment":"การประเมิน","assured":"มั่นใจ แน่นอน","astound":"ทำให้ตกตะลึง","at hand":"ใกล้มือ พร้อมใช้","at last":"ในที่สุด","atrocious":"โหดร้าย แย่มาก","attacking":"ที่โจมตี","attainable":"ทำให้สำเร็จได้ ได้มาได้","auspicious":"เป็นมงคล โชคดี","authentic":"แท้ ของจริง","authorize":"อนุญาต มอบอำนาจ","available":"มีอยู่ หาได้ ว่าง","awake":"ตื่น","awesome":"น่าเกรงขาม ยอดเยี่ยม","backhander":"สินบน","baffle":"ทำให้งง ขัดขวาง","ballot":"บัตรลงคะแนน การลงคะแนนลับ","ban":"ห้าม","barbaric":"ป่าเถื่อน","be biased":"ลำเอียง","be dishonest to":"ไม่ซื่อสัตย์ต่อ","be grateful for":"รู้สึกขอบคุณสำหรับ","be guilty of":"มีความผิดฐาน","be in two minds":"ลังเล ตัดสินใจไม่ได้","be indecisive":"ไม่เด็ดขาด ลังเล","be on air":"ออกอากาศ","be prejudiced":"มีอคติ","be present":"อยู่ด้วย เข้าร่วม","be worthy of":"สมควรได้รับ","beastly":"โหดร้าย เหมือนสัตว์","beguile":"หลอกล่อ","bellicose":"ชอบทะเลาะ ชอบสงคราม","belligerent":"ก้าวร้าว เป็นปฏิปักษ์","bendable":"งอได้ ยืดหยุ่น","benefit":"ประโยชน์","bestow":"มอบให้","better":"ทำให้ดีขึ้น ดีกว่า","big-headed":"หยิ่ง อวดดี","blacklist":"ขึ้นบัญชีดำ","blamable":"น่าตำหนิ มีความผิด","blame":"ตำหนิ กล่าวโทษ","bleak":"สิ้นหวัง หดหู่","blessed":"ได้รับพร โชคดี","blood-thirsty":"กระหายเลือด โหดร้าย","bother":"รบกวน","bragging":"คุยโว","breakdown":"การแจกแจงวิเคราะห์ การพังทลาย","brief":"สั้น กระชับ","bring about":"ทำให้เกิด","businesslike":"เป็นระบบ มีประสิทธิภาพ","by accident":"โดยบังเอิญ","by chance":"โดยบังเอิญ","calculate":"คำนวณ","calculated":"จงใจ ที่คำนวณไว้แล้ว","can stand":"ทนได้","candid":"ตรงไปตรงมา","capability":"ความสามารถ","capable":"มีความสามารถ","capacity":"ความสามารถ ความจุ","capitalize":"ใช้ประโยชน์ ฉวยโอกาส","captivate":"ทำให้หลงใหล","caring":"เอาใจใส่ ห่วงใย","carry out":"ดำเนินการ ทำ","case":"กรณี","catastrophe":"หายนะ ภัยพิบัติ","catering":"การจัดเลี้ยง","cause":"ทำให้เกิด สาเหตุ","cautious":"ระมัดระวัง","ceaseless":"ไม่หยุดหย่อน","central":"สำคัญ ศูนย์กลาง","centralize":"รวมศูนย์","charge":"กล่าวหา เรียกเก็บเงิน","cheat":"โกง หลอกลวง","choice":"ทางเลือก","class":"ประเภท ชั้นเรียน","classification":"การจำแนกประเภท","clear up":"ทำให้กระจ่าง (ฟ้า) แจ่มใส","clumsy":"งุ่มง่าม","collaborator":"ผู้ร่วมมือ","colleague":"เพื่อนร่วมงาน","collect":"เก็บรวบรวม","colossal":"มหึมา","combine":"รวมกัน","come out":"ออกมา ปรากฏ","commendation":"คำยกย่อง","common":"ธรรมดา ทั่วไป","compact":"กะทัดรัด","comparable":"เทียบเคียงได้","competence":"ความสามารถ","complete":"ทำให้เสร็จ สมบูรณ์","completely":"อย่างสมบูรณ์ ทั้งหมด","complex":"ซับซ้อน","comportment":"ความประพฤติ กิริยา","compress":"บีบอัด ย่อ","concealed":"ที่ซ่อนไว้","concede":"ยอมรับ ยินยอม","conceited":"หยิ่ง อวดดี","conceive":"เข้าใจ คิดขึ้น","concern":"ความกังวล","conclusively":"อย่างเด็ดขาด ในที่สุด","condense":"ย่อ ทำให้กระชับ","conduct":"ความประพฤติ ดำเนินการ","confession":"คำสารภาพ","confident":"มั่นใจ","conflicting":"ขัดแย้งกัน","conform":"ปฏิบัติตาม ปรับให้เข้ากับ","confrontational":"ชอบเผชิญหน้า ก้าวร้าว","confuse":"ทำให้สับสน","connoisseur":"ผู้เชี่ยวชาญ ผู้รู้จริง","considerably":"อย่างมาก","consistently":"อย่างสม่ำเสมอ","conspicuous":"เด่นชัด","constitute":"ประกอบขึ้น ก่อตั้ง","construct":"สร้าง","constructive":"สร้างสรรค์","contrary":"ตรงกันข้าม","control":"ควบคุม","conventional":"ธรรมดา ตามแบบแผน","cordiality":"ความอบอุ่นเป็นมิตร","correct":"ถูกต้อง","corresponding":"สอดคล้องกัน","courtesy":"ความสุภาพ","crave":"อยากได้มาก","craving":"ความอยากได้","create":"สร้าง","critical":"สำคัญมาก วิกฤต วิจารณ์","critique":"วิจารณ์ บทวิจารณ์","culpable":"มีความผิด","customary":"ตามธรรมเนียม เป็นปกติ","dangerous":"อันตราย","deadly":"ถึงตาย","decay":"เสื่อม เน่า","decide":"ตัดสินใจ","decrease":"ลดลง","dedicate":"อุทิศ","degenerate":"เสื่อมลง","denote":"หมายถึง บ่งชี้","denounce":"ประณาม กล่าวโทษ","depart":"ออกเดินทาง จากไป","dependent":"พึ่งพา ติด","depict":"พรรณนา วาดภาพ","desert":"ทอดทิ้ง ทะเลทราย","desire":"ความปรารถนา","destroy":"ทำลาย","detect":"ตรวจพบ","devastate":"ทำลายล้าง","develop":"พัฒนา","device":"อุปกรณ์","differentiate":"แยกความแตกต่าง","digest":"สรุปย่อ ย่อย","diminish":"ลดลง","direct":"ควบคุม สั่งการ โดยตรง","disclose":"เปิดเผย","discourage":"ทำให้ท้อ","discredit":"ทำให้เสียชื่อ","discrepant":"ไม่ตรงกัน ขัดแย้ง","disease":"โรค","disgrace":"ทำให้เสื่อมเสีย ความอับอาย","dispassionate":"ไม่มีอารมณ์ร่วม เป็นกลาง","dispirited":"หมดกำลังใจ","display":"แสดง จัดแสดง","dispose of":"กำจัด ทิ้ง","disproportionate":"ไม่ได้สัดส่วน มากเกินไป","disseminate":"เผยแพร่","dissimilar":"ไม่เหมือนกัน","distinct":"แตกต่าง ชัดเจน","distinguished":"มีชื่อเสียง โดดเด่น","division":"การแบ่ง ส่วน","divulge":"เปิดเผย (ความลับ)","drive":"แรงผลักดัน ขับ","eager":"กระตือรือร้น อยากมาก","earn":"หาได้ สมควรได้รับ","ease":"ทำให้ง่ายขึ้น บรรเทา","easygoing":"สบายๆ ไม่เรื่องมาก","eccentric":"แปลก ประหลาด","effect":"ผล","efficacious":"ได้ผล","efficiency":"ประสิทธิภาพ","eject":"ขับออก","elucidate":"อธิบายให้กระจ่าง","emanate":"แผ่ออกมา","embrace":"ยอมรับ โอบกอด","embroider":"เสริมแต่ง (เรื่อง) ปักผ้า","employ":"ใช้ จ้าง","endeavor":"ความพยายาม พยายาม","endorse":"สนับสนุน รับรอง","energetic":"กระฉับกระเฉง","energize":"ให้พลัง กระตุ้น","enigmatic":"ลึกลับ เข้าใจยาก","enough":"เพียงพอ","enthusiasm":"ความกระตือรือร้น","enticement":"สิ่งล่อใจ","entirely":"ทั้งหมด โดยสิ้นเชิง","equal":"เท่ากัน","equipment":"อุปกรณ์","eradicate":"กำจัดให้หมดไป","escort":"คุ้มกัน ไปส่ง","event":"เหตุการณ์","evident":"ชัดเจน","exacerbate":"ทำให้แย่ลง","exact":"แน่นอน ถูกต้อง","examination":"การตรวจสอบ การสอบ","excommunicate":"ขับออกจากศาสนา","excuse":"ข้อแก้ตัว ขอโทษ","execution":"การดำเนินการ การประหาร","exemplify":"เป็นตัวอย่าง","exhibit":"จัดแสดง","exile":"เนรเทศ","expand":"ขยาย","expect":"คาดหวัง คาดว่า","expedite":"เร่ง","expel":"ขับไล่","explain":"อธิบาย","exposition":"นิทรรศการ การอธิบาย","exterminate":"กำจัดให้สิ้นซาก","extra":"พิเศษ เพิ่มเติม","extreme":"สุดขีด มากเกินไป","extremely":"อย่างมาก","fake":"ปลอม","false":"เท็จ ปลอม","familiarity":"ความคุ้นเคย","farfetched":"เกินจริง ไม่น่าเชื่อ","fascinate":"ทำให้หลงใหล","fault":"ตำหนิ ความผิด","favorable":"เป็นผลดี","fellowship":"มิตรภาพ","ferocious":"ดุร้าย","fiasco":"ความล้มเหลว","finally":"ในที่สุด","firmly":"อย่างมั่นคง","fitting":"เหมาะสม","focus":"จดจ่อ","focus on":"มุ่งเน้นที่","fool":"หลอก คนโง่","forbidden":"ต้องห้าม","forecast":"พยากรณ์","foresee":"คาดการณ์ล่วงหน้า","foretell":"ทำนาย","formidable":"น่าเกรงขาม","forsake":"ทอดทิ้ง","foster":"ส่งเสริม อุปการะ","found":"ก่อตั้ง","fragile":"เปราะบาง","frail":"อ่อนแอ บอบบาง","frank":"ตรงไปตรงมา","frugal":"ประหยัด มัธยัสถ์","fruitful":"ได้ผลดี","fulfill":"ทำให้สำเร็จ","further":"เพิ่มเติม ไกลออกไป","gadget":"อุปกรณ์เล็กๆ","gain":"ได้รับ ผลประโยชน์","gather":"รวบรวม","get rid of":"กำจัด","gigantic":"มหึมา","give more details":"ให้รายละเอียดเพิ่ม","give out":"แจกจ่าย","give rise to":"ก่อให้เกิด","give up":"ยอมแพ้ เลิก","gloomy":"หดหู่ มืดมัว","go along with":"ไปด้วย เห็นด้วยกับ","go through":"ผ่าน ประสบ","govern":"ปกครอง","grant":"ให้ อนุญาต","gratified":"พอใจ","greatly":"อย่างมาก","greed":"ความโลภ","guarantee":"รับประกัน","guess":"เดา","hand out":"แจก","hand over":"ส่งมอบ","happening":"เหตุการณ์","harmful":"เป็นอันตราย","hasten":"เร่ง","hasty":"รีบร้อน","helper":"ผู้ช่วย","helpful":"เป็นประโยชน์","hidden":"ซ่อนอยู่","highlight":"เน้น","hinder":"ขัดขวาง","hint":"บอกใบ้","hooked":"ติด","hopeless":"สิ้นหวัง","house-breaker":"โจรย่องเบา","housing":"ที่อยู่อาศัย","huge":"ใหญ่มาก","hypersensitive":"ไวเกินปกติ แพ้ง่าย","identify":"ระบุ ชี้ตัว","illicit":"ผิดกฎหมาย","immature":"ยังไม่โต ไม่เป็นผู้ใหญ่","immense":"มหาศาล","immoderate":"มากเกินไป ไม่พอดี","impede":"ขัดขวาง","imperative":"จำเป็นอย่างยิ่ง","impetuous":"หุนหัน","implausible":"ไม่น่าเชื่อ","implement":"นำไปใช้ ปฏิบัติ","impressively":"อย่างน่าประทับใจ","in the end":"ในท้ายที่สุด","incessant":"ไม่หยุดหย่อน","incident":"เหตุการณ์","incompatible":"เข้ากันไม่ได้","indebted":"เป็นหนี้บุญคุณ","indispensable":"ขาดไม่ได้","indistinguishable":"แยกไม่ออก","inducement":"สิ่งจูงใจ","inept":"ไร้ความสามารถ งุ่มง่าม","inexpensive":"ราคาไม่แพง","inexpert":"ไม่ชำนาญ","infirmity":"ความอ่อนแอ โรค","influence":"อิทธิพล มีอิทธิพลต่อ","inhibit":"ยับยั้ง","initiate":"เริ่มต้น ริเริ่ม","inquisitiveness":"ความอยากรู้อยากเห็น","insist on":"ยืนกราน","instrument":"เครื่องมือ เครื่องดนตรี","intensify":"ทำให้รุนแรงขึ้น","intentional":"โดยเจตนา","interest":"ความสนใจ","interrupt":"ขัดจังหวะ","intricate":"ซับซ้อน ละเอียด","intruder":"ผู้บุกรุก","intuitive":"ตามสัญชาตญาณ","investigation":"การสืบสวน","irritate":"ทำให้หงุดหงิด","jealousy":"ความอิจฉา","jeopardized":"ถูกทำให้ตกอยู่ในอันตราย","join":"เข้าร่วม","join up":"เข้าร่วม รวมกลุ่ม","juvenile":"เยาวชน","keen":"กระตือรือร้น","keep company":"คบหา อยู่เป็นเพื่อน","kidnap":"ลักพาตัว","kind":"ชนิด ใจดี","knowing":"รู้ตัว รู้เท่าทัน","lack":"การขาด","lasting":"ยาวนาน","lavish":"ฟุ่มเฟือย หรูหรา","legitimate":"ถูกกฎหมาย ชอบธรรม","lessen":"ลดลง","lethal":"ถึงตาย","liable":"ต้องรับผิดชอบ","license":"ใบอนุญาต","life-story":"เรื่องราวชีวิต","little by little":"ทีละน้อย","lively":"มีชีวิตชีวา","lodging":"ที่พัก","lucky":"โชคดี","luxuriant":"อุดมสมบูรณ์ งอกงาม","made-up":"แต่งขึ้น ไม่จริง","magnificent":"งดงาม ยิ่งใหญ่","maintain":"รักษาไว้","major":"สำคัญ หลัก","make a distinction":"แยกความแตกต่าง","make clear":"ทำให้ชัดเจน","make friends":"ผูกมิตร","make known":"ทำให้รู้กันทั่ว","make public":"เปิดเผยต่อสาธารณะ","make sure":"ทำให้แน่ใจ","maladroit":"งุ่มง่าม ไม่คล่อง","malady":"โรคภัย","man-made":"มนุษย์สร้างขึ้น","management":"การจัดการ","mandatory":"บังคับ","manifest":"แสดงให้เห็น","manipulate":"ควบคุม บงการ","manners":"มารยาท","march":"เดินขบวน","massive":"ใหญ่โต","master":"ผู้เชี่ยวชาญ ปรมาจารย์","mature":"เป็นผู้ใหญ่ เติบโต","memoirs":"บันทึกความทรงจำ","merit":"สมควรได้รับ คุณความดี","mindful":"ใส่ใจ ระมัดระวัง","miserable":"เป็นทุกข์","misfortune":"โชคร้าย","mislead":"ทำให้เข้าใจผิด","moderate":"ปานกลาง พอประมาณ","modest":"พอประมาณ ถ่อมตัว","mortal":"ถึงตาย ต้องตาย","mortify":"ทำให้อับอายมาก","necessary":"จำเป็น","nosiness":"ความสอดรู้สอดเห็น","noticeable":"สังเกตเห็นได้","notify":"แจ้งให้ทราบ","obligatory":"บังคับ","obscure":"คลุมเครือ ไม่เป็นที่รู้จัก","obsolete":"ล้าสมัย","obtain":"ได้รับ","obvious":"ชัดเจน","occur":"เกิดขึ้น","odd":"แปลก","offensive":"ก้าวร้าว น่ารังเกียจ","opposed":"ต่อต้าน ตรงข้าม","option":"ทางเลือก","organize":"จัดตั้ง จัดระเบียบ","original":"ดั้งเดิม ต้นฉบับ","out-of-date":"ล้าสมัย","outcome":"ผลลัพธ์","outdated":"ล้าสมัย","outlawed":"ผิดกฎหมาย","overemphasize":"เน้นมากเกินไป","overstate":"พูดเกินจริง","parallel":"ขนาน เทียบเท่า","participate":"มีส่วนร่วม","pay attention to":"ให้ความสนใจ","peculiar":"แปลก","perceive":"รับรู้ เข้าใจ","performance":"การแสดง ผลงาน","perilous":"อันตราย","permission":"การอนุญาต","perplex":"ทำให้งง","perplexing":"น่างง ซับซ้อน","persistent":"ต่อเนื่อง ไม่ลดละ","personal":"ส่วนตัว","pinpoint":"ระบุได้แม่นยำ","plentiful":"มากมาย","poison":"ยาพิษ วางยา","polite":"สุภาพ","poll":"การสำรวจความเห็น การลงคะแนน","pollute":"ทำให้เป็นมลพิษ","positive":"แน่ใจ ในแง่บวก","powerful":"ทรงพลัง","praise":"คำชม ชมเชย","precise":"แม่นยำ","predict":"ทำนาย","presentation":"การนำเสนอ","presume":"สันนิษฐาน","private":"ส่วนตัว","prodigal":"สุรุ่ยสุร่าย","produce":"ผลิต","productive":"ให้ผลดี มีประสิทธิภาพ","professional":"มืออาชีพ","profit":"กำไร","progress":"ก้าวหน้า ความก้าวหน้า","prohibited":"ต้องห้าม","prolific":"อุดมสมบูรณ์ ให้ผลมาก","promise":"สัญญา","promote":"ส่งเสริม","proper":"เหมาะสม","propose":"เสนอ","prosperous":"รุ่งเรือง","protect":"ปกป้อง","protest":"ประท้วง","provide":"จัดหา ให้","provident":"รอบคอบ ประหยัด","provoke":"ยั่วยุ กระตุ้น","prudent":"รอบคอบ","publicize":"เผยแพร่","put up with":"ทนต่อ","puzzle":"ทำให้งง ปริศนา","qualification":"คุณสมบัติ","queer":"แปลก","rash":"หุนหัน","reachable":"เข้าถึงได้","reasonable":"สมเหตุสมผล ราคาไม่แพง","receive":"ได้รับ","recollections":"ความทรงจำ","recommend":"แนะนำ","reduce":"ลด","referendum":"การลงประชามติ","refund":"เงินคืน","regularly":"เป็นประจำ สม่ำเสมอ","reimbursement":"การชดใช้เงิน","relieve":"บรรเทา","relocate":"ย้ายที่","remain alive":"ยังมีชีวิตอยู่","repayment":"การชำระคืน","resentment":"ความขุ่นเคือง","resettle":"ย้ายถิ่นฐานใหม่","resolve":"ตัดสินใจ แก้ไข","respectful":"ให้เกียรติ สุภาพ","responsible":"รับผิดชอบ","result":"ผลลัพธ์","reveal":"เปิดเผย","risky":"เสี่ยง","robber":"โจร","ruin":"ทำลาย","satisfactory":"เป็นที่พอใจ","save":"ประหยัด เก็บ ช่วยชีวิต","saving":"ประหยัด การออม","scarcity":"ความขาดแคลน","scrutiny":"การตรวจสอบอย่างละเอียด","secret":"ความลับ ลับ","seduce":"ล่อลวง","selection":"การเลือก","sensible":"มีเหตุผล รับรู้ได้","sensitive":"อ่อนไหว ละเอียดอ่อน","separate":"แยก","shame":"ความอับอาย ทำให้อาย","share out":"แบ่งปัน","shelter":"ที่พักพิง","shift":"เปลี่ยน เคลื่อน","shock":"ทำให้ตกใจ","short":"สั้น","shortage":"การขาดแคลน","shorten":"ทำให้สั้นลง","show":"แสดง","sickness":"ความเจ็บป่วย","signify":"หมายถึง","sincere":"จริงใจ","situation":"สถานการณ์","slowly":"อย่างช้าๆ","socialize":"เข้าสังคม","soothe":"ปลอบ บรรเทา","sophisticated":"ซับซ้อน ทันสมัย","sort":"ชนิด","sparing":"ประหยัด","specialist":"ผู้เชี่ยวชาญ","speed up":"เร่งความเร็ว","splendid":"ยอดเยี่ยม","spoil":"ทำให้เสีย","spontaneous":"เกิดขึ้นเอง ไม่ได้วางแผน","spoon-feed":"ป้อนให้ ช่วยทุกอย่าง","spread":"แพร่กระจาย","stably":"อย่างมั่นคง","stain":"ทำให้เปื้อน คราบ","steadily":"อย่างสม่ำเสมอ","steal":"ขโมย","stimulate":"กระตุ้น","store up":"เก็บสะสม","strain":"ความตึงเครียด","strange":"แปลก","stress":"ความเครียด เน้น","substantial":"มาก สำคัญ","succinct":"กระชับ","suddenly":"ทันใดนั้น","sufficient":"เพียงพอ","suitable":"เหมาะสม","supervision":"การควบคุมดูแล","supplementary":"เพิ่มเติม เสริม","supply":"จัดหา","support each other":"สนับสนุนกันและกัน","supporter":"ผู้สนับสนุน","suppose":"สมมติ คิดว่า","sure":"แน่ใจ","surprise":"ทำให้ประหลาดใจ","surrender":"ยอมแพ้ ยอมมอบ","survive":"รอดชีวิต","susceptible":"อ่อนไหวต่อ ติดง่าย","sustain":"ค้ำจุน รักษาไว้","swing":"แกว่ง เปลี่ยนไปมา","sympathetic":"เห็นอกเห็นใจ","synthetic":"สังเคราะห์","take advantage of":"ใช้ประโยชน์จาก เอาเปรียบ","take for granted":"ถือว่าเป็นเรื่องแน่นอน","talent":"พรสวรรค์","team up":"ร่วมทีม","teenage":"วัยรุ่น","tempt":"ล่อใจ","thankful":"รู้สึกขอบคุณ","thorough":"ละเอียดถี่ถ้วน","thoughtful":"ช่างคิด ใส่ใจผู้อื่น","threatened":"ถูกคุกคาม","thrifty":"ประหยัด","tolerate":"อดทน","totally":"ทั้งหมด","tragedy":"โศกนาฏกรรม","tremendous":"มหาศาล","trick":"หลอก กลอุบาย","tricky":"ยุ่งยาก ต้องระวัง","trigger":"กระตุ้น ทำให้เกิด","type":"ประเภท","ultimately":"ในที่สุด","unavoidable":"หลีกเลี่ยงไม่ได้","unbelievable":"ไม่น่าเชื่อ","uncaring":"ไม่ใส่ใจ","unclear":"ไม่ชัดเจน","undergo":"ประสบ ผ่าน","understand":"เข้าใจ","unexpectedly":"อย่างไม่คาดคิด","unhappy":"ไม่มีความสุข","unintentionally":"โดยไม่ตั้งใจ","uninterested":"ไม่สนใจ","unlawful":"ผิดกฎหมาย","unlikely":"ไม่น่าจะเป็นไปได้","unskillful":"ไม่ชำนาญ","upset":"ทำให้ไม่สบายใจ","upshot":"ผลสุดท้าย","urge":"กระตุ้น เร่งเร้า","usefulness":"ประโยชน์","utensil":"เครื่องใช้","utilize":"ใช้ประโยชน์","vague":"คลุมเครือ","value":"ประเมินค่า คุณค่า","variable":"แปรผันได้","varied":"หลากหลาย","various":"หลากหลาย ต่างๆ","vary":"แตกต่างกันไป","veteran":"ผู้มีประสบการณ์ ทหารผ่านศึก","vigilant":"ระแวดระวัง","visit":"ไปเยี่ยม","vital":"สำคัญมาก","voting":"การลงคะแนน","wasteful":"สิ้นเปลือง","weaken":"ทำให้อ่อนแอ","weird":"แปลก","well-mannered":"มีมารยาทดี","well-organized":"จัดระเบียบดี","well-suited":"เหมาะสมดี","wholly":"ทั้งหมด","work together":"ทำงานร่วมกัน","worry":"ความกังวล กังวล","wreck":"ทำลาย ซากปรักหักพัง","yearly":"ประจำปี","youthful":"อ่อนเยาว์","zealous":"กระตือรือร้นมาก"
+};
+
+</script>
+<script>
+const DICT_COMMON = {
+"a":"หนึ่ง (คำนำหน้านาม)","an":"หนึ่ง (คำนำหน้านาม)","the":"(คำนำหน้านามเฉพาะเจาะจง)","about":"เกี่ยวกับ ประมาณ","accept":"ยอมรับ","action":"การกระทำ","actress":"นักแสดงหญิง","adult":"ผู้ใหญ่","advice":"คำแนะนำ","after":"หลังจาก","against":"ต่อต้าน กับ","ago":"ที่แล้ว (เวลา)","air":"อากาศ","airline":"สายการบิน","alarm":"สัญญาณเตือน","alcohol":"แอลกอฮอล์","all":"ทั้งหมด","allege":"กล่าวอ้าง กล่าวหา","allow":"อนุญาต ยอมให้","always":"เสมอ","among":"ท่ามกลาง","amount":"จำนวน ปริมาณ","and":"และ","animal":"สัตว์","answer":"คำตอบ ตอบ","any":"ใดๆ","anything":"สิ่งใดๆ","applicant":"ผู้สมัคร","are":"เป็น อยู่ คือ","area":"พื้นที่","argument":"ข้อโต้แย้ง การโต้เถียง","argumentative":"ชอบโต้เถียง","around":"รอบๆ","arrest":"จับกุม","arrive":"มาถึง","art":"ศิลปะ","article":"บทความ","artist":"ศิลปิน","as":"เป็น ขณะที่ เท่ากับ","ask":"ถาม ขอ","at":"ที่","atmosphere":"บรรยากาศ","attacker":"คนร้าย ผู้โจมตี","attempt":"ความพยายาม พยายาม","attention":"ความสนใจ ความใส่ใจ","audience":"ผู้ชม","author":"ผู้แต่ง","away":"ออกไป ห่างไป","baby":"ทารก","back":"กลับ ด้านหลัง","baht":"บาท","barely":"แทบจะไม่","be":"เป็น อยู่ คือ","beach":"ชายหาด","become":"กลายเป็น","been":"(กริยาช่อ 3 ของ be)","before":"ก่อน","behind":"ข้างหลัง","being":"การเป็น (be + ing)","believe":"เชื่อ","belt":"เข็มขัด","best":"ดีที่สุด","big":"ใหญ่","bird":"นก","blood":"เลือด","bodyguard":"บอดี้การ์ด ผู้คุ้มกัน","bone":"กระดูก","book":"หนังสือ","boy":"เด็กผู้ชาย","boyfriend":"แฟนหนุ่ม","brain":"สมอง","brand":"ยี่ห้อ ตราสินค้า","brilliant":"ยอดเยี่ยม ฉลาด","brother":"พี่ชาย น้องชาย","build":"สร้าง","burning":"แรงกล้า ที่กำลังลุกไหม้","business":"ธุรกิจ","but":"แต่","buy":"ซื้อ","by":"โดย ภายใน ข้างๆ","calcium":"แคลเซียม","campaign":"การรณรงค์","can":"สามารถ","cannot":"ไม่สามารถ","can't":"ไม่สามารถ","car":"รถยนต์","card":"บัตร","careful":"ระมัดระวัง","carry":"พกพา ถือ","cash":"เงินสด","cellphone":"โทรศัพท์มือถือ","century":"ศตวรรษ","certainty":"ความแน่นอน","change":"เปลี่ยน","chapter":"บท","charitable":"เพื่อการกุศล","charity":"การกุศล","cheerful":"ร่าเริง","chemical":"สารเคมี","cheque":"เช็ค","child":"เด็ก","childbirth":"การคลอดบุตร","children":"เด็กๆ","cholesterol":"คอเลสเตอรอล","choose":"เลือก","christmas":"คริสต์มาส","church":"โบสถ์","city":"เมือง","citizen":"พลเมือง ประชาชน","clean":"ทำความสะอาด สะอาด","clear":"ชัดเจน แจ่มใส","close":"สนิท ใกล้ ปิด","cold":"หวัด เย็นชา หนาว","collection":"ชุดสะสม การรวบรวม","color":"สี","come":"มา","commercial":"เชิงพาณิชย์","committee":"คณะกรรมการ","complain":"บ่น ร้องเรียน","computer":"คอมพิวเตอร์","concert":"คอนเสิร์ต","contact":"ติดต่อ","continue":"ดำเนินต่อไป","cost":"ค่าใช้จ่าย ราคา","couldn't":"ไม่สามารถ (อดีต)","country":"ประเทศ","couple":"คู่รัก คู่","course":"ช่วงเวลา หลักสูตร","cover":"ครอบคลุม ปก","credit":"เครดิต","crew":"ลูกเรือ ทีมงาน","crime":"อาชญากรรม","crop":"พืชผล","cross":"กากบาท ข้าม","cruel":"โหดร้าย","culturally":"ทางวัฒนธรรม","culture":"วัฒนธรรม","cure":"รักษา ยารักษา","customer":"ลูกค้า","customs":"ด่านศุลกากร","damage":"ความเสียหาย","daughter":"ลูกสาว","day":"วัน","deal":"ปริมาณ จัดการ","dealing":"การติดต่อ การจัดการ","decline":"การลดลง ถดถอย","delay":"ความล่าช้า","delete":"ลบ","delicious":"อร่อย","deliver":"ส่ง","describe":"อธิบาย บรรยาย","description":"คำบรรยายลักษณะ","destination":"จุดหมายปลายทาง","development":"การพัฒนา","did":"ทำ (อดีต)","didn't":"ไม่ได้ (อดีต)","difficult":"ยาก","dinosaur":"ไดโนเสาร์","discussion":"การอภิปราย","discuss":"อภิปราย","dislike":"ความไม่ชอบ","divide":"แบ่ง","divorce":"การหย่าร้าง","do":"ทำ","doctor":"แพทย์","document":"เอกสาร","does":"ทำ (ประธานเอกพจน์)","don't":"ไม่","done":"ทำเสร็จแล้ว","doubt":"ความสงสัย","dream":"ความฝัน","drink":"ดื่ม","drinking":"สำหรับดื่ม","drug":"ยา ยาเสพติด","drunk":"เมา","during":"ระหว่าง","duty":"หน้าที่","each":"แต่ละ","easy":"ง่าย","eat":"กิน","economic":"ทางเศรษฐกิจ","effectiveness":"ประสิทธิผล","effort":"ความพยายาม","employer":"นายจ้าง","english":"ภาษาอังกฤษ","even":"แม้แต่","ever":"เคย","everyone":"ทุกคน","everything":"ทุกสิ่ง","excellence":"ความเป็นเลิศ","experience":"ประสบการณ์","experiment":"การทดลอง","express":"แสดงออก","face":"ใบหน้า","fact":"ความจริง","family":"ครอบครัว","famous":"มีชื่อเสียง","far":"มาก ไกล","farming":"การเกษตร","fast":"เร็ว","father":"พ่อ","fear":"ความกลัว","feel":"รู้สึก","feeling":"ความรู้สึก","fence":"รั้ว","few":"น้อย","fewer":"น้อยกว่า","fidget":"อยู่ไม่สุข","fight":"ต่อสู้ การต่อสู้","file":"ไฟล์ แฟ้ม","fill":"เติม ใส่","find":"พบ หา","finish":"ทำให้เสร็จ","fire":"ไฟ","first":"แรก","five":"ห้า","flight":"เที่ยวบิน","flood":"น้ำท่วม","flower":"ดอกไม้","fly":"บิน","food":"อาหาร","football":"ฟุตบอล","for":"สำหรับ เป็นเวลา","force":"กำลัง ความรุนแรง","foreign":"ต่างประเทศ","forget":"ลืม","foundation":"การก่อตั้ง","fountain pen":"ปากกาหมึกซึม","fountain":"น้ำพุ","free":"ฟรี อิสระ","friend":"เพื่อน","friendly":"เป็นมิตร","from":"จาก","front":"ด้านหน้า","full":"เต็ม","fully":"อย่างเต็มที่","future":"อนาคต","game":"เกม","gas":"ก๊าซ","gave":"ให้ (อดีตของ give)","get":"ได้รับ กลายเป็น","girlfriend":"แฟนสาว","give":"ให้","given":"ได้รับ (ช่อ 3 ของ give)","go":"ไป","good":"ดี","got":"ได้ (อดีตของ get)","government":"รัฐบาล","great":"ยิ่งใหญ่ มาก","group":"กลุ่ม","growth":"การเติบโต","guest":"แขก","had":"มี (อดีต)","happy":"มีความสุข","hard":"หนัก ยาก ขยัน","has":"มี","have":"มี","he":"เขา (ผู้ชาย)","health":"สุขภาพ","healthy":"แข็งแรง","hear":"ได้ยิน","heard":"ได้ยิน (อดีต)","help":"ช่วย","her":"เธอ ของเธอ","here":"ที่นี่","high":"สูง","highway":"ทางหลวง","him":"เขา (กรรม)","his":"ของเขา","hit":"พัดถล่ม ตี","home":"บ้าน","homelessness":"การไร้ที่อยู่อาศัย","hope":"ความหวัง","hospital":"โรงพยาบาล","hotel":"โรงแรม","house":"บ้าน","how":"อย่างไร เพียงใด","hurricane":"พายุเฮอริเคน","husband":"สามี","i":"ฉัน ผม","idea":"ความคิด","if":"ถ้า","illness":"ความเจ็บป่วย","importance":"ความสำคัญ","impression":"ความประทับใจ","in":"ใน","include":"รวมถึง","income":"รายได้","inconsistent":"ไม่สอดคล้องกัน","increase":"เพิ่มขึ้น","information":"ข้อมูล","inhale":"สูดดม","injury":"การบาดเจ็บ","insight":"ความเข้าใจอย่างลึกซึ้ง","intend":"ตั้งใจ","interpret":"ตีความ","intervene":"เข้าแทรกแซง","interview":"การสัมภาษณ์","into":"เข้าไปใน","invite":"เชิญ","is":"เป็น อยู่ คือ","issue":"ประเด็น","it":"มัน","its":"ของมัน","job":"งาน","just":"เพียง เพิ่ง","keep":"เก็บ ทำต่อไป","key":"กุญแจ สำคัญ","kid":"เด็ก","kidnapping":"การลักพาตัว","kill":"ฆ่า","kilogram":"กิโลกรัม","kitchen":"ห้องครัว","know":"รู้","known":"เป็นที่รู้ (ช่อ 3 ของ know)","language":"ภาษา","large":"ใหญ่","last":"เมื่อ...ที่แล้ว สุดท้าย","late":"ดึก สาย","latest":"ล่าสุด","law":"กฎหมาย","lazy":"ขี้เกียจ","lead":"ตะกั่ว นำ","learn":"เรียนรู้","learner":"ผู้เรียน","level":"ระดับ","liar":"คนโกหก","library":"ห้องสมุด","life":"ชีวิต","like":"เหมือน ชอบ","lion":"สิงโต","little":"เล็กน้อย","local":"ท้องถิ่น","long":"นาน ยาว","loud":"เสียงดัง","love":"รัก","lunch":"อาหารกลางวัน","made":"ทำ (อดีตของ make)","make":"ทำ ทำให้","man":"ผู้ชาย","manager":"ผู้จัดการ","many":"มาก หลาย","marry":"แต่งงาน","material":"วัสดุ สื่อ","math":"คณิตศาสตร์","matter":"เรื่อง","may":"อาจจะ","me":"ฉัน (กรรม)","measure":"มาตรการ","meat":"เนื้อสัตว์","media":"สื่อมวลชน","medical":"ทางการแพทย์","meet":"พบ","meeting":"การประชุม","men":"ผู้ชาย (พหูพจน์)","menu":"รายการอาหาร","metal":"โลหะ","million":"ล้าน","minister":"รัฐมนตรี","minute":"นาที","money":"เงิน","monthly":"รายเดือน","more":"มากกว่า","most":"มากที่สุด","mother":"แม่","motivated":"มีแรงจูงใจ","movie":"ภาพยนตร์","much":"มาก","murder":"การฆาตกรรม","music":"ดนตรี","must":"ต้อง","my":"ของฉัน","name":"ชื่อ","national":"แห่งชาติ","natural":"ตามธรรมชาติ","near":"ใกล้","need":"ความต้องการ ต้องการ","neighbor":"เพื่อนบ้าน","neighborhood":"ละแวกบ้าน","neighboring":"ที่อยู่ใกล้เคียง","new":"ใหม่","next":"ถัดไป","next-door":"ข้างบ้าน","nicotine":"นิโคติน","night":"กลางคืน","no":"ไม่ ไม่มี","not":"ไม่","now":"ตอนนี้","object":"วัตถุ คัดค้าน","obviously":"อย่างชัดเจน","occupation":"อาชีพ","occurrence":"เหตุการณ์ที่เกิดขึ้น","of":"ของ","offer":"ข้อเสนอ เสนอ","office":"สำนักงาน","often":"บ่อยครั้ง","old":"เก่า แก่","older":"แก่กว่า สูงอายุ","on":"บน เกี่ยวกับ","one":"หนึ่ง","only":"เท่านั้น","opinion":"ความคิดเห็น","or":"หรือ","order":"คำสั่ง ลำดับ","organizer":"ผู้จัด","originally":"เดิมที","other":"อื่น","our":"ของเรา","over":"ตลอด เหนือ มากกว่า","own":"ของตัวเอง","pain":"ความเจ็บปวด","pair":"คู่","parent":"พ่อแม่ ผู้ปกครอง","park":"สวนสาธารณะ","part":"ส่วน","party":"งานเลี้ยง","passenger":"ผู้โดยสาร","past":"ที่ผ่านมา","patient":"ผู้ป่วย","pay":"จ่าย ค่าจ้าง","pen":"ปากกา","people":"ผู้คน","per":"ต่อ","perform":"ทำ ปฏิบัติ แสดง","phone":"โทรศัพท์","physicist":"นักฟิสิกส์","picture":"ภาพ","place":"สถานที่","plan":"แผน","plant":"พืช","play":"เล่น","player":"ผู้เล่น","please":"กรุณา","plumbing":"ระบบท่อประปา","point":"ประเด็น จุด","police":"ตำรวจ","possession":"การครอบครอง","possible":"เป็นไปได้","pregnant":"ตั้งครรภ์","president":"ประธานาธิบดี","presidential":"ของประธานาธิบดี","pretend":"แสร้ง","pretty":"ค่อนข้าง สวย","prevent":"ป้องกัน","price":"ราคา","pride":"ความภาคภูมิใจ","prime minister":"นายกรัฐมนตรี","prime":"หลัก สำคัญที่สุด","problem":"ปัญหา","program":"โครงการ","project":"โครงการ","property":"ทรัพย์สิน","proud":"ภูมิใจ","province":"จังหวัด","psychiatrist":"จิตแพทย์","psychologist":"นักจิตวิทยา","publisher":"สำนักพิมพ์","punishment":"การลงโทษ","purchase":"การซื้อ","quality":"คุณภาพ","question":"คำถาม","questioning":"การสอบสวน การซักถาม","quickly":"อย่างรวดเร็ว","range":"ขอบเขต หลากหลาย","rapidly":"อย่างรวดเร็ว","rate":"อัตรา","reach":"ไปถึง","reaction":"ปฏิกิริยา","reader":"ผู้อ่าน","readily":"อย่างง่ายดาย","really":"จริงๆ","reason":"เหตุผล","recharger":"เครื่องชาร์จ","recover":"กู้คืน ฟื้นตัว","red":"แดง","reduction":"การลดลง","require":"ต้องการ","research":"งานวิจัย","resource":"ทรัพยากร","rich":"รวย","road":"ถนน","rumor":"ข่าวลือ","said":"พูด (อดีตของ say)","salary":"เงินเดือน","saw":"เห็น (อดีตของ see)","say":"พูด","school":"โรงเรียน","scientist":"นักวิทยาศาสตร์","seafood":"อาหารทะเล","search":"ค้นหา","seat belt":"เข็มขัดนิรภัย","seat":"ที่นั่ง","see":"เห็น","seek":"แสวงหา","seem":"ดูเหมือน","serious":"ร้ายแรง จริงจัง","seven":"เจ็ด","several":"หลาย","shape":"รูปร่าง","she":"เธอ","shopper":"นักช้อป ผู้ซื้อ","shopping":"การซื้อของ","should":"ควร","shouldn't":"ไม่ควร","since":"ตั้งแต่","size":"ขนาด","skilled":"ชำนาญ","sky":"ท้องฟ้า","slavery":"ระบบทาส","slow":"ช้า","small":"เล็ก","smoke":"ควัน","so":"มาก ดังนั้น","social":"สังคม","social worker":"นักสังคมสงเคราะห์","some":"บาง","sometimes":"บางครั้ง","somewhat":"ค่อนข้าง","son":"ลูกชาย","soon":"ในไม่ช้า","sound":"ฟังดู","space":"พื้นที่","spend":"ใช้จ่าย ใช้เวลา","staff":"พนักงาน","stand":"ยืน","start":"เริ่ม","state":"รัฐ","statement":"คำแถลง","stay":"คงอยู่ พัก","step":"ขั้นตอน มาตรการ","still":"ยังคง","stood":"ยืน (อดีตของ stand)","stop":"หยุด","straight away":"ทันที","student":"นักเรียน","study":"เรียน ศึกษา","success":"ความสำเร็จ","such as":"เช่น","such":"เช่นนั้น","support":"การสนับสนุน สนับสนุน","surprised":"ประหลาดใจ","survey":"การสำรวจ","suspicion":"ความสงสัย","symptom":"อาการ","table":"โต๊ะ","tablet":"ยาเม็ด","take":"ใช้ (เวลา) เอา","talk":"พูดคุย","teacher":"ครู","teaching":"การสอน","team":"ทีม","technique":"เทคนิค","teenager":"วัยรุ่น","teeth":"ฟัน","ten":"สิบ","tend":"มีแนวโน้ม","test":"การทดสอบ","textbook":"ตำราเรียน","than":"กว่า","that":"นั้น ว่า ที่","their":"ของพวกเขา","them":"พวกเขา (กรรม)","there":"ที่นั่น มี","these":"เหล่านี้","they":"พวกเขา","thing":"สิ่ง","think":"คิด","this":"นี้","those":"เหล่านั้น","thought":"คิด (อดีต)","through":"ผ่าน","time":"เวลา ครั้ง","tiny":"เล็กมาก","tiredness":"ความเหนื่อย","to":"ไปยัง เพื่อ","together":"ด้วยกัน","told":"บอก (อดีตของ tell)","tomorrow":"พรุ่งนี้","too":"เกินไป ด้วย","took":"ใช้ (อดีตของ take)","tourist":"นักท่องเที่ยว","towards":"ต่อ ไปทาง","traditionally":"ตามธรรมเนียม","training":"การฝึกอบรม","traveler":"นักเดินทาง","treat":"ปฏิบัติต่อ","try":"พยายาม","truth":"ความจริง","unable":"ไม่สามารถ","under":"ต่ำกว่า ภายใต้","understandable":"เข้าใจได้","unemployed":"ว่างงาน","university":"มหาวิทยาลัย","unrealistic":"ไม่สมจริง","up":"ขึ้น","upon":"เมื่อ บน","us":"พวกเรา (กรรม)","use":"การใช้ ใช้","useful":"มีประโยชน์","usually":"โดยปกติ","valley":"หุบเขา","vase":"แจกัน","vegetarian":"มังสวิรัติ","very":"มาก","video":"วิดีโอ","view":"มุมมอง","village":"หมู่บ้าน","violent":"รุนแรง","virtually":"แทบจะ","vitamin":"วิตามิน","voice":"เสียง","voracious":"ตะกละ หิวโหย","waiter":"บริกร","wait":"รอ","walk":"เดิน","want":"ต้องการ","was":"เป็น อยู่ (อดีต)","water":"น้ำ","way":"วิธี ทาง","we":"พวกเรา","website":"เว็บไซต์","well":"ดี อย่างดี","went":"ไป (อดีตของ go)","were":"เป็น อยู่ (อดีต พหูพจน์)","what":"อะไร สิ่งที่","when":"เมื่อ","where":"ที่ไหน","which":"ซึ่ง ที่","who":"ผู้ซึ่ง ใคร","why":"ทำไม","wide":"กว้าง","will":"จะ","window":"หน้าต่าง","wine":"ไวน์","with":"กับ ด้วย","without":"โดยไม่มี","witness":"พยาน","woman":"ผู้หญิง","women":"ผู้หญิง (พหูพจน์)","won":"ชนะ (อดีตของ win)","wording":"ถ้อยคำ","work":"งาน ทำงาน","world":"โลก","worse":"แย่ลง","would":"จะ (อดีต/สุภาพ)","wound":"บาดแผล","year":"ปี","year-old":"อายุ...ปี","york":"(นิว)ยอร์ก","you":"คุณ","young":"หนุ่มสาว เยาว์","younger":"อายุน้อยกว่า","your":"ของคุณ","yourself":"ตัวคุณเอง","yes":"ใช่","own business":"ธุรกิจของตัวเอง",
+"abortion":"การทำแท้ง","condition":"สภาพ เงื่อนไข","consider":"พิจารณา ถือว่า","considering":"เมื่อพิจารณาถึง","father-in-law":"พ่อสามี พ่อตา","longer":"นานกว่า ยาวกว่า","higher":"สูงกว่า","faster":"เร็วกว่า","kept":"ยังคง (อดีตของ keep)","taken":"ถูกนำ ถูกดำเนินการ (ช่อ 3 ของ take)","felt":"รู้สึก (อดีตของ feel)","worker":"คนงาน ผู้ปฏิบัติงาน","am":"เป็น อยู่ (ใช้กับ I)","you're":"คุณเป็น (you are)","they're":"พวกเขาเป็น (they are)","you've":"คุณได้... (you have)","i've":"ฉันได้... (I have)","i'll":"ฉันจะ (I will)","i'm":"ฉันเป็น (I am)","straight":"ตรง ทันที","th":"ที่ (ลำดับ เช่น 19th = ที่ 19)","s":"(ส่วนหนึ่งของคำย่อ U.S. = สหรัฐอเมริกา)","u":"(ส่วนหนึ่งของคำย่อ U.S. = สหรัฐอเมริกา)","c":"(วิตามิน) ซี","van":"(ส่วนหนึ่งของชื่อ Van Gogh — แวนโก๊ะ จิตรกรชาวดัตช์)","gogh":"(Van Gogh — แวนโก๊ะ จิตรกรชาวดัตช์)","bangkok":"กรุงเทพฯ","thailand":"ประเทศไทย","france":"ประเทศฝรั่งเศส","italy":"ประเทศอิตาลี","california":"รัฐแคลิฟอร์เนีย","las":"(Las Vegas — ลาสเวกัส เมืองในสหรัฐฯ)","vegas":"(Las Vegas — ลาสเวกัส เมืองในสหรัฐฯ)","monday":"วันจันทร์","disney":"ดิสนีย์ (Disney World สวนสนุก)","oscar":"รางวัลออสการ์","alzheimer":"โรคอัลไซเมอร์","einstein":"ไอน์สไตน์ (นักฟิสิกส์)","thammasat":"(มหาวิทยาลัย) ธรรมศาสตร์","vincent":"วินเซนต์ (ชื่อจิตรกร Vincent van Gogh)","matthew":"ชื่อคน (Matthew)","matt":"ชื่อคน (Matt)","george":"ชื่อคน (George)","james":"ชื่อคน (James)","dennis":"ชื่อคน (Dennis)","anne":"ชื่อคน (Anne)","ken":"ชื่อคน (Ken)","jane":"ชื่อคน (Jane)","brian":"ชื่อคน (Brian)","emma":"ชื่อคน (Emma)","thompson":"ชื่อคน (Thompson)","sandra":"ชื่อคน (Sandra)","sophie":"ชื่อคน (Sophie)","sarah":"ชื่อคน (Sarah)","steve":"ชื่อคน (Steve)","sam":"ชื่อคน (Sam)","mike":"ชื่อคน (Mike)","henry":"ชื่อคน (Henry)","ben":"ชื่อคน (Ben)","andrew":"ชื่อคน (Andrew)"
+};
+
+</script>
+<script>
+(function(){
+"use strict";
+
+/* ===================== helpers ===================== */
+function shuffle(a){
+  const r = a.slice();
+  for(let i=r.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [r[i],r[j]] = [r[j],r[i]];
+  }
+  return r;
+}
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* Two entries conflict if they share the headword, share any synonym,
+   or share a Thai meaning token — such a pair must never appear as
+   question + distractor, because both answers would be defensible. */
+const CONFLICT = new Map();
+function keyOf(a,b){ return a.w < b.w ? a.w+'|'+b.w : b.w+'|'+a.w; }
+function conflicts(a,b){
+  if(a.w === b.w) return true;
+  const k = keyOf(a,b);
+  if(CONFLICT.has(k)) return CONFLICT.get(k);
+  const A = new Set([a.w.toLowerCase(), ...(a.syn||[]).map(s=>s.toLowerCase())]);
+  const B = new Set([b.w.toLowerCase(), ...(b.syn||[]).map(s=>s.toLowerCase())]);
+  let bad = false;
+  for(const x of A){ if(B.has(x)){ bad = true; break; } }
+  if(!bad){
+    const at = a.th.split(/\s+/).filter(t=>t.length>=3);
+    const bt = b.th.split(/\s+/).filter(t=>t.length>=3);
+    for(const t of at){ if(bt.indexOf(t) !== -1){ bad = true; break; } }
+  }
+  CONFLICT.set(k, bad);
+  return bad;
+}
+function cleanPool(target, extraFilter){
+  return VOCAB.filter(v => !conflicts(target, v) && (!extraFilter || extraFilter(v)));
+}
+
+/* Blank out the target word (and its inflections) inside its example sentence. */
+function stemOf(w){
+  let s = w.toLowerCase();
+  if(s.endsWith('e') || s.endsWith('y')) s = s.slice(0,-1);
+  return s;
+}
+function clozeRegex(w){
+  const st = stemOf(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('\\b' + st + '\\w*', 'gi');
+}
+function blankSentence(entry){
+  return entry.ex.replace(clozeRegex(entry.w), '<span class="blank">?</span>');
+}
+function highlightSentence(entry){
+  return esc(entry.ex).replace(clozeRegex(entry.w), m => '<em>'+m+'</em>');
+}
+
+/* ===================== question builders ===================== */
+const TYPE_LABEL = {
+  e2t:'แปลเป็นไทย',
+  t2e:'แปลเป็นอังกฤษ',
+  syn:'คำพ้องความหมาย',
+  cloze:'เติมคำในประโยค',
+  odd:'หาคำไม่เข้าพวก'
+};
+
+function buildE2T(entry){
+  const pool = cleanPool(entry);
+  const d = shuffle(pool).slice(0,3);
+  if(d.length < 3) return null;
+  return {
+    type:'e2t', entry,
+    promptHTML:'<p class="prompt-en">'+esc(entry.w)+'</p><span class="pos-tag">('+esc(entry.pos)+')</span><p class="hint">คำนี้แปลว่าอะไร</p>',
+    options: shuffle([{t:entry.th, ok:true}, ...d.map(x=>({t:x.th, ok:false}))]),
+    optClass:'', answerText: entry.th
+  };
+}
+
+function buildT2E(entry){
+  const pool = cleanPool(entry);
+  const d = shuffle(pool).slice(0,3);
+  if(d.length < 3) return null;
+  return {
+    type:'t2e', entry,
+    promptHTML:'<p class="prompt-th">'+esc(entry.th)+'</p><span class="pos-tag">('+esc(entry.pos)+')</span><p class="hint">ตรงกับคำศัพท์ภาษาอังกฤษคำใด</p>',
+    options: shuffle([{t:entry.w, ok:true}, ...d.map(x=>({t:x.w, ok:false}))]),
+    optClass:'en', answerText: entry.w
+  };
+}
+
+function buildSyn(entry){
+  if(!entry.syn || !entry.syn.length) return null;
+  const answer = pick(entry.syn);
+  const banned = new Set([entry.w.toLowerCase(), ...entry.syn.map(s=>s.toLowerCase())]);
+  const pool = cleanPool(entry, v => (v.syn||[]).length > 0);
+  const d = [];
+  const used = new Set();
+  for(const v of shuffle(pool)){
+    if(d.length >= 3) break;
+    const cand = (v.syn||[]).filter(s => !banned.has(s.toLowerCase()) && !used.has(s.toLowerCase()));
+    if(!cand.length) continue;
+    const s = pick(cand);
+    used.add(s.toLowerCase());
+    d.push(s);
+  }
+  if(d.length < 3) return null;
+  return {
+    type:'syn', entry,
+    promptHTML:'<p class="prompt-en">'+esc(entry.w)+'</p><span class="pos-tag">('+esc(entry.pos)+') '+esc(entry.th)+'</span><p class="hint">คำใดมีความหมายใกล้เคียงกับคำนี้มากที่สุด</p>',
+    options: shuffle([{t:answer, ok:true}, ...d.map(t=>({t, ok:false}))]),
+    optClass:'en', answerText: answer
+  };
+}
+
+function buildCloze(entry){
+  const blanked = blankSentence(entry);
+  if(blanked === entry.ex) return null;
+  let pool = cleanPool(entry, v => v.pos === entry.pos);
+  if(pool.length < 3) pool = cleanPool(entry);
+  const d = shuffle(pool).slice(0,3);
+  if(d.length < 3) return null;
+  return {
+    type:'cloze', entry,
+    promptHTML:'<p class="prompt-sentence">'+blanked+'</p><p class="hint">เติมคำศัพท์ที่เหมาะสมที่สุดลงในช่องว่าง</p>',
+    options: shuffle([{t:entry.w, ok:true}, ...d.map(x=>({t:x.w, ok:false}))]),
+    optClass:'en', answerText: entry.w
+  };
+}
+
+function buildOdd(entry){
+  if(!entry.syn || entry.syn.length < 3) return null;
+  const three = shuffle(entry.syn).slice(0,3);
+  const pool = cleanPool(entry);
+  if(!pool.length) return null;
+  const outsider = pick(pool);
+  const odd = Math.random() < 0.5 ? outsider.w : (outsider.syn && outsider.syn.length ? pick(outsider.syn) : outsider.w);
+  const lower = new Set(three.map(s=>s.toLowerCase()).concat([entry.w.toLowerCase()]));
+  if(lower.has(odd.toLowerCase())) return null;
+  return {
+    type:'odd', entry,
+    promptHTML:'<p class="prompt-th">คำใดไม่เข้าพวก</p><p class="hint">มีสามคำที่ความหมายใกล้เคียงกัน เลือกคำที่เหลือ</p>',
+    options: shuffle([{t:odd, ok:true}, ...three.map(t=>({t, ok:false}))]),
+    optClass:'en', answerText: odd,
+    oddGroup: three, oddHead: entry
+  };
+}
+
+const BUILDERS = { e2t:buildE2T, t2e:buildT2E, syn:buildSyn, cloze:buildCloze, odd:buildOdd };
+const ALL_TYPES = ['e2t','t2e','syn','cloze','odd'];
+
+function makeQuestion(entry, mode){
+  if(mode !== 'mix'){
+    return BUILDERS[mode](entry) || buildE2T(entry);
+  }
+  for(const t of shuffle(ALL_TYPES)){
+    const q = BUILDERS[t](entry);
+    if(q) return q;
+  }
+  return buildE2T(entry);
+}
+
+/* ===================== state ===================== */
+const el = id => document.getElementById(id);
+let mode = 'mix';
+let roundLen = 20;
+let queue = [];
+let qi = 0;
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+let current = null;
+let locked = false;
+let wrongList = [];
+
+const STORE_KEY = 'vocabdrill.stats.v1';
+function loadStats(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {asked:0, right:0, rounds:0};
+}
+function saveStats(s){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
+}
+function renderLifetime(){
+  const s = loadStats();
+  el('lifetime').textContent = s.asked
+    ? 'สถิติสะสม: ทำไปแล้ว ' + s.asked + ' ข้อ ถูก ' + s.right + ' ข้อ (' + Math.round(s.right/s.asked*100) + '%) จาก ' + s.rounds + ' รอบ'
+    : 'ยังไม่มีสถิติ — เริ่มรอบแรกได้เลย';
+}
+
+/* ===================== round flow ===================== */
+function startRound(entries){
+  const base = entries || shuffle(VOCAB);
+  queue = (roundLen > 0 ? base.slice(0, roundLen) : base).map(e => makeQuestion(e, mode));
+  qi = 0; score = 0; streak = 0; bestStreak = 0; wrongList = [];
+  el('setup').hidden = true;
+  el('result').hidden = true;
+  el('quiz').hidden = false;
+  el('topbar').hidden = false;
+  el('sT').textContent = queue.length;
+  window.scrollTo(0,0);
+  renderQuestion();
+}
+
+function renderQuestion(){
+  locked = false;
+  current = queue[qi];
+  el('qtype').textContent = TYPE_LABEL[current.type];
+  el('promptBox').innerHTML = current.promptHTML;
+  guideify(el('promptBox'));
+  closePop();
+
+  const fb = el('feedback');
+  fb.className = 'feedback';
+  fb.innerHTML = '';
+  el('nextBtn').classList.remove('show');
+
+  const ul = el('options');
+  ul.innerHTML = '';
+  current.options.forEach((o, i) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.type = 'button';
+    b.innerHTML =
+      '<span class="key">'+(i+1)+'</span>' +
+      '<span class="txt '+current.optClass+'">'+(current.optClass === 'en' ? wrapPhrase(o.t) : esc(o.t))+'</span>' +
+      '<span class="mark">'+(o.ok ? '✓' : '✕')+'</span>';
+    b.addEventListener('click', () => answer(i));
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+  guideify(ul);
+
+  el('sQ').textContent = qi + 1;
+  el('sC').textContent = score;
+  el('sS').textContent = streak + ' ติด';
+  el('bar').style.width = (qi / queue.length * 100) + '%';
+}
+
+function answer(i){
+  if(locked) return;
+  locked = true;
+  const chosen = current.options[i];
+  const ok = !!chosen.ok;
+  const btns = Array.from(el('options').querySelectorAll('.opt'));
+
+  btns.forEach((b, j) => {
+    b.setAttribute('aria-disabled', 'true');
+    const o = current.options[j];
+    if(o.ok) b.classList.add('is-correct');
+    else if(j === i) b.classList.add('is-wrong');
+    else b.classList.add('is-dim');
+  });
+
+  if(ok){ score++; streak++; if(streak > bestStreak) bestStreak = streak; }
+  else { streak = 0; wrongList.push(current); }
+
+  const e = current.entry;
+  const fb = el('feedback');
+  let body = '';
+
+  if(current.type === 'odd'){
+    body = '<span class="verdict">' + (ok ? 'ถูกต้อง' : 'ยังไม่ถูก') + '</span>' +
+      'คำที่ไม่เข้าพวกคือ <b style="font-family:var(--font-en)">' + esc(current.answerText) + '</b><br>' +
+      'อีกสามคำเป็นคำพ้องความหมายของ <b style="font-family:var(--font-en)">' + esc(e.w) + '</b> (' + esc(e.th) + ')';
+  } else {
+    const label = (current.type === 'e2t') ? 'คำแปลที่ถูกคือ' :
+                  (current.type === 'syn') ? 'คำพ้องความหมายคือ' : 'คำตอบคือ';
+    body = '<span class="verdict">' + (ok ? 'ถูกต้อง' : 'ยังไม่ถูก') + '</span>' +
+      label + ' <b style="font-family:' + (current.type === 'e2t' ? 'var(--font-th)' : 'var(--font-en)') + '">' +
+      esc(current.answerText) + '</b>';
+    if(current.type !== 'e2t') body += ' — ' + esc(e.w) + ' (' + esc(e.pos) + ') ' + esc(e.th);
+    body += '<div class="sentence">' + highlightSentence(e) + '</div>';
+    if(e.syn && e.syn.length){
+      body += '<div class="syns">คำพ้อง: <b>' + e.syn.slice(0,6).map(wrapPhrase).join(', ') + '</b></div>';
+    }
+  }
+
+  fb.innerHTML = body;
+  guideify(fb);
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'no');
+  el('nextBtn').classList.add('show');
+  el('nextBtn').focus();
+
+  el('sC').textContent = score;
+  el('sS').textContent = streak + ' ติด';
+}
+
+function next(){
+  qi++;
+  if(qi >= queue.length) finish();
+  else { renderQuestion(); window.scrollTo(0,0); }
+}
+
+function finish(){
+  const s = loadStats();
+  s.asked += queue.length; s.right += score; s.rounds += 1;
+  saveStats(s);
+
+  el('bar').style.width = '100%';
+  el('quiz').hidden = true;
+  el('result').hidden = false;
+  window.scrollTo(0,0);
+
+  const pct = Math.round(score / queue.length * 100);
+  el('rScore').textContent = score + '/' + queue.length;
+  el('rPct').textContent = pct + '% · ตอบถูกติดกันสูงสุด ' + bestStreak + ' ข้อ';
+  el('rMsg').textContent =
+    pct >= 90 ? 'ยอดเยี่ยม แม่นคำศัพท์มาก' :
+    pct >= 75 ? 'ดีมาก เหลืออีกไม่กี่คำก็ครบ' :
+    pct >= 50 ? 'มาถูกทางแล้ว ทบทวนคำที่ผิดอีกรอบ' :
+                'ยังไม่เป็นไร ค่อยๆ เก็บทีละคำ';
+
+  el('retryWrongBtn').hidden = wrongList.length === 0;
+
+  const wrap = el('reviewWrap');
+  if(!wrongList.length){
+    wrap.innerHTML = '<div class="allclear">ตอบถูกทั้งหมดในรอบนี้</div>';
+  } else {
+    let html = '<div class="review-title">คำที่ควรทบทวน (' + wrongList.length + ' คำ)</div><ul class="review-list">';
+    wrongList.forEach(q => {
+      const e = q.entry;
+      html += '<li class="review-item">' +
+        '<div class="rw">' + esc(e.w) + ' <span style="font-size:13px;color:var(--ink-faint);font-style:italic">(' + esc(e.pos) + ')</span></div>' +
+        '<div class="rt">' + esc(e.th) + '</div>' +
+        (e.syn && e.syn.length ? '<div class="rs">' + e.syn.slice(0,5).map(wrapPhrase).join(' · ') + '</div>' : '') +
+        '</li>';
+    });
+    html += '</ul>';
+    wrap.innerHTML = html;
+    guideify(wrap);
+  }
+}
+
+function goHome(){
+  closePop();
+  el('result').hidden = true;
+  el('quiz').hidden = true;
+  el('setup').hidden = false;
+  el('topbar').hidden = true;
+  renderLifetime();
+  window.scrollTo(0,0);
+}
+
+/* ===================== guide (tap-to-translate) ===================== */
+const HEAD = new Map(VOCAB.map(v => [v.w.toLowerCase(), v]));
+const SYN_OWNERS = new Map();          // synonym -> [headwords that list it]
+VOCAB.forEach(v => (v.syn||[]).forEach(s => {
+  const k = s.toLowerCase();
+  if(!SYN_OWNERS.has(k)) SYN_OWNERS.set(k, []);
+  SYN_OWNERS.get(k).push(v);
+}));
+
+/* candidate base forms for an inflected word: abducted -> abduct, carnivores -> carnivore ... */
+function baseForms(raw){
+  let w = raw.toLowerCase().replace(/[’]/g, "'").replace(/^[-']+|[-']+$/g, '');
+  const out = [w];
+  const add = x => { if(x && x.length > 1 && out.indexOf(x) === -1) out.push(x); };
+  if(/'s$/.test(w)){ w = w.slice(0,-2); add(w); }
+  if(w.endsWith('ies')) add(w.slice(0,-3) + 'y');
+  if(w.endsWith('ied')) add(w.slice(0,-3) + 'y');
+  if(w.endsWith('es'))  add(w.slice(0,-2));
+  if(w.endsWith('s') && !w.endsWith('ss')) add(w.slice(0,-1));
+  if(w.endsWith('ed')){
+    const b = w.slice(0,-2);
+    add(b); add(b + 'e');
+    if(/([b-df-hj-np-tv-z])\1$/.test(b)) add(b.slice(0,-1));
+  }
+  if(w.endsWith('ing')){
+    const b = w.slice(0,-3);
+    add(b); add(b + 'e');
+    if(/([b-df-hj-np-tv-z])\1$/.test(b)) add(b.slice(0,-1));
+  }
+  if(w.endsWith('ly')) add(w.slice(0,-2));
+  if(w.endsWith('ily')) add(w.slice(0,-3) + 'y');
+  return out;
+}
+
+function lookup(raw){
+  for(const f of baseForms(raw)){
+    if(HEAD.has(f)){
+      const v = HEAD.get(f);
+      return { kind:'book', word:v.w, pos:v.pos, th:v.th, entry:v, form:f };
+    }
+    if(Object.prototype.hasOwnProperty.call(DICT_SYN, f)){
+      return { kind:'syn', word:f, th:DICT_SYN[f], owners:SYN_OWNERS.get(f) || [] };
+    }
+    if(Object.prototype.hasOwnProperty.call(DICT_COMMON, f)){
+      return { kind:'common', word:f, th:DICT_COMMON[f] };
+    }
+  }
+  return null;
+}
+
+/* Wrap a whole phrase (e.g. "give up") as one tappable unit when the dictionary knows it. */
+function wrapPhrase(text){
+  const t = String(text);
+  if(/[\s-]/.test(t) && lookup(t)){
+    return '<span class="gw" data-w="'+esc(t)+'">'+esc(t)+'</span>';
+  }
+  return esc(t);
+}
+
+/* Turn every English word inside root into a tappable span (skips blanks and existing spans). */
+const WORD_RE = /[A-Za-z][A-Za-z'’]*(?:-[A-Za-z]+)*/g;
+function guideify(root){
+  if(!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n){
+      if(!/[A-Za-z]/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+      const p = n.parentElement;
+      if(!p || p.closest('.gw, .blank, .key, .mark, script, style')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes = [];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => {
+    const text = n.nodeValue;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    text.replace(WORD_RE, (m, idx) => {
+      if(idx > last) frag.appendChild(document.createTextNode(text.slice(last, idx)));
+      const s = document.createElement('span');
+      s.className = 'gw';
+      s.dataset.w = m;
+      s.textContent = m;
+      frag.appendChild(s);
+      last = idx + m.length;
+      return m;
+    });
+    if(last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  });
+}
+
+/* Online fallback — works on github.io; silently unavailable where the network is blocked. */
+const ONLINE_CACHE = new Map();
+async function onlineTranslate(word){
+  if(ONLINE_CACHE.has(word)) return ONLINE_CACHE.get(word);
+  const ctrl = ('AbortController' in window) ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(() => ctrl.abort(), 4500) : null;
+  try{
+    const r = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=en|th',
+      ctrl ? { signal: ctrl.signal } : undefined);
+    if(!r.ok) throw new Error('http');
+    const j = await r.json();
+    const t = j && j.responseData && j.responseData.translatedText;
+    if(!t || /[A-Za-z]{3,}/.test(t) && !/[฀-๿]/.test(t)) throw new Error('empty');
+    ONLINE_CACHE.set(word, t);
+    return t;
+  }catch(e){
+    return null;
+  }finally{
+    if(timer) clearTimeout(timer);
+  }
+}
+
+let guideOn = false;
+let activeSpan = null;
+let popToken = 0;
+const GUIDE_KEY = 'vocabquiz.guide.v1';
+
+function setGuide(on){
+  guideOn = !!on;
+  document.body.classList.toggle('guide-on', guideOn);
+  document.querySelectorAll('[data-guide-toggle]').forEach(b => b.setAttribute('aria-pressed', String(guideOn)));
+  if(!guideOn) closePop();
+  try{ localStorage.setItem(GUIDE_KEY, guideOn ? '1' : '0'); }catch(e){}
+}
+
+function closePop(){
+  el('gpop').classList.remove('show');
+  if(activeSpan){ activeSpan.classList.remove('active'); activeSpan = null; }
+  popToken++;
+}
+
+/* Place the popup just below the tapped word, or above it when there is no room below. */
+function placePop(){
+  if(!activeSpan) return;
+  const pop = el('gpop');
+  const r = activeSpan.getBoundingClientRect();
+  const vw = document.documentElement.clientWidth;
+  const vh = window.innerHeight;
+  const w = pop.offsetWidth;
+  const h = pop.offsetHeight;
+  let left = r.left + r.width / 2 - w / 2;
+  left = Math.max(16, Math.min(left, vw - w - 16));
+  let top = r.bottom + 10;
+  if(top + h > vh - 12 && r.top - h - 10 > 12) top = r.top - h - 10;
+  top = Math.max(12, Math.min(top, vh - h - 12));
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+}
+
+function fillPop(word, pos, tag, tagClass, th, extraHTML){
+  el('gpWord').textContent = word;
+  el('gpPos').textContent = pos ? '(' + pos + ')' : '';
+  el('gpTag').textContent = tag;
+  el('gpTag').className = 'gpop-tag' + (tagClass ? ' ' + tagClass : '');
+  el('gpTh').textContent = th;
+  el('gpExtra').innerHTML = extraHTML || '';
+  placePop();
+}
+
+async function openPop(span){
+  if(activeSpan) activeSpan.classList.remove('active');
+  activeSpan = span;
+  span.classList.add('active');
+  const shown = span.dataset.w;
+  const hit = lookup(shown);
+  const token = ++popToken;
+
+  if(hit && hit.kind === 'book'){
+    const same = hit.form === hit.word.toLowerCase();
+    fillPop(shown, hit.pos, 'คำศัพท์ในหนังสือ', 'book', hit.th,
+      (same ? '' : 'รูปคำหลัก: <span class="en">' + esc(hit.word) + '</span><br>') +
+      (hit.entry.syn && hit.entry.syn.length ? 'คำพ้อง: <span class="en">' + esc(hit.entry.syn.slice(0,5).join(', ')) + '</span>' : ''));
+  } else if(hit && hit.kind === 'syn'){
+    const owners = hit.owners.slice(0,3);
+    fillPop(shown, '', 'คำพ้องความหมาย', '', hit.th,
+      owners.length ? 'เป็นคำพ้องของ ' + owners.map(o => '<span class="en">' + esc(o.w) + '</span> (' + esc(o.th) + ')').join(', ') : '');
+  } else if(hit && hit.kind === 'common'){
+    const base = hit.word !== shown.toLowerCase() ? 'รูปคำหลัก: <span class="en">' + esc(hit.word) + '</span>' : '';
+    fillPop(shown, '', 'คำทั่วไป', '', hit.th, base);
+  } else {
+    const looksProper = /^[A-Z]/.test(shown) && !/^(I|The|A|An)$/.test(shown);
+    fillPop(shown, '', 'กำลังค้นหา…', '', looksProper ? 'ชื่อเฉพาะ (ชื่อคน สถานที่ หรือหน่วยงาน)' : '…', '');
+    el('gpop').classList.add('show');
+    const t = await onlineTranslate(shown.toLowerCase());
+    if(token !== popToken) return;
+    if(t){
+      fillPop(shown, '', 'แปลอัตโนมัติ', '', t, 'คำนี้ไม่อยู่ในคลังคำของหนังสือ ความหมายมาจากระบบแปลออนไลน์');
+    } else {
+      fillPop(shown, '', looksProper ? 'ชื่อเฉพาะ' : 'ไม่พบ', '',
+        looksProper ? 'ชื่อเฉพาะ (ชื่อคน สถานที่ หรือหน่วยงาน)' : 'ยังไม่มีคำนี้ในคลังคำ',
+        looksProper ? '' : 'ต่ออินเทอร์เน็ตเพื่อใช้การแปลออนไลน์สำหรับคำที่ไม่อยู่ในคลัง');
+    }
+  }
+  el('gpop').classList.add('show');
+}
+
+/* Capture phase: in guide mode a tap on a word opens the popup instead of answering. */
+document.addEventListener('click', ev => {
+  const toggle = ev.target.closest('[data-guide-toggle]');
+  if(toggle){ setGuide(!guideOn); return; }
+  if(ev.target.closest('#gpop')) return;
+  if(guideOn){
+    const w = ev.target.closest('.gw');
+    if(w){
+      ev.preventDefault();
+      ev.stopPropagation();
+      if(w === activeSpan && el('gpop').classList.contains('show')) closePop();
+      else openPop(w);
+      return;
+    }
+  }
+  if(el('gpop').classList.contains('show')) closePop();
+}, true);
+el('gpopClose').addEventListener('click', ev => { ev.stopPropagation(); closePop(); });
+document.addEventListener('keydown', ev => { if(ev.key === 'Escape') closePop(); });
+window.addEventListener('scroll', () => { if(el('gpop').classList.contains('show')) placePop(); }, { passive:true });
+window.addEventListener('resize', () => { if(el('gpop').classList.contains('show')) placePop(); });
+
+try{ setGuide(localStorage.getItem(GUIDE_KEY) === '1'); }catch(e){ setGuide(false); }
+
+/* ===================== wiring ===================== */
+function chipGroup(containerId, onPick){
+  el(containerId).addEventListener('click', ev => {
+    const b = ev.target.closest('.chip');
+    if(!b) return;
+    Array.from(el(containerId).querySelectorAll('.chip'))
+      .forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+    onPick(b);
+  });
+}
+chipGroup('modeChips', b => { mode = b.dataset.mode; });
+chipGroup('lenChips',  b => { roundLen = parseInt(b.dataset.len, 10); });
+
+el('startBtn').addEventListener('click', () => startRound(null));
+el('nextBtn').addEventListener('click', next);
+el('quitBtn').addEventListener('click', () => { if(qi > 0 || locked) finish(); else goHome(); });
+el('againBtn').addEventListener('click', () => startRound(null));
+el('homeBtn').addEventListener('click', goHome);
+el('retryWrongBtn').addEventListener('click', () => {
+  const entries = wrongList.map(q => q.entry);
+  const saved = roundLen;
+  roundLen = 0;
+  startRound(shuffle(entries));
+  roundLen = saved;
+});
+
+document.addEventListener('keydown', ev => {
+  if(el('quiz').hidden) return;
+  if(ev.key >= '1' && ev.key <= '4'){
+    const i = parseInt(ev.key, 10) - 1;
+    if(!locked && current && i < current.options.length){ ev.preventDefault(); answer(i); }
+  } else if(ev.key === 'Enter' || ev.key === ' '){
+    if(locked){ ev.preventDefault(); next(); }
+  }
+});
+
+renderLifetime();
+})();
+</script>
+
+</body>
+</html>
