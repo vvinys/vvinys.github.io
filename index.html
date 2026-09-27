@@ -588,6 +588,38 @@ body.guide-on .opt:not([aria-disabled="true"]) .key{box-shadow:inset 0 0 0 1.5px
   font-family:inherit;
 }
 .gpop-close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.speak-btn{
+  align-self:center;
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1.5px solid var(--accent);
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  padding:0;
+  flex:0 0 auto;
+  transition:background .15s, color .15s;
+}
+.speak-btn:hover,.speak-btn.speaking{background:var(--accent);color:var(--accent-ink)}
+.speak-btn:focus-visible,.speak-sentence:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.speak-btn.speaking .wave1{animation:wave 0.9s ease-in-out infinite}
+.speak-btn.speaking .wave2{animation:wave 0.9s ease-in-out .2s infinite}
+@keyframes wave{0%,100%{opacity:1}50%{opacity:.2}}
+.speak-sentence{
+  margin-top:11px;
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:13px;font-weight:600;
+  color:var(--accent);
+  background:none;
+  border:1.5px solid var(--border-strong);
+  border-radius:999px;
+  padding:5px 12px;
+  cursor:pointer;
+}
+.speak-sentence:hover,.speak-sentence.speaking{border-color:var(--accent);background:var(--accent-soft)}
+.no-tts .speak-btn,.no-tts .speak-sentence{display:none!important}
+@media (prefers-reduced-motion: reduce){ .speak-btn.speaking .wave1,.speak-btn.speaking .wave2{animation:none} }
 @media (prefers-reduced-motion: reduce){ .gpop{transition:none} }
 
 footer{
@@ -702,11 +734,18 @@ footer{
   <button class="gpop-close" id="gpopClose" type="button" aria-label="ปิด">×</button>
   <div class="gpop-top">
     <span class="gpop-word" id="gpWord"></span>
+    <button class="speak-btn" id="gpSpeak" type="button" aria-label="ฟังเสียงอ่านคำนี้" title="ฟังเสียง">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3z"/><path class="wave1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="wave2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    </button>
     <span class="gpop-pos" id="gpPos"></span>
     <span class="gpop-tag" id="gpTag"></span>
   </div>
   <div class="gpop-th" id="gpTh"></div>
   <div class="gpop-extra" id="gpExtra"></div>
+  <button class="speak-sentence" id="gpSpeakEx" type="button" hidden>
+    <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+    ฟังประโยคตัวอย่าง
+  </button>
 </div>
 
 <script>
@@ -1402,8 +1441,55 @@ function setGuide(on){
 function closePop(){
   el('gpop').classList.remove('show');
   if(activeSpan){ activeSpan.classList.remove('active'); activeSpan = null; }
+  if(typeof stopSpeak === 'function') stopSpeak();
   popToken++;
 }
+
+/* ---------- text-to-speech (built into the browser, no network needed) ---------- */
+const TTS = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+if(!TTS) document.body.classList.add('no-tts');
+let ttsVoice = null;
+function pickVoice(){
+  if(!TTS) return;
+  const vs = window.speechSynthesis.getVoices() || [];
+  const en = vs.filter(v => /^en[-_]/i.test(v.lang));
+  const prefer = ['Samantha','Google US English','Microsoft Aria','Microsoft Jenny','Alex','Karen','Daniel','Google UK English Female'];
+  ttsVoice = null;
+  for(const name of prefer){
+    const v = en.find(x => x.name.indexOf(name) !== -1);
+    if(v){ ttsVoice = v; break; }
+  }
+  if(!ttsVoice) ttsVoice = en.find(v => /en[-_]US/i.test(v.lang)) || en[0] || null;
+}
+if(TTS){
+  pickVoice();
+  window.speechSynthesis.onvoiceschanged = pickVoice;
+}
+let speakWord = '';
+let speakSentence = '';
+function speak(text, btn, rate){
+  if(!TTS || !text) return;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  document.querySelectorAll('.speaking').forEach(b => b.classList.remove('speaking'));
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = ttsVoice ? ttsVoice.lang : 'en-US';
+  if(ttsVoice){ try{ u.voice = ttsVoice; }catch(e){} }
+  u.rate = rate || 0.9;
+  u.pitch = 1;
+  if(btn){
+    btn.classList.add('speaking');
+    const done = () => btn.classList.remove('speaking');
+    u.onend = done; u.onerror = done;
+  }
+  synth.speak(u);
+}
+function stopSpeak(){
+  if(TTS) window.speechSynthesis.cancel();
+  document.querySelectorAll('.speaking').forEach(b => b.classList.remove('speaking'));
+}
+el('gpSpeak').addEventListener('click', ev => { ev.stopPropagation(); speak(speakWord, el('gpSpeak'), 0.85); });
+el('gpSpeakEx').addEventListener('click', ev => { ev.stopPropagation(); speak(speakSentence, el('gpSpeakEx'), 0.9); });
 
 /* Place the popup just below the tapped word, or above it when there is no room below. */
 function placePop(){
@@ -1440,6 +1526,10 @@ async function openPop(span){
   const shown = span.dataset.w;
   const hit = lookup(shown);
   const token = ++popToken;
+  stopSpeak();
+  speakWord = shown.replace(/[’]/g, "'");
+  speakSentence = (hit && hit.kind === 'book') ? hit.entry.ex : '';
+  el('gpSpeakEx').hidden = !speakSentence;
 
   if(hit && hit.kind === 'book'){
     const same = hit.form === hit.word.toLowerCase();
