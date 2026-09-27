@@ -720,7 +720,8 @@ footer{
         <div class="result-msg" id="rMsg"></div>
       </div>
       <div class="result-actions">
-        <button class="primary" id="againBtn">ทำรอบใหม่ (สุ่มคำใหม่)</button>
+        <button class="primary" id="resetBtn">↺ รีเซ็ต — ทำชุดเดิมอีกรอบ</button>
+        <button id="againBtn">ทำรอบใหม่ (สุ่มคำใหม่)</button>
         <button id="retryWrongBtn" hidden>ฝึกเฉพาะข้อที่ตอบผิด</button>
         <button id="homeBtn">กลับไปตั้งค่า</button>
       </div>
@@ -1160,12 +1161,24 @@ function renderLifetime(){
 function startRound(entries){
   const base = entries || shuffle(VOCAB);
   queue = (roundLen > 0 ? base.slice(0, roundLen) : base).map(e => makeQuestion(e, mode));
+  beginQueue();
+}
+
+/* Replay exactly the same questions (same words, types and option order). */
+function resetRound(){
+  if(!queue.length) return;
+  beginQueue();
+}
+
+function beginQueue(){
   qi = 0; score = 0; streak = 0; bestStreak = 0; wrongList = [];
   el('setup').hidden = true;
   el('result').hidden = true;
   el('quiz').hidden = false;
   el('topbar').hidden = false;
   el('sT').textContent = queue.length;
+  el('bar').style.width = '0%';
+  closePop();
   window.scrollTo(0,0);
   renderQuestion();
 }
@@ -1601,6 +1614,7 @@ el('startBtn').addEventListener('click', () => startRound(null));
 el('nextBtn').addEventListener('click', next);
 el('quitBtn').addEventListener('click', () => { if(qi > 0 || locked) finish(); else goHome(); });
 el('againBtn').addEventListener('click', () => startRound(null));
+el('resetBtn').addEventListener('click', resetRound);
 el('homeBtn').addEventListener('click', goHome);
 el('retryWrongBtn').addEventListener('click', () => {
   const entries = wrongList.map(q => q.entry);
