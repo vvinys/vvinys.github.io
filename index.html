@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="แบบฝึกคำศัพท์ภาษาอังกฤษ 195 คำ 5 รูปแบบข้อสอบ พร้อมโหมดไกด์แตะคำเพื่อดูคำแปล">
+<meta name="description" content="แบบฝึกคำศัพท์ภาษาอังกฤษ 195 คำ 5 รูปแบบข้อสอบ โหมด Chapter เรียงตามบทของหนังสือ พร้อมโหมดไกด์แตะคำเพื่อดูคำแปล">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0E6E6E">
 <title>Vocab Quiz</title>
@@ -486,6 +486,45 @@ body{
   margin-top:26px;
 }
 
+/* ---------- chapter mode ---------- */
+.ch-note{font-size:13.5px;color:var(--ink-dim);margin:0 0 4px;line-height:1.6}
+.ch-section{margin-top:20px}
+.ch-section .setup-label{display:flex;align-items:baseline;gap:8px}
+.ch-section .setup-label small{font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-faint)}
+.chip .best{font-size:11.5px;font-weight:600;margin-left:6px;opacity:.75;font-variant-numeric:tabular-nums}
+.prompt-sentence .target{
+  text-decoration:underline;
+  text-decoration-color:var(--accent);
+  text-decoration-thickness:2.5px;
+  text-underline-offset:4px;
+  font-weight:600;
+}
+.prompt-passage{
+  font-family:var(--font-en);
+  font-size:clamp(16px,4.2vw,18px);
+  line-height:1.8;
+  margin:0;
+}
+.prompt-passage .blank{
+  display:inline-block;
+  min-width:44px;
+  border-bottom:2px solid var(--border-strong);
+  color:var(--ink-faint);
+  text-align:center;
+  font-family:var(--font-th);
+  font-size:.78em;
+  font-weight:600;
+  padding-inline:4px;
+}
+.prompt-passage .blank.cur{
+  border-bottom-color:var(--accent);
+  color:var(--accent);
+  background:var(--accent-soft);
+  border-radius:4px 4px 0 0;
+}
+.prompt-passage .filled{font-weight:600;color:var(--correct)}
+.prompt-passage .filled sup{font-family:var(--font-th);font-size:.62em;font-weight:600;margin-right:2px;opacity:.8}
+
 /* ---------- guide mode ---------- */
 .guide-btn{
   font-family:inherit;
@@ -660,6 +699,15 @@ footer{
     </div>
 
     <div class="setup-group">
+      <div class="setup-label">โหมด</div>
+      <div class="chips" id="playChips">
+        <button class="chip" data-play="random" aria-pressed="true">สุ่มคำศัพท์</button>
+        <button class="chip" data-play="chapter" aria-pressed="false">Chapter</button>
+      </div>
+    </div>
+
+    <div id="randomOpts">
+    <div class="setup-group">
       <div class="setup-label">รูปแบบข้อสอบ</div>
       <div class="chips" id="modeChips">
         <button class="chip" data-mode="mix" aria-pressed="true">รวมทุกแบบ</button>
@@ -678,6 +726,15 @@ footer{
         <button class="chip" data-len="20" aria-pressed="true">20 ข้อ</button>
         <button class="chip" data-len="40" aria-pressed="false">40 ข้อ</button>
         <button class="chip" data-len="0" aria-pressed="false">ทั้งหมด</button>
+      </div>
+    </div>
+    </div>
+
+    <div id="chapterOpts" hidden>
+      <div class="setup-group">
+        <div class="setup-label">เลือกบท</div>
+        <p class="ch-note">เรียงตามบทแบบฝึกหัดของหนังสือ ข้อสอบออกตามลำดับข้อ 1 ถึงข้อสุดท้ายของบทนั้น ไม่สุ่มลำดับ</p>
+        <div id="chapterList"></div>
       </div>
     </div>
 
@@ -963,6 +1020,596 @@ const DICT_COMMON = {
 
 </script>
 <script>
+/* Chapter mode data — units follow the book's exercise sections in order.
+   fill / context rows : sentence with ___ | answer[=base form] | distractor | distractor | distractor | Thai gloss
+   synonym rows        : sentence with [target] | synonym | distractor | distractor | distractor | Thai gloss
+   odd rows            : odd word | group word | group word | group word | Thai gloss of the group
+   passage rows        : answer | distractor | distractor | distractor   (blank n = row n, {n} in text) */
+const CHAPTER_DATA = [
+{ id:'review', title:'Vocab Review', kind:'fill', units:[
+{ name:'Review 1', rows:`
+Fish are ___ in this river, so the villagers never go hungry.|abundant|accurate|addicted|accessible|อุดมสมบูรณ์ มีมากมาย
+You are ___ right; I should have checked the map first.|absolutely|ability|abuse|acquire|อย่างแน่นอน อย่างยิ่ง
+The sailors ___ the sinking ship and climbed into the lifeboats.|abandoned=abandon|accumulate|accommodate|accuse|ละทิ้ง
+Drug ___ can destroy both your health and your career.|abuse|ability|acquaintance|abundant|การใช้ในทางที่ผิด
+She has the ___ to learn new languages very quickly.|ability|abuse|acquaintance|adequate|ความสามารถ
+My old watch is no longer ___; it loses ten minutes a day.|accurate|abundant|additional|addicted|เที่ยงตรง แม่นยำ
+The shop owner ___ the boy of stealing a chocolate bar.|accused=accuse|acquire|accommodate|accumulate|กล่าวหา
+The new hall is large enough to ___ five hundred guests.|accommodate|accumulate|accuse|abandon|รองรับ จัดที่พักให้
+Dust began to ___ on the shelves while we were abroad.|accumulate|accommodate|acquire|abandon|สะสม พอกพูน
+The island is ___ only by boat.|accessible|abundant|adequate|additional|เข้าถึงได้
+It takes years of practice to ___ such a skill.|acquire|accuse|accommodate|abandon|ได้มา เรียนรู้จนได้
+Guests can use the gym at no ___ cost.|additional|accurate|addicted|abundant|เพิ่มเติม
+He became ___ to online games and stopped doing his homework.|addicted|accessible|accurate|adequate|ติด เสพติด
+Without ___ sleep, you cannot concentrate in class.|adequate|addicted|accessible|absolutely|เพียงพอ
+He is not a close friend, just one of my business ___.|acquaintances=acquaintance|ability|abuse|accommodate|คนรู้จัก
+`},
+{ name:'Review 2', rows:`
+Doctors ___ regular exercise for people of all ages.|advocate|aggravate|assist|ameliorate|สนับสนุน แนะนำให้ทำ
+I can't eat prawns because I am ___ to seafood.|allergic|ambitious|aggressive|apparent|แพ้
+The dog became ___ and tried to bite the postman.|aggressive|allergic|artificial|ambiguous|ก้าวร้าว
+The instructions were so ___ that we did not know which button to press.|ambiguous|ambitious|allergic|aggressive|กำกวม คลุมเครือ
+Scratching will only ___ the rash.|aggravate|advocate|anticipate|appreciate|ทำให้แย่ลง
+It soon became ___ that nobody had read the report.|apparent|artificial|allergic|ambitious|เห็นได้ชัด
+Waiting for the exam results caused her a great deal of ___.|anxiety|advocate|appropriate|ambiguous|ความวิตกกังวล
+The charity is ___ living conditions in the poorest villages by building wells.|ameliorating=ameliorate|assume|anticipate|appreciate|ทำให้ดีขึ้น
+She is very ___ and hopes to run her own company before she is thirty.|ambitious|allergic|artificial|apparent|ทะเยอทะยาน
+We do not ___ any problems, but we have a backup plan just in case.|anticipate|assist|advocate|ameliorate|คาดการณ์ล่วงหน้า
+These flowers look real, but they are ___.|artificial|ambitious|aggressive|allergic|ของเทียม ประดิษฐ์ขึ้น
+A nurse will ___ the surgeon during the operation.|assist|assume|anticipate|aggravate|ช่วยเหลือ
+I really ___ your help when I moved house last month.|appreciated=appreciate|assume|aggravate|anticipate|ซาบซึ้ง เห็นคุณค่า
+Don't just ___ that he is guilty; wait for the evidence.|assume|assist|advocate|ameliorate|ทึกทักเอา สันนิษฐาน
+Jeans are not ___ clothing for a job interview.|appropriate|apparent|allergic|ambiguous|เหมาะสม
+`},
+{ name:'Review 3', rows:`
+More than two hundred people will ___ the wedding.|attend|attain|assure|clarify|เข้าร่วม
+She worked hard to ___ her goal of becoming a judge.|attain|attend|bribe|broadcast|บรรลุ ทำได้สำเร็จ
+The pilot ___ the passengers that there was no danger.|assured=assure|attract|attend|collaborate|รับรอง ยืนยันให้มั่นใจ
+Only the principal has the ___ to cancel classes.|authority|category|bribe|broadcast|อำนาจ
+The festival ___ thousands of tourists every year.|attracts=attract|attain|clarify|collaborate|ดึงดูด
+The ___ attack left the victim in hospital for weeks.|brutal|beneficial|boastful|certain|โหดร้าย ทารุณ
+He ___ a guard with cash to let him out of prison.|bribed=bribe|attend|clarify|broadcast|ติดสินบน
+The channel will ___ the final match live tonight.|broadcast|bribe|attain|collaborate|ออกอากาศ ถ่ายทอด
+A short walk after meals is ___ to your digestion.|beneficial|brutal|boastful|chronic|เป็นประโยชน์
+Nobody likes him because he is so ___ about his wealth.|boastful|brutal|beneficial|chronic|ขี้โอ่ โอ้อวด
+I am ___ that I locked the door before we left.|certain|chronic|brutal|beneficial|แน่ใจ
+The books are sorted into three ___: fiction, history and science.|categories=category|authority|bribe|broadcast|ประเภท หมวดหมู่
+Could you ___ what you mean by 'soon'?|clarify|collaborate|attend|attract|ทำให้กระจ่าง อธิบายให้ชัด
+He suffers from ___ back pain that never completely goes away.|chronic|boastful|beneficial|certain|เรื้อรัง
+The two universities will ___ on a new research project.|collaborate|clarify|attain|broadcast|ร่วมมือกันทำงาน
+`},
+{ name:'Review 4', rows:`
+Police say the robbery was ___ by two masked men.|committed=commit|confess|conserve|cooperate|ก่อ กระทำ (ความผิด)
+Workers went on strike to demand better working ___.|conditions=condition|consequence|commit|confess|สภาพ เงื่อนไข
+After hours of questioning, he finally ___ to the crime.|confessed=confess|conserve|criticize|concentrate|สารภาพ
+Turn off the TV; I can't ___ on my homework.|concentrate|confess|conserve|commit|ตั้งสมาธิ จดจ่อ
+In Thailand, wearing a helmet on a motorcycle is ___.|compulsory|confidential|contradictory|deliberate|เป็นข้อบังคับ
+Turn off the lights to ___ electricity.|conserve|commit|criticize|confess|อนุรักษ์ ประหยัด
+If you break the rules, you must accept the ___.|consequences=consequence|compulsory|cooperate|concentrate|ผลที่ตามมา
+This file is ___; do not show it to anyone outside the office.|confidential|compulsory|considerable|contradictory|เป็นความลับ
+The two witnesses gave ___ statements, so one of them must be lying.|contradictory|compulsory|considerable|crucial|ขัดแย้งกัน
+The storm caused ___ damage; repairs will cost millions.|considerable|compulsory|confidential|contradictory|มากพอสมควร
+The two companies agreed to ___ with each other on the project.|cooperate|concentrate|confess|conserve|ร่วมมือ
+The coach was ___ for choosing such an inexperienced team.|criticized=criticize|commit|conserve|cooperate|วิจารณ์ ตำหนิ
+Everyone was asked to ___ fifty baht towards the class party.|contribute|conserve|confess|criticize|สมทบ บริจาค
+The fire was not an accident; it was a ___ act.|deliberate|compulsory|confidential|considerable|โดยเจตนา จงใจ
+The next game is ___; if we lose it, we are out of the tournament.|crucial|deliberate|confidential|contradictory|สำคัญยิ่ง ชี้ขาด
+`},
+{ name:'Review 5', rows:`
+She decided to ___ her life to helping the poor.|devote|deserve|demolish|distribute|อุทิศ
+The earthquake was the worst natural ___ in the country's history.|disaster|diverse|economical|elaborate|ภัยพิบัติ
+After working so hard all year, she ___ a holiday.|deserves=deserve|devote|dominate|demonstrate|สมควรได้รับ
+The instructor will ___ how to use the fire extinguisher.|demonstrate|discriminate|dominate|deserve|สาธิต แสดงให้ดู
+The old cinema was ___ to make room for a car park.|demolished=demolish|devote|distribute|deserve|รื้อถอน ทำลาย
+Bangkok has a ___ population, with people from many cultures.|diverse|economical|disaster|elaborate|หลากหลาย
+It is illegal for a company to hire in a way that ___ against women.|discriminates=discriminate|dominate|demonstrate|eliminate|เลือกปฏิบัติ
+A few large companies ___ the smartphone market.|dominate|devote|embarrass|deserve|ครอบงำ มีอิทธิพลเหนือ
+A small car is more ___ because it uses less petrol.|economical|diverse|elaborate|disaster|ประหยัด
+Volunteers ___ food and blankets to the flood victims.|distributed=distribute|devote|demolish|emphasize|แจกจ่าย
+The bride wore an ___ dress covered in tiny pearls.|elaborate|diverse|disaster|eliminate|ประณีต ซับซ้อน
+Please don't ___ me by telling that story in front of my friends.|embarrass|emphasize|distribute|demonstrate|ทำให้อับอาย
+The driver ___ the lives of his passengers by speeding.|endangered=endanger|eliminate|embarrass|emphasize|ทำให้ตกอยู่ในอันตราย
+The teacher underlined the word to ___ its importance.|emphasize|embarrass|endanger|distribute|เน้นย้ำ
+The new vaccine may completely ___ the disease.|eliminate|emphasize|embarrass|deserve|กำจัดให้หมดไป
+`},
+{ name:'Review 6', rows:`
+One US dollar is roughly ___ to thirty-five baht.|equivalent|familiar|flexible|fatal|เทียบเท่า
+Teachers use tests to ___ their students' progress.|evaluate|exclude|exist|endure|ประเมิน
+We got lost several times, but ___ we found the hotel.|eventually|genuine|flexible|equivalent|ในที่สุด
+The prisoners ___ months of hunger and cold.|endured=endure|exist|establish|facilitate|อดทน ทนต่อ
+The two countries plan to ___ a joint research centre.|establish|exist|endure|exaggerate|ก่อตั้ง
+Some factories ___ poor workers by paying them very low wages.|exploit|evaluate|establish|exist|เอารัดเอาเปรียบ
+Don't ___! The fish you caught was not that big.|exaggerate|exist|evaluate|endure|พูดเกินจริง
+Children under twelve are ___ from the competition.|excluded=exclude|exist|exploit|evaluate|กันออก ไม่รวม
+The new bridge will ___ trade between the two towns.|facilitate|exaggerate|endure|exist|ทำให้สะดวกขึ้น
+Dinosaurs ___ on Earth millions of years ago.|existed=exist|establish|exclude|evaluate|มีอยู่ ดำรงอยู่
+The weather ___ became warmer as spring arrived.|gradually|genuine|fatal|familiar|ทีละน้อย ค่อย ๆ
+My working hours are ___, so I can start at any time before ten.|flexible|familiar|fatal|genuine|ยืดหยุ่น
+Your face looks ___; have we met before?|familiar|fatal|flexible|equivalent|คุ้นเคย
+Experts confirmed that the painting is ___, not a copy.|genuine|familiar|flexible|fatal|ของแท้
+The snake's bite can be ___ if it is not treated quickly.|fatal|familiar|flexible|genuine|ถึงตาย
+`},
+{ name:'Review 7', rows:`
+She ___ for a moment before knocking on the door.|hesitated=hesitate|illustrate|imply|interpret|ลังเล
+The twins are so ___ that even their mother confuses them.|identical|indifferent|initial|ironic|เหมือนกันทุกประการ
+Smoking is ___ to your health.|hazardous|grateful|indifferent|legible|เป็นอันตราย
+I am very ___ for all the help you gave me.|grateful|jealous|hazardous|identical|รู้สึกขอบคุณ
+The manager ___ him by shouting at him in front of the whole office.|humiliated=humiliate|hesitate|illustrate|indicate|ทำให้อับอายขายหน้า
+He seemed ___ to the suffering of others and never offered to help.|indifferent|identical|hazardous|grateful|เฉยเมย ไม่แยแส
+The teacher used a diagram to ___ how the heart works.|illustrate|hesitate|humiliate|imply|อธิบายด้วยภาพหรือตัวอย่าง
+I didn't mean to ___ that you were lying.|imply|hesitate|humiliate|interpret|บอกเป็นนัย
+My ___ reaction was anger, but later I understood why she did it.|initial|identical|legible|hazardous|แรกเริ่ม
+Dark clouds usually ___ that rain is coming.|indicate|hesitate|humiliate|interpret|บ่งชี้
+My brother is very ___ on football and never misses a match.|keen|jealous|grateful|indifferent|ชื่นชอบ กระตือรือร้น
+Please write clearly so that your answers are ___.|legible|ironic|jealous|initial|อ่านออก
+She felt ___ when her best friend won the prize instead of her.|jealous|legible|identical|initial|อิจฉา
+It is ___ that the fire station burned down.|ironic|legible|keen|grateful|น่าขัน ย้อนแย้ง
+She ___ his silence as a sign of agreement.|interpreted=interpret|indicate|imply|hesitate|ตีความ
+`},
+{ name:'Review 8', rows:`
+The tailor ___ my arms before making the jacket.|measured=measure|mention|notify|nominate|วัด
+This factory will ___ electric cars from next year.|manufacture|negotiate|notify|motivate|ผลิต
+It is ___ to rain this afternoon, so take an umbrella.|likely|logical|neutral|mental|มีแนวโน้ม น่าจะ
+It is expensive to ___ such an old house in good condition.|maintain|manufacture|mention|nominate|บำรุงรักษา
+There must be a ___ explanation for the missing money.|logical|mental|neutral|measure|มีเหตุผล
+A good coach knows how to ___ players to do their best.|motivate|notify|mention|manufacture|กระตุ้น จูงใจ
+Switzerland stayed ___ and did not join either side in the war.|neutral|mental|logical|likely|เป็นกลาง
+The union will ___ with the company for higher pay.|negotiate|notify|nominate|maintain|เจรจาต่อรอง
+Stress can affect both your physical and ___ health.|mental|neutral|logical|likely|ทางจิตใจ
+As I ___ earlier, the meeting has been moved to Friday.|mentioned=mention|measure|notify|nominate|กล่าวถึง
+Lack of money is the main ___ to finishing the project.|obstacle|obligation|measure|manufacture|อุปสรรค
+Winners will be ___ by email within a week.|notified=notify|negotiate|manufacture|maintain|แจ้งให้ทราบ
+The film was ___ for five awards.|nominated=nominate|notify|negotiate|motivate|เสนอชื่อเข้าชิง
+Parents have a legal ___ to send their children to school.|obligation|obstacle|measure|mention|หน้าที่ ข้อผูกมัด
+She succeeded in ___ a visa after waiting for two months.|obtaining=obtain|maintain|measure|mention|ได้รับ ได้มา
+`},
+{ name:'Review 9', rows:`
+It was ___ from her smile that she had passed the test.|obvious|permanent|practical|prosperous|เห็นได้ชัด
+After a year as a temporary worker, he was offered a ___ job.|permanent|obvious|prosperous|principle|ถาวร
+You need special training to ___ this machine.|operate|occur|persuade|recover|ควบคุม ใช้งาน
+Most road accidents ___ at night.|occur|operate|persuade|prohibit|เกิดขึ้น
+The band's ___ last night was the best I have ever seen.|performance|principle|qualification|practical|การแสดง
+The course gives students ___ experience as well as theory.|practical|permanent|prosperous|obvious|เชิงปฏิบัติ ใช้ได้จริง
+Taking photographs inside the temple is strictly ___.|prohibited=prohibit|preserve|persuade|recover|ห้าม
+The old wooden house has been carefully ___ as a museum.|preserved=preserve|prohibit|persuade|reduce|อนุรักษ์ เก็บรักษา
+He refused the money as a matter of ___.|principle|performance|qualification|practical|หลักการ
+I tried to ___ him to see a doctor, but he refused.|persuade|prohibit|preserve|operate|เกลี้ยกล่อม โน้มน้าว
+She has fully ___ from her illness and is back at work.|recovered=recover|reduce|operate|occur|หายป่วย ฟื้นตัว
+You can't climb the mountain without ___ equipment.|proper|prosperous|obvious|permanent|เหมาะสม ถูกต้อง
+The government wants to ___ air pollution by half.|reduce|recover|persuade|occur|ลด
+The town became ___ after gold was discovered nearby.|prosperous|practical|proper|permanent|มั่งคั่ง รุ่งเรือง
+What ___ do you need to become a pilot?|qualifications=qualification|performance|practical|permanent|คุณสมบัติ วุฒิ
+`},
+{ name:'Review 10', rows:`
+Lower taxes may ___ the economy by encouraging people to spend.|stimulate|substitute|tolerate|verify|กระตุ้น
+The magician refused to ___ how the trick was done.|reveal|represent|tolerate|substitute|เปิดเผย
+He was ___ to speak in public because he was so shy.|reluctant|relevant|visible|temporary|ไม่เต็มใจ
+She ___ Thailand at the Olympic Games.|represented=represent|reveal|stimulate|verify|เป็นตัวแทน
+Please include only information that is ___ to the topic.|relevant|reluctant|willing|tremendous|เกี่ยวข้อง
+I can't ___ people who are rude to waiters.|tolerate|stimulate|substitute|verify|อดทน ยอมรับได้
+You can ___ honey for sugar in this recipe.|substitute|stimulate|tolerate|represent|ใช้แทน
+This is only a ___ repair; the mechanic will fix it properly tomorrow.|temporary|tremendous|willing|reluctant|ชั่วคราว
+We don't have ___ food for twenty guests; we need to buy more.|sufficient|temporary|visible|reluctant|เพียงพอ
+Fever and a cough are common ___ of the flu.|symptoms=symptom|substitute|vital|temporary|อาการ
+The mountain is ___ from my window on a clear day.|visible|vital|willing|relevant|มองเห็นได้
+The bank called to ___ my address and date of birth.|verify|tolerate|stimulate|substitute|ตรวจสอบยืนยัน
+Is anyone ___ to help me carry these boxes?|willing|visible|vital|temporary|เต็มใจ
+The concert was a ___ success; every ticket was sold.|tremendous|sufficient|visible|reluctant|ยิ่งใหญ่ มหาศาล
+Water is ___ for all living things.|vital|visible|willing|temporary|จำเป็นยิ่ง สำคัญต่อชีวิต
+`}
+]},
+
+{ id:'odd', title:'Odd One Out', kind:'odd', units:[
+{ name:'Test 1', rows:`
+generous|huge|enormous|immense|ใหญ่โต มหึมา
+forbid|allow|permit|authorize|อนุญาต
+ancient|quick|rapid|swift|รวดเร็ว
+purchase|begin|commence|initiate|เริ่มต้น
+polite|brave|courageous|fearless|กล้าหาญ
+borrow|help|assist|aid|ช่วยเหลือ
+narrow|wealthy|affluent|prosperous|ร่ำรวย
+delay|predict|forecast|foresee|ทำนาย คาดการณ์
+cheerful|angry|furious|enraged|โกรธ
+shrink|increase|expand|enlarge|เพิ่ม ขยาย
+honest|strange|odd|peculiar|แปลก
+reward|danger|hazard|peril|อันตราย
+gather|destroy|demolish|ruin|ทำลาย
+humble|famous|renowned|celebrated|มีชื่อเสียง
+wander|answer|reply|respond|ตอบ
+shallow|necessary|essential|vital|จำเป็น
+praise|hide|conceal|cover up|ซ่อน ปกปิด
+curious|tired|exhausted|weary|เหนื่อยล้า
+repair|choose|select|pick|เลือก
+distant|careful|cautious|prudent|ระมัดระวัง
+obey|hate|detest|loathe|เกลียด
+reject|get|obtain|acquire|ได้รับ ได้มา
+smooth|clear|obvious|evident|ชัดเจน
+lazy|eager|keen|enthusiastic|กระตือรือร้น
+expensive|empty|vacant|unoccupied|ว่างเปล่า
+`},
+{ name:'Test 2', rows:`
+harvest|show|display|exhibit|แสดง
+calm|stubborn|obstinate|headstrong|ดื้อรั้น
+ordinary|deadly|fatal|lethal|ถึงตาย
+hesitate|imitate|copy|mimic|เลียนแบบ
+scatter|stop|cease|halt|หยุด
+visible|rare|scarce|uncommon|หายาก ขาดแคลน
+accuse|force|compel|oblige|บังคับ
+modern|old-fashioned|outdated|obsolete|ล้าสมัย
+loyal|unclear|vague|ambiguous|คลุมเครือ
+punish|ask|inquire|query|ถาม สอบถาม
+noisy|real|genuine|authentic|แท้ จริง
+waste|protect|defend|guard|ปกป้อง
+bitter|complicated|complex|intricate|ซับซ้อน
+arrive|leave|depart|exit|ออกไป จากไป
+recall|persuade|convince|induce|โน้มน้าว ชักจูง
+timid|sudden|abrupt|unexpected|กะทันหัน
+conceal|reveal|disclose|expose|เปิดเผย
+grateful|whole|entire|complete|ทั้งหมด
+measure|hinder|obstruct|impede|ขัดขวาง
+permanent|possible|feasible|achievable|เป็นไปได้
+invent|announce|declare|proclaim|ประกาศ
+plentiful|cruel|brutal|savage|โหดร้าย
+confess|argue|quarrel|dispute|โต้เถียง
+fertile|exact|precise|accurate|แม่นยำ
+decline|speed up|accelerate|hasten|เร่งให้เร็วขึ้น
+`},
+{ name:'Test 3', rows:`
+ignore|notice|observe|perceive|สังเกตเห็น
+costly|kind|compassionate|caring|ใจดี เห็นอกเห็นใจ
+applaud|criticize|condemn|denounce|ตำหนิ ประณาม
+flexible|important|significant|crucial|สำคัญ
+combine|separate|divide|split|แยก แบ่ง
+fortunate|sad|sorrowful|miserable|เศร้า
+construct|consider|contemplate|ponder|พิจารณา ใคร่ครวญ
+sturdy|dirty|filthy|unclean|สกปรก
+surrender|win|triumph|prevail|ชนะ
+artificial|smart|intelligent|clever|ฉลาด
+respect|scare|frighten|terrify|ทำให้กลัว
+tiny|sufficient|adequate|enough|เพียงพอ
+encourage|ban|prohibit|forbid|ห้าม
+accurate|temporary|brief|momentary|ชั่วคราว ชั่วครู่
+interrupt|improve|enhance|upgrade|ปรับปรุงให้ดีขึ้น
+reluctant|beautiful|gorgeous|attractive|สวยงาม
+collect|explain|clarify|elucidate|อธิบายให้กระจ่าง
+generous|result|outcome|consequence|ผลลัพธ์
+remain|change|alter|modify|เปลี่ยนแปลง
+public|secret|confidential|classified|เป็นความลับ
+lend|finish|complete|conclude|ทำให้เสร็จ สิ้นสุด
+rough|friendly|amiable|sociable|เป็นมิตร
+remember|guess|suppose|presume|เดา สันนิษฐาน
+solid|opponent|rival|competitor|คู่แข่ง
+escape|trap|capture|seize|จับ ยึด
+`},
+{ name:'Test 4', rows:`
+approve|refuse|reject|decline|ปฏิเสธ
+casual|strict|rigid|stern|เข้มงวด
+donate|rob|steal|loot|ปล้น ขโมย
+frequent|lucky|fortunate|blessed|โชคดี
+simplify|worsen|aggravate|exacerbate|ทำให้แย่ลง
+vacant|crowded|packed|congested|แออัด
+doubt|believe|trust|rely on|เชื่อ ไว้วางใจ
+bold|shy|timid|bashful|ขี้อาย
+ordinary|amazing|astonishing|incredible|น่าทึ่ง
+release|keep|retain|preserve|เก็บรักษาไว้
+graceful|awkward|clumsy|inept|งุ่มง่าม
+assemble|vanish|disappear|fade away|หายไป
+profit|shortage|lack|deficiency|การขาดแคลน
+rural|urgent|pressing|immediate|เร่งด่วน
+soothe|irritate|annoy|bother|รบกวน ทำให้รำคาญ
+inferior|main|principal|primary|หลัก สำคัญที่สุด
+neglect|supervise|oversee|monitor|ควบคุมดูแล
+transparent|dull|boring|tedious|น่าเบื่อ
+mature|childish|immature|juvenile|ไม่เป็นผู้ใหญ่
+withdraw|take part|participate|join in|เข้าร่วม
+sincere|fake|false|counterfeit|ปลอม
+reckless|sensible|reasonable|rational|มีเหตุผล
+diminish|widen|broaden|extend|ขยายให้กว้างขึ้น
+tranquil|chaotic|disorderly|messy|วุ่นวาย ไม่เป็นระเบียบ
+conceal|highlight|emphasize|stress|เน้น
+`}
+]},
+
+{ id:'syn', title:'Synonym', kind:'syn', units:[
+{ name:'Test 1', rows:`
+Email has become the most common [means] of communication in offices.|method|result|stage|purpose|วิธีการ
+Sales rose [markedly] after the new advertisement appeared.|significantly|slowly|secretly|rarely|อย่างเห็นได้ชัด
+Clean water is a [precious] resource in the desert.|valuable|common|heavy|dangerous|มีค่า
+The mountain top is covered in [perpetual] snow.|permanent|light|fresh|occasional|ตลอดกาล ถาวร
+The two teams competed [intensely] for the trophy.|strongly|lazily|briefly|politely|อย่างเข้มข้น
+The teacher looked [puzzled] by the student's strange answer.|confused|pleased|bored|offended|งุนงง
+Two passengers were [seriously] injured in the crash.|gravely|slightly|rarely|luckily|อย่างรุนแรง สาหัส
+Spread the butter [evenly] over the bread.|equally|quickly|thickly|carelessly|อย่างสม่ำเสมอ เท่า ๆ กัน
+The weather forecast was [accurate]; it rained all afternoon.|correct|outdated|common|doubtful|ถูกต้อง แม่นยำ
+The machine [detected] a small crack in the pipe.|discovered|repaired|caused|ignored|ตรวจพบ
+There were [chips] of paint all over the floor.|fragments|layers|cans|brushes|เศษ ชิ้นเล็ก ๆ
+The author [revised] the final chapter before publication.|changed|repeated|deleted|translated|แก้ไข ปรับปรุง
+The new tax law caused great [controversy] across the country.|dispute|celebration|poverty|progress|ข้อโต้แย้ง
+The course is divided into six [discrete] units.|separate|difficult|similar|short|แยกจากกัน
+She [augmented] her income by teaching at weekends.|supplemented|reduced|spent|reported|เพิ่ม เสริม
+Several [physicians] examined the patient but found nothing wrong.|doctors|lawyers|engineers|officers|แพทย์
+The region has [abundant] rainfall throughout the year.|plentiful|limited|unusual|seasonal|อุดมสมบูรณ์ มากมาย
+The artist is famous for her [vivid] colours.|bright|pale|simple|dark|สดใส
+This field is the [site] of a famous battle.|location|result|cause|memory|สถานที่ ที่ตั้ง
+There is [widespread] support for the new park.|extensive|limited|official|secret|แพร่หลาย
+We are [getting rid of] our old furniture this weekend.|disposing of|repairing|collecting|painting|กำจัด ทิ้ง
+The meaning of the poem remains [obscure] to most readers.|unclear|familiar|simple|important|คลุมเครือ ไม่ชัดเจน
+His rude comments were meant to [provoke] an argument.|cause|avoid|end|win|ยั่วยุ ก่อให้เกิด
+The airline will [compensate] passengers for lost luggage.|reimburse|charge|blame|thank|ชดเชย
+There was [insufficient] evidence to arrest him.|inadequate|clear|fresh|false|ไม่เพียงพอ
+`},
+{ name:'Test 2', rows:`
+Many companies have decided to [adopt] a four-day working week.|accept|reject|delay|study|รับมาใช้
+The sad ending made the whole audience [weep].|cry|laugh|clap|leave|ร้องไห้
+Be careful with those [delicate] glasses.|fragile|expensive|heavy|dirty|บอบบาง แตกง่าย
+Farmers sold their [surplus] rice to neighbouring countries.|extra|rotten|cheap|local|ส่วนเกิน
+My phone is [constantly] ringing during meetings.|continuously|rarely|quietly|suddenly|อย่างต่อเนื่อง ตลอดเวลา
+Her health [gradually] improved over the summer.|slowly|suddenly|hardly|fortunately|ทีละน้อย
+A [troublesome] cough kept him awake all night.|annoying|mild|silent|rare|น่ารำคาญ ก่อปัญหา
+Without my glasses, everything looks [blurred].|indistinct|bright|tiny|colourful|พร่ามัว
+The exam was [fairly] easy, so most students passed.|quite|hardly|unfairly|strangely|ค่อนข้าง
+You can't [fool] me with that old trick.|deceive|amuse|hurt|teach|หลอกลวง
+The trip will take [roughly] three hours.|approximately|exactly|only|usually|ประมาณ
+Mozart [composed] this piece when he was a child.|wrote|performed|recorded|heard|แต่ง ประพันธ์
+This new material has many [applications] in medicine.|uses|problems|costs|dangers|การนำไปใช้
+Prices [vary] from shop to shop.|differ|rise|fall|remain|แตกต่างกัน
+The new engine is far more [efficient] than the old one.|effective|expensive|noisy|complicated|มีประสิทธิภาพ
+Any driver whose speed [exceeds] the limit will be fined.|surpasses|reaches|follows|ignores|เกิน มากกว่า
+Fast-food restaurants continue to [proliferate] in big cities.|multiply|close|compete|struggle|เพิ่มจำนวนอย่างรวดเร็ว
+It is hard to [keep] a steady speed on this road.|maintain|reach|reduce|measure|รักษาไว้
+Make sure the door is [properly] closed.|correctly|quietly|quickly|already|อย่างถูกต้อง เหมาะสม
+She was filled with [grief] when her grandfather died.|sorrow|anger|fear|guilt|ความเศร้าโศก
+He has helped [countless] people during his career.|innumerable|several|certain|ordinary|นับไม่ถ้วน
+The other children began to [ostracize] the new boy.|exclude|welcome|tease|follow|กีดกัน ไม่คบหา
+The report [synthesized] findings from twenty studies.|integrated|criticized|ignored|published|สังเคราะห์ ผสมผสาน
+The furniture was chosen to [fit] the style of the house.|suit|change|hide|copy|เหมาะกับ เข้ากับ
+Never leave your bags [unattended] at the airport.|unguarded|unpacked|unlocked|unweighed|ไม่มีคนดูแล
+`},
+{ name:'Test 3', rows:`
+The school will [furnish] each student with a tablet.|supply|reward|trust|test|จัดหาให้
+The meeting covered several important [issues].|matters|decisions|members|documents|ประเด็น
+She is [recognized] as the best surgeon in the country.|acknowledged|trained|employed|described|เป็นที่ยอมรับ
+The price of oil is [constantly] changing.|continually|slightly|rarely|suddenly|อย่างต่อเนื่อง
+It takes [perseverance] to finish a marathon.|persistence|talent|luck|money|ความพากเพียร
+The medicine will [hasten] your recovery.|accelerate|delay|allow|prevent|เร่งให้เร็วขึ้น
+He enjoys long, [solitary] walks by the sea.|lone|tiring|daily|romantic|โดดเดี่ยว ตามลำพัง
+The soldiers exchanged [salutes] as the general passed.|greetings|weapons|messages|orders|การทำความเคารพ
+Please answer the question [concisely].|briefly|politely|honestly|loudly|อย่างกระชับ
+The [advent] of the internet changed the way we shop.|arrival|cost|speed|failure|การมาถึง
+Blood donors are [urgently] needed after the earthquake.|immediately|rarely|normally|no longer|อย่างเร่งด่วน
+The plan was [flawed] from the very beginning.|imperfect|secret|ambitious|simple|มีข้อบกพร่อง
+The singer was at the [zenith] of her career in 2010.|peak|start|end|middle|จุดสูงสุด
+I am not [accustomed to] such cold weather.|used to|afraid of|fond of|tired of|คุ้นเคยกับ
+Seats are [limited], so please book early.|restricted|free|comfortable|numbered|จำกัด
+This small [device] measures your heart rate.|gadget|nurse|pill|chart|อุปกรณ์
+The jacket is made of [synthetic] fibres.|artificial|natural|soft|colourful|สังเคราะห์
+Climbing the mountain was an [arduous] task.|difficult|enjoyable|ordinary|pointless|ยากลำบาก
+Rescuers used dogs to [locate] the missing hikers.|find|feed|warn|carry|ค้นหาตำแหน่ง หาเจอ
+She won a prize for her [pioneering] research on vaccines.|innovative|expensive|lengthy|controversial|บุกเบิก ริเริ่ม
+The cost of the project was [grossly] underestimated.|greatly|slightly|wisely|deliberately|อย่างมาก
+Land ownership is a major source of [contention] in the village.|disagreement|income|pride|employment|ความขัดแย้ง ข้อโต้เถียง
+Can you [spot] the difference between the two pictures?|notice|explain|draw|ignore|มองเห็น สังเกตเห็น
+Rice has been [cultivated] here for thousands of years.|grown|eaten|sold|stored|เพาะปลูก
+He was [reluctant] to lend me his new car.|unwilling|happy|quick|proud|ไม่เต็มใจ
+`},
+{ name:'Test 4', rows:`
+Money is a common cause of [discord] in families.|conflict|happiness|poverty|change|ความไม่ลงรอยกัน
+The kitchen smelled [pungently] of garlic and onions.|strongly|faintly|sweetly|pleasantly|อย่างฉุน แรง
+I have only a [rudimentary] knowledge of Japanese.|basic|perfect|useful|recent|ขั้นพื้นฐาน
+The survey [revealed] that most teenagers sleep too little.|showed|denied|doubted|required|เปิดเผย แสดงให้เห็น
+The battery is the most expensive [component] of an electric car.|part|problem|colour|brand|ส่วนประกอบ
+[Dehydrated] fruit keeps for months without a fridge.|dried|frozen|fresh|organic|ที่เอาน้ำออก ทำให้แห้ง
+All [attempts] to save the old bridge failed.|efforts|requests|promises|orders|ความพยายาม
+The shop is [luring] customers with huge discounts.|attracting|cheating|losing|serving|ล่อ ดึงดูด
+Praise helps to build a child's [self-esteem].|self-respect|vocabulary|memory|strength|ความภูมิใจในตนเอง
+The hospital received a gift from an [anonymous] donor.|unnamed|generous|foreign|wealthy|ไม่เปิดเผยชื่อ
+He invested [lucratively] in property.|profitably|carelessly|secretly|briefly|อย่างได้กำไรดี
+Police are trying to [ascertain] the cause of the fire.|determine|hide|report|remove|สืบให้แน่ชัด
+The tiger is an [endangered] animal.|threatened|dangerous|wild|striped|ใกล้สูญพันธุ์ ตกอยู่ในอันตราย
+We received many [inquiries] about the job.|questions|complaints|applications|rumours|การสอบถาม
+The hotel failed to meet safety [standards].|criteria|officers|signs|drills|มาตรฐาน
+He is a [disagreeable] man who complains about everything.|unpleasant|unlucky|unusual|unhealthy|ไม่น่าคบ ไม่น่าพอใจ
+The castle is the [setting] of the novel.|location|author|ending|hero|ฉาก สถานที่เกิดเรื่อง
+His shirt was [stained] with coffee.|soiled|ironed|torn|folded|เปื้อน
+The lab needs new [equipment] for the experiment.|apparatus|scientists|results|permission|อุปกรณ์
+We can change the schedule to [suit] your needs.|fit|ignore|test|delay|เหมาะกับ
+The dentist had to [extract] two teeth.|remove|clean|fill|examine|ดึงออก ถอน
+The flood was a [catastrophe] for local farmers.|disaster|surprise|lesson|chance|ภัยพิบัติ
+Students are judged on their [conduct] as well as their grades.|behaviour|speech|health|income|ความประพฤติ
+The fire caused [incalculable] damage to the museum.|immeasurable|minor|visible|temporary|ประเมินค่าไม่ได้
+She [reluctantly] agreed to work on Sunday.|unwillingly|eagerly|quickly|finally|อย่างไม่เต็มใจ
+`},
+{ name:'Test 5', rows:`
+We spent the evening in a [cozy] little café.|comfortable|crowded|bright|cheap|อบอุ่นสบาย
+Experts are still [deciphering] the ancient writing.|decoding|copying|destroying|collecting|ถอดรหัส
+The [velocity] of the wind reached 120 kilometres an hour.|speed|direction|sound|temperature|ความเร็ว
+Calling him a genius is an [exaggeration].|overstatement|insult|mistake|compliment|การพูดเกินจริง
+Green is the [predominant] colour in her paintings.|main|missing|weakest|newest|เด่น เป็นหลัก
+Mix the flour and sugar in equal [proportions].|amounts|bowls|steps|temperatures|สัดส่วน ปริมาณ
+The bridge was [deemed] unsafe and closed.|considered|built|left|kept|ถือว่า เห็นว่า
+The decision [ultimately] rests with the manager.|finally|partly|probably|rarely|ในที่สุด ท้ายที่สุด
+There was a [sharp] rise in prices last month.|sudden|slight|slow|welcome|ฉับพลัน รวดเร็ว
+Your age will be [taken into account] when we set the price.|considered|forgotten|printed|doubled|นำมาพิจารณา
+After the operation, he needed months of [rehabilitation].|recovery|surgery|payment|waiting|การฟื้นฟู
+The difference in price is [negligible].|minimal|huge|unfair|obvious|น้อยมากจนไม่สำคัญ
+The hotel has a [spectacular] view of the bay.|impressive|partial|distant|ordinary|น่าตื่นตา
+Malaria is [endemic] in many tropical regions.|prevalent|unknown|curable|declining|พบทั่วไปในท้องถิ่น
+The airline only operates [domestic] flights.|internal|overseas|cheap|direct|ภายในประเทศ
+It is a [paradox] that the richest countries have the most lonely people.|contradiction|pity|fact|rumour|ความขัดแย้งในตัวเอง
+Banks have become more [circumspect] about lending money.|cautious|generous|relaxed|open|รอบคอบ
+Paying online will [expedite] your order.|speed up|cancel|confirm|slow down|เร่งให้เร็วขึ้น
+He said he was [coerced] into signing the contract.|forced|invited|paid|advised|ถูกบังคับ
+Factory workers must wear masks when handling [hazardous] chemicals.|dangerous|expensive|imported|liquid|อันตราย
+I felt [compelled] to tell her the truth.|obliged|afraid|unable|happy|ถูกบีบให้ต้องทำ
+Many employees [resent] having to work overtime without pay.|dislike|enjoy|avoid|accept|ไม่พอใจ ขุ่นเคือง
+Tourism is the island's main source of [revenue].|income|pollution|employment|pride|รายได้
+The long [struggle] for independence ended in 1950.|fight|wait|search|vote|การต่อสู้ดิ้นรน
+The government hopes to [eradicate] the disease within ten years.|eliminate|study|treat|detect|กำจัดให้หมดไป
+`},
+{ name:'Test 6', rows:`
+The number of visitors [declined] during the rainy season.|decreased|doubled|recovered|remained|ลดลง
+Investors want political [stability] before they build factories.|steadiness|change|power|debate|ความมั่นคง เสถียรภาพ
+His reply was so [ambiguous] that nobody knew what he wanted.|unclear|rude|brief|honest|กำกวม
+She faced her illness with great [dignity].|honour|fear|anger|humour|ศักดิ์ศรี
+The match will [resume] after the rain stops.|restart|end|move|be shown|เริ่มใหม่อีกครั้ง
+Old age brings many physical [debilities].|weaknesses|rewards|habits|changes|ความอ่อนแอ
+Share prices have been extremely [volatile] this year.|unstable|low|attractive|predictable|ผันผวน ไม่แน่นอน
+Building a tunnel under the river is not [feasible].|possible|legal|cheap|popular|เป็นไปได้
+Lack of sleep is [detrimental] to your health.|harmful|essential|related|unknown|เป็นผลเสีย
+Your name was left off the list because of an [oversight].|mistake|argument|rule|delay|ความผิดพลาดจากการมองข้าม
+She received a [substantial] pay rise.|considerable|small|sudden|fair|มาก พอสมควร
+Smartphones have made many cameras [obsolete].|outdated|cheaper|popular|smaller|ล้าสมัย
+We were [appalled] by the dirty conditions in the kitchen.|shocked|amused|bored|impressed|ตกใจ รับไม่ได้
+Loud music can [impair] your hearing.|damage|test|improve|protect|ทำให้เสื่อม ทำให้เสียหาย
+The school decided to [abolish] Saturday classes.|cancel|extend|shorten|start|ยกเลิก
+She had to [surmount] many difficulties to become a pilot.|overcome|avoid|create|describe|เอาชนะ ฝ่าฟัน
+Parking here is a [violation] of the law.|breach|part|result|example|การฝ่าฝืน
+Young voters are often described as [apathetic] about politics.|uninterested|angry|optimistic|well-informed|เฉยเมย ไม่สนใจ
+Some people have a [predisposition] to heart disease.|tendency|cure|resistance|objection|แนวโน้มที่จะเป็น
+The teacher will not [tolerate] cheating in exams.|allow|notice|punish|forget|ยอมให้ ทนต่อ
+This year's sales [surpassed] all expectations.|exceeded|met|lowered|ignored|เกินกว่า เหนือกว่า
+The trick only works on [credulous] people.|gullible|wealthy|elderly|careless|เชื่อคนง่าย
+The wall was built to [withstand] strong earthquakes.|resist|cause|measure|predict|ทนทานต่อ
+Scientists have made several [breakthroughs] in cancer treatment.|advances|mistakes|promises|requests|ความก้าวหน้าครั้งสำคัญ
+He always [procrastinates] when he has homework to do.|delays|complains|hurries|cheats|ผัดวันประกันพรุ่ง
+`}
+]},
+
+{ id:'context', title:'Meaning in Context', kind:'context', units:[
+{ name:'Test 1', rows:`
+The new manager wants to ___ the old system and replace it with a modern one.|abolish|admire|inherit|borrow|ยกเลิก
+Because of the heavy fog, all flights were ___ until the next morning.|postponed|purchased|permitted|praised|เลื่อนออกไป
+The witness gave a detailed ___ of what she had seen.|description|decoration|destination|donation|คำบรรยาย
+He is so ___ that he gave half of his salary to the orphanage.|generous|jealous|nervous|cautious|ใจกว้าง
+Water ___ at 100 degrees Celsius at sea level.|boils|freezes|melts|leaks|เดือด
+The company offers health insurance and other ___ to its staff.|benefits|burdens|barriers|blames|สวัสดิการ ผลประโยชน์
+You need a visa; ___, you will not be allowed to enter the country.|otherwise|therefore|moreover|meanwhile|มิฉะนั้น
+The doctor ___ some medicine to reduce the pain.|prescribed|described|subscribed|inscribed|สั่งยา
+The bridge collapsed because it was built with ___ materials.|inferior|interior|superior|anterior|ด้อยคุณภาพ
+Children should be ___ to read for pleasure from an early age.|encouraged|endangered|enclosed|encountered|ส่งเสริม สนับสนุน
+The museum has a rare ___ of ancient coins.|collection|correction|connection|conclusion|ชุดของสะสม
+After the long drought, the farmers were ___ for rain.|desperate|delicate|deliberate|decorative|ต้องการอย่างยิ่ง
+Please ___ your seat belt before the plane takes off.|fasten|flatten|frighten|freshen|รัด คาด
+The thief managed to ___ through an open window.|escape|explore|expand|expire|หนี
+Smoking is strictly ___ inside the hospital.|prohibited|provided|promoted|produced|ห้าม
+The two countries signed a peace ___ after years of war.|treaty|treatment|tragedy|trophy|สนธิสัญญา
+Her explanation was so ___ that everyone understood immediately.|clear|vague|lengthy|bitter|ชัดเจน
+The price of petrol tends to ___ depending on world events.|fluctuate|circulate|graduate|evaporate|ขึ้นลง ผันผวน
+He apologized ___ for breaking the vase.|sincerely|severely|scarcely|sharply|อย่างจริงใจ
+This area is ___ to flooding during the rainy season.|prone|proud|prior|prompt|มีแนวโน้มที่จะเกิด
+The scientist carried out an ___ to test her theory.|experiment|experience|expense|expression|การทดลอง
+We must find a ___ to this problem before it gets worse.|solution|pollution|position|permission|ทางแก้ไข
+The audience burst into ___ when the singer appeared.|applause|appliance|apology|appetite|เสียงปรบมือ
+The old building was ___ into a modern library.|converted|convinced|conveyed|convicted|ดัดแปลง เปลี่ยน
+It is ___ to wear a helmet when riding a motorcycle.|compulsory|complimentary|contemporary|contradictory|เป็นข้อบังคับ
+`},
+{ name:'Test 2', rows:`
+The teacher asked us to ___ the main points of the article in fifty words.|summarize|apologize|hypnotize|sympathize|สรุป
+Regular exercise can ___ the risk of heart disease.|reduce|produce|introduce|deduce|ลด
+The hotel is ___ located near the airport and the train station.|conveniently|confidently|consciously|continuously|อย่างสะดวก
+He was ___ from school for fighting.|expelled|excelled|exported|exhaled|ไล่ออก
+The factory was fined for ___ the river with chemicals.|polluting|populating|polishing|postponing|ทำให้ปนเปื้อน
+She has a strong ___ to become a doctor.|ambition|ambulance|admission|addition|ความใฝ่ฝัน
+The results of the survey were ___; nobody expected them.|surprising|boring|typical|predictable|น่าประหลาดใจ
+The jury found him ___ of all charges, and he walked free.|innocent|guilty|ignorant|absent|บริสุทธิ์ ไม่มีความผิด
+Many wild animals are losing their natural ___ because of deforestation.|habitat|habit|harvest|heritage|ถิ่นที่อยู่
+I can't ___ to buy a new car on my salary.|afford|affect|attend|adjust|มีเงินพอจะซื้อ
+The medicine should be kept out of ___ of children.|reach|speed|order|shape|ระยะเอื้อมถึง
+The manager ___ the meeting because several members were ill.|cancelled|concealed|consulted|compared|ยกเลิก
+Thailand ___ large quantities of rice to other countries.|exports|expects|explains|exposes|ส่งออก
+She felt ___ when she forgot her lines on stage.|embarrassed|encouraged|entertained|enlightened|อับอาย
+The government plans to ___ taxes on luxury goods.|raise|rise|arise|arouse|ขึ้น เพิ่ม
+There is a ___ of clean drinking water in the village.|shortage|shortcut|shelter|shadow|การขาดแคลน
+His ___ to detail makes him an excellent editor.|attention|intention|invention|attraction|ความใส่ใจ
+The storm caused ___ damage to the coastal towns.|severe|sincere|secure|serene|รุนแรง
+You should ___ a doctor if the pain continues.|consult|insult|result|assault|ปรึกษา
+The company will ___ fifty new workers next month.|hire|hike|heal|hide|จ้าง
+The speaker's voice was barely ___ at the back of the hall.|audible|edible|flexible|eligible|ได้ยิน
+The children were ___ by the clown's funny tricks.|amused|accused|abused|refused|ขบขัน สนุกสนาน
+Solar power is a clean and ___ source of energy.|renewable|removable|regrettable|returnable|หมุนเวียน ใช้ได้ไม่หมด
+He ___ his success to hard work and a little luck.|attributes|contributes|distributes|substitutes|ยกให้เป็นผลมาจาก
+The road is closed ___ further notice.|until|unless|although|despite|จนกว่า
+`}
+]},
+
+{ id:'cloze', title:'Cloze Passage', kind:'passage', units:[
+{ name:'Passage 1', text:`Sleep is one of the most important {1} for good health. While we sleep, the body {2} damaged cells and the brain stores new memories. Adults {3} need between seven and nine hours a night, but many people get far less. A {4} of sleep makes it harder to concentrate and can {5} the risk of accidents. Over time, it may also {6} the immune system, so that we catch colds more easily. Experts {7} going to bed at the same time every night and avoiding bright screens for an hour {8}. A cool, dark and quiet bedroom also {9} a big difference. If you still cannot sleep after trying these {10}, it is wise to see a doctor.`, rows:`
+requirements|punishments|entertainments|arguments
+repairs|reports|rejects|reminds
+generally|hardly|suddenly|formerly
+lack|lot|kind|piece
+increase|improve|invent|inspect
+weaken|widen|whiten|warn
+recommend|refuse|regret|recall
+beforehand|afterwards|meanwhile|nowadays
+makes|does|takes|gets
+methods|medicines|mistakes|messages
+`},
+{ name:'Passage 2', text:`Coral reefs are often called the rainforests of the sea because they {1} such a wide variety of life. Although they cover less than one percent of the ocean floor, they are {2} to about a quarter of all sea creatures. Reefs also {3} coasts from storms and provide food and jobs for millions of people. However, they are extremely {4} to changes in temperature. When the water becomes too warm, corals {5} the tiny plants living inside them and turn white. If the heat {6} for several weeks, the corals may die. Pollution and careless fishing {7} further damage. Scientists are now growing young corals in special nurseries and {8} them to damaged reefs. Such projects are {9}, but most experts agree that reefs will only {10} if the oceans stop getting warmer.`, rows:`
+support|suspect|surround|suppose
+home|house|place|room
+protect|prevent|predict|produce
+sensitive|sensible|senseless|sensational
+expel|invite|taste|count
+continues|contains|controls|contacts
+cause|suffer|receive|cure
+transplanting|translating|transmitting|transforming
+promising|promised|punishing|puzzling
+survive|supply|surrender|surprise
+`},
+{ name:'Passage 3', text:`In many cities around the world, the bicycle is making a {1}. Local governments, worried about traffic jams and dirty air, are {2} people to leave their cars at home. They have built separate lanes where cyclists can ride {3} away from buses and trucks. Bike-sharing schemes allow anyone to {4} a bicycle for a few minutes or a whole day at a low {5}. The benefits are easy to see. Cycling produces no {6}, takes up little space and keeps riders fit. Shops along bike lanes often {7} that their sales go up, since cyclists stop more easily than drivers. Of course, there are {8} too. Riding in the rain is unpleasant, and hills can be {9} for older people. Electric bicycles, which give the rider a gentle push, may be the {10} to both problems.`, rows:`
+comeback|complaint|comparison|compromise
+encouraging|forbidding|preventing|accusing
+safely|sadly|scarcely|secretly
+rent|lend|earn|owe
+cost|coast|coat|court
+pollution|population|profession|protection
+report|regret|refuse|request
+disadvantages|discoveries|discounts|directions
+challenging|charming|cheering|changing
+answer|order|danger|owner
+`},
+{ name:'Passage 4', text:`According to legend, tea was {1} nearly five thousand years ago when leaves from a wild bush fell into a pot of boiling water. The drink soon became {2} throughout China, first as a medicine and later as an everyday pleasure. For centuries the methods of growing and preparing tea were a closely {3} secret. Traders carried the dried leaves along mountain {4} to neighbouring lands, where they were {5} for horses, salt and silk. When tea finally {6} Europe in the seventeenth century, it was so expensive that only the rich could {7} it. Prices fell as large farms were {8} in India and Sri Lanka, and tea became the daily drink of ordinary workers. Today it is the second most widely {9} drink in the world after water, and each country has its own {10} of serving it.`, rows:`
+discovered|disturbed|dismissed|disguised
+popular|polite|private|painful
+guarded|guided|guessed|granted
+routes|roots|roofs|rules
+exchanged|excused|examined|exhausted
+reached|arrived|went|came
+afford|affect|attend|admit
+established|estimated|escaped|embarrassed
+consumed|confused|concerned|convinced
+way|road|path|street
+`},
+{ name:'Passage 5', text:`More and more young people are choosing to spend part of their holidays as volunteers. Some teach English in village schools; others help to {1} houses after floods or look after injured animals. They receive no {2} for this work, yet most say they gain a great deal. Living in an unfamiliar place teaches them to be {3} and to solve problems on their own. Working in a team with people of different {4} improves their communication skills. Many also {5} that the experience changed their plans for the future. Employers tend to be {6} by applicants who have done voluntary work, because it shows that they are responsible and willing to {7} an effort. Still, volunteers should choose their projects {8}. A badly organized programme may do more harm than {9}, so it is important to check that local people really {10} from the help offered.`, rows:`
+rebuild|rebuke|recall|recite
+payment|pavement|parliament|punishment
+independent|indifferent|inconvenient|incompetent
+backgrounds|backyards|backbones|backpacks
+admit|omit|permit|submit
+impressed|imposed|imported|imprisoned
+make|do|have|give
+carefully|carelessly|cheerfully|casually
+good|well|better|best
+benefit|suffer|differ|recover
+`},
+{ name:'Passage 6', text:`Honeybees are far more important than most people {1}. As they fly from flower to flower collecting food, they carry pollen that plants need in order to {2} fruit and seeds. About a third of the food we eat {3} on this service. In recent years, however, beekeepers in many countries have noticed a sharp {4} in the number of bees. Scientists believe that several {5} are responsible. Certain farm chemicals {6} the bees' ability to find their way home. Wild flowers are disappearing as more land is {7} to grow a single crop. Diseases spread quickly through hives that are already {8}. There are simple ways to help. Gardeners can plant flowers that bloom at different times of year and {9} using chemical sprays. Even a small pot on a balcony can {10} bees with the food they need.`, rows:`
+realize|recommend|require|resemble
+produce|protect|promise|provoke
+depends|consists|belongs|results
+decline|deadline|decision|decoration
+factors|factories|fashions|fictions
+damage|develop|deliver|decorate
+cleared|cleaned|closed|climbed
+weak|wild|wide|warm
+avoid|enjoy|finish|suggest
+provide|prevent|compare|combine
+`}
+]}
+];
+
+</script>
+<script>
 (function(){
 "use strict";
 
@@ -1126,6 +1773,173 @@ function makeQuestion(entry, mode){
   return buildE2T(entry);
 }
 
+/* ===================== chapter mode ===================== */
+/* Deterministic shuffle: a unit always shows its options in the same order. */
+function seededShuffle(a, seedStr){
+  let h = 2166136261;
+  for(let i=0;i<seedStr.length;i++){ h ^= seedStr.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const rnd = () => {
+    h += 0x6D2B79F5;
+    let t = h;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const r = a.slice();
+  for(let i=r.length-1;i>0;i--){
+    const j = Math.floor(rnd()*(i+1));
+    [r[i],r[j]] = [r[j],r[i]];
+  }
+  return r;
+}
+const CH_HINT = {
+  fill:'เลือกคำที่เหมาะกับช่องว่าง แล้วนึกรูปคำที่ถูกต้องก่อนกดดูเฉลย',
+  odd:'มีสามคำที่ความหมายใกล้เคียงกัน เลือกคำที่เหลือ',
+  syn:'คำใดมีความหมายใกล้เคียงกับคำที่ขีดเส้นใต้มากที่สุด',
+  context:'เลือกคำที่ทำให้ประโยคสมบูรณ์และได้ใจความ',
+  passage:'เลือกคำที่เหมาะกับช่องว่างที่เน้นสีอยู่'
+};
+const BLANK = '<span class="blank">?</span>';
+const enB = t => '<b style="font-family:var(--font-en)">' + esc(t) + '</b>';
+
+function passageHTML(unit, answers, cur){
+  return esc(unit.text).replace(/\{(\d+)\}/g, (m, d) => {
+    const n = parseInt(d, 10);
+    if(n < cur)  return '<span class="filled"><sup>' + n + '</sup>' + esc(answers[n-1]) + '</span>';
+    if(n === cur) return '<span class="blank cur">' + n + '</span>';
+    return '<span class="blank">' + n + '</span>';
+  });
+}
+
+function buildUnit(sec, unit){
+  const rows = unit.rows.trim().split('\n').map(r => r.split('|'));
+  const total = rows.length;
+  const answers = rows.map(f => f[0]);
+  return rows.map((f, i) => {
+    const no = i + 1;
+    const seed = sec.id + '/' + unit.name + '/' + no;
+    const q = {
+      type:'ch', kind:sec.kind, unitKey: sec.id + '/' + unit.name,
+      label: sec.title + ' · ' + unit.name + ' · ข้อ ' + no + '/' + total,
+      optClass:'en'
+    };
+    const hint = '<p class="hint">' + CH_HINT[sec.kind] + '</p>';
+    const opts = list => seededShuffle(list.map((t, k) => ({t, ok:k === 0})), seed);
+
+    if(sec.kind === 'fill'){
+      const base = x => x.indexOf('=') === -1 ? x : x.split('=')[1];
+      const form = f[1].split('=')[0];
+      const full = f[0].replace('___', form);
+      q.promptHTML = '<p class="prompt-sentence">' + esc(f[0]).replace('___', BLANK) + '</p>' + hint;
+      q.options = opts(f.slice(1,5).map(base));
+      q.answerText = form;
+      q.entry = {w:base(f[1]), pos:'', th:f[5], syn:[], ex:full};
+      q.explainHTML = 'คำตอบคือ ' + enB(form) +
+        (form !== base(f[1]) ? ' (รูปคำหลัก ' + esc(base(f[1])) + ')' : '') + ' — ' + esc(f[5]) +
+        '<div class="sentence">' + esc(f[0]).replace('___', '<em>' + esc(form) + '</em>') + '</div>';
+    } else if(sec.kind === 'context'){
+      q.promptHTML = '<p class="prompt-sentence">' + esc(f[0]).replace('___', BLANK) + '</p>' + hint;
+      q.options = opts(f.slice(1,5));
+      q.answerText = f[1];
+      q.entry = {w:f[1], pos:'', th:f[5], syn:[], ex:f[0].replace('___', f[1])};
+      q.explainHTML = 'คำตอบคือ ' + enB(f[1]) + ' — ' + esc(f[5]) +
+        '<div class="sentence">' + esc(f[0]).replace('___', '<em>' + esc(f[1]) + '</em>') + '</div>';
+    } else if(sec.kind === 'syn'){
+      const target = f[0].match(/\[([^\]]+)\]/)[1];
+      q.promptHTML = '<p class="prompt-sentence">' +
+        esc(f[0]).replace(/\[([^\]]+)\]/, '<span class="target">$1</span>') + '</p>' + hint;
+      q.options = opts(f.slice(1,5));
+      q.answerText = f[1];
+      q.entry = {w:target, pos:'', th:f[5], syn:[f[1]], ex:f[0].replace(/[\[\]]/g, '')};
+      q.explainHTML = enB(target) + ' = ' + enB(f[1]) + ' — ' + esc(f[5]);
+    } else if(sec.kind === 'odd'){
+      q.promptHTML = '<p class="prompt-th">คำใดไม่เข้าพวก</p>' + hint;
+      q.options = opts(f.slice(0,4));
+      q.answerText = f[0];
+      q.entry = {w:f[0], pos:'', th:'ไม่เข้าพวกกับ ' + f.slice(1,4).join(', ') + ' (' + f[4] + ')', syn:[], ex:''};
+      q.explainHTML = 'คำที่ไม่เข้าพวกคือ ' + enB(f[0]) + '<br>อีกสามคำ ' +
+        f.slice(1,4).map(enB).join(', ') + ' มีความหมายว่า ' + esc(f[4]);
+    } else {
+      q.promptHTML = '<p class="prompt-passage">' + passageHTML(unit, answers, no) + '</p>' + hint;
+      q.options = opts(f.slice(0,4));
+      q.answerText = f[0];
+      q.entry = {w:f[0], pos:'', th:unit.name + ' ช่องว่างที่ ' + no, syn:[], ex:''};
+      q.explainHTML = 'ช่องว่างที่ ' + no + ' คำตอบคือ ' + enB(f[0]);
+    }
+    return q;
+  });
+}
+
+/* Playable items in book order: every unit, plus one "whole section" item per section. */
+const CH_ITEMS = [];
+CHAPTER_DATA.forEach((sec, si) => {
+  sec.units.forEach((unit, ui) => CH_ITEMS.push({key:sec.id + '/' + unit.name, si, ui, title:sec.title + ' — ' + unit.name}));
+});
+function chapterQueue(key){
+  if(key.slice(-2) === '/*'){
+    const sec = CHAPTER_DATA.find(s => s.id === key.slice(0,-2));
+    return [].concat(...sec.units.map(u => buildUnit(sec, u)));
+  }
+  const it = CH_ITEMS.find(x => x.key === key);
+  const sec = CHAPTER_DATA[it.si];
+  return buildUnit(sec, sec.units[it.ui]);
+}
+/* What comes after the selection in the book: next unit, or the next whole section. */
+function nextChapterKey(key){
+  if(key.slice(-2) === '/*'){
+    const si = CHAPTER_DATA.findIndex(s => s.id === key.slice(0,-2));
+    return si + 1 < CHAPTER_DATA.length ? CHAPTER_DATA[si+1].id + '/*' : null;
+  }
+  const i = CH_ITEMS.findIndex(x => x.key === key);
+  return i + 1 < CH_ITEMS.length ? CH_ITEMS[i+1].key : null;
+}
+function chapterTitle(key){
+  if(key.slice(-2) === '/*') return CHAPTER_DATA.find(s => s.id === key.slice(0,-2)).title;
+  return CH_ITEMS.find(x => x.key === key).title;
+}
+
+const CH_BEST_KEY = 'vocabquiz.chapter.best.v1';
+function loadBest(){
+  try{ return JSON.parse(localStorage.getItem(CH_BEST_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveBest(key, pct){
+  const b = loadBest();
+  if(!(key in b) || pct > b[key]){
+    b[key] = pct;
+    try{ localStorage.setItem(CH_BEST_KEY, JSON.stringify(b)); }catch(e){}
+  }
+}
+
+let play = 'random';
+let chapterKey = CH_ITEMS[0].key;
+let playingChapter = null;      // key of the chapter run in progress, null in random mode
+
+function renderChapterList(){
+  const best = loadBest();
+  let html = '';
+  CHAPTER_DATA.forEach(sec => {
+    const n = sec.units.reduce((a, u) => a + u.rows.trim().split('\n').length, 0);
+    html += '<div class="ch-section"><div class="setup-label">' + esc(sec.title) +
+      ' <small>' + sec.units.length + ' ชุด · ' + n + ' ข้อ</small></div><div class="chips">';
+    sec.units.forEach(u => {
+      const key = sec.id + '/' + u.name;
+      html += '<button class="chip" data-ch="' + esc(key) + '" aria-pressed="' + (key === chapterKey) + '">' +
+        esc(u.name) + (key in best ? '<span class="best">' + best[key] + '%</span>' : '') + '</button>';
+    });
+    const all = sec.id + '/*';
+    html += '<button class="chip" data-ch="' + all + '" aria-pressed="' + (all === chapterKey) + '">ทั้งชุด</button>';
+    html += '</div></div>';
+  });
+  el('chapterList').innerHTML = html;
+}
+
+function startChapter(key){
+  chapterKey = key;
+  playingChapter = key;
+  queue = chapterQueue(key);
+  beginQueue();
+}
+
 /* ===================== state ===================== */
 const el = id => document.getElementById(id);
 let mode = 'mix';
@@ -1159,6 +1973,7 @@ function renderLifetime(){
 
 /* ===================== round flow ===================== */
 function startRound(entries){
+  playingChapter = null;
   const base = entries || shuffle(VOCAB);
   queue = (roundLen > 0 ? base.slice(0, roundLen) : base).map(e => makeQuestion(e, mode));
   beginQueue();
@@ -1186,7 +2001,7 @@ function beginQueue(){
 function renderQuestion(){
   locked = false;
   current = queue[qi];
-  el('qtype').textContent = TYPE_LABEL[current.type];
+  el('qtype').textContent = current.label || TYPE_LABEL[current.type];
   el('promptBox').innerHTML = current.promptHTML;
   guideify(el('promptBox'));
   closePop();
@@ -1241,7 +2056,9 @@ function answer(i){
   const fb = el('feedback');
   let body = '';
 
-  if(current.type === 'odd'){
+  if(current.type === 'ch'){
+    body = '<span class="verdict">' + (ok ? 'ถูกต้อง' : 'ยังไม่ถูก') + '</span>' + current.explainHTML;
+  } else if(current.type === 'odd'){
     body = '<span class="verdict">' + (ok ? 'ถูกต้อง' : 'ยังไม่ถูก') + '</span>' +
       'คำที่ไม่เข้าพวกคือ <b style="font-family:var(--font-en)">' + esc(current.answerText) + '</b><br>' +
       'อีกสามคำเป็นคำพ้องความหมายของ <b style="font-family:var(--font-en)">' + esc(e.w) + '</b> (' + esc(e.th) + ')';
@@ -1295,6 +2112,20 @@ function finish(){
 
   el('retryWrongBtn').hidden = wrongList.length === 0;
 
+  const nextKey = playingChapter ? nextChapterKey(playingChapter) : null;
+  if(playingChapter){
+    if(qi >= queue.length && playingChapter.slice(-2) !== '/*' && queue.length === chapterQueue(playingChapter).length){
+      saveBest(playingChapter, pct);
+    }
+    el('resetBtn').textContent = '↺ รีเซ็ต — ทำบทเดิมอีกรอบ';
+    el('againBtn').hidden = !nextKey;
+    if(nextKey) el('againBtn').textContent = 'บทถัดไป: ' + chapterTitle(nextKey) + ' →';
+  } else {
+    el('resetBtn').textContent = '↺ รีเซ็ต — ทำชุดเดิมอีกรอบ';
+    el('againBtn').hidden = false;
+    el('againBtn').textContent = 'ทำรอบใหม่ (สุ่มคำใหม่)';
+  }
+
   const wrap = el('reviewWrap');
   if(!wrongList.length){
     wrap.innerHTML = '<div class="allclear">ตอบถูกทั้งหมดในรอบนี้</div>';
@@ -1303,7 +2134,7 @@ function finish(){
     wrongList.forEach(q => {
       const e = q.entry;
       html += '<li class="review-item">' +
-        '<div class="rw">' + esc(e.w) + ' <span style="font-size:13px;color:var(--ink-faint);font-style:italic">(' + esc(e.pos) + ')</span></div>' +
+        '<div class="rw">' + esc(e.w) + (e.pos ? ' <span style="font-size:13px;color:var(--ink-faint);font-style:italic">(' + esc(e.pos) + ')</span>' : '') + '</div>' +
         '<div class="rt">' + esc(e.th) + '</div>' +
         (e.syn && e.syn.length ? '<div class="rs">' + e.syn.slice(0,5).map(wrapPhrase).join(' · ') + '</div>' : '') +
         '</li>';
@@ -1321,6 +2152,7 @@ function goHome(){
   el('setup').hidden = false;
   el('topbar').hidden = true;
   renderLifetime();
+  renderChapterList();
   window.scrollTo(0,0);
 }
 
@@ -1610,13 +2442,39 @@ function chipGroup(containerId, onPick){
 chipGroup('modeChips', b => { mode = b.dataset.mode; });
 chipGroup('lenChips',  b => { roundLen = parseInt(b.dataset.len, 10); });
 
-el('startBtn').addEventListener('click', () => startRound(null));
+chipGroup('playChips', b => {
+  play = b.dataset.play;
+  el('randomOpts').hidden = play !== 'random';
+  el('chapterOpts').hidden = play !== 'chapter';
+});
+el('chapterList').addEventListener('click', ev => {
+  const b = ev.target.closest('.chip');
+  if(!b) return;
+  chapterKey = b.dataset.ch;
+  Array.from(el('chapterList').querySelectorAll('.chip'))
+    .forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+});
+renderChapterList();
+
+el('startBtn').addEventListener('click', () => {
+  if(play === 'chapter') startChapter(chapterKey);
+  else startRound(null);
+});
 el('nextBtn').addEventListener('click', next);
 el('quitBtn').addEventListener('click', () => { if(qi > 0 || locked) finish(); else goHome(); });
-el('againBtn').addEventListener('click', () => startRound(null));
+el('againBtn').addEventListener('click', () => {
+  const nextKey = playingChapter ? nextChapterKey(playingChapter) : null;
+  if(nextKey) startChapter(nextKey);
+  else startRound(null);
+});
 el('resetBtn').addEventListener('click', resetRound);
 el('homeBtn').addEventListener('click', goHome);
 el('retryWrongBtn').addEventListener('click', () => {
+  if(wrongList.length && wrongList[0].type === 'ch'){
+    queue = wrongList.slice();
+    beginQueue();
+    return;
+  }
   const entries = wrongList.map(q => q.entry);
   const saved = roundLen;
   roundLen = 0;
