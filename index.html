@@ -489,6 +489,7 @@ body{
 /* ---------- chapter mode ---------- */
 .ch-note{font-size:13.5px;color:var(--ink-dim);margin:0 0 4px;line-height:1.6}
 .ch-section{margin-top:20px}
+#chapterList > .chips{margin-top:12px}
 .ch-section .setup-label{display:flex;align-items:baseline;gap:8px}
 .ch-section .setup-label small{font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-faint)}
 .chip .best{font-size:11.5px;font-weight:600;margin-left:6px;opacity:.75;font-variant-numeric:tabular-nums}
@@ -733,7 +734,7 @@ footer{
     <div id="chapterOpts" hidden>
       <div class="setup-group">
         <div class="setup-label">เลือกบท</div>
-        <p class="ch-note">เรียงตามบทแบบฝึกหัดของหนังสือ ข้อสอบออกตามลำดับข้อ 1 ถึงข้อสุดท้ายของบทนั้น ไม่สุ่มลำดับ</p>
+        <p class="ch-note">เรียงตามบทแบบฝึกหัดของหนังสือ ข้อสอบออกตามลำดับข้อ 1 ถึงข้อสุดท้ายของบทนั้น ไม่สุ่มลำดับ เลือก “ทำหมดทุกชุด” เพื่อทำต่อเนื่องตั้งแต่ Review 1 จนถึง Passage 6</p>
         <div id="chapterList"></div>
       </div>
     </div>
@@ -1875,7 +1876,11 @@ const CH_ITEMS = [];
 CHAPTER_DATA.forEach((sec, si) => {
   sec.units.forEach((unit, ui) => CH_ITEMS.push({key:sec.id + '/' + unit.name, si, ui, title:sec.title + ' — ' + unit.name}));
 });
+const CH_ALL = '*';               // every section, first unit to last
 function chapterQueue(key){
+  if(key === CH_ALL){
+    return [].concat(...CHAPTER_DATA.map(sec => [].concat(...sec.units.map(u => buildUnit(sec, u)))));
+  }
   if(key.slice(-2) === '/*'){
     const sec = CHAPTER_DATA.find(s => s.id === key.slice(0,-2));
     return [].concat(...sec.units.map(u => buildUnit(sec, u)));
@@ -1886,6 +1891,7 @@ function chapterQueue(key){
 }
 /* What comes after the selection in the book: next unit, or the next whole section. */
 function nextChapterKey(key){
+  if(key === CH_ALL) return null;
   if(key.slice(-2) === '/*'){
     const si = CHAPTER_DATA.findIndex(s => s.id === key.slice(0,-2));
     return si + 1 < CHAPTER_DATA.length ? CHAPTER_DATA[si+1].id + '/*' : null;
@@ -1894,6 +1900,7 @@ function nextChapterKey(key){
   return i + 1 < CH_ITEMS.length ? CH_ITEMS[i+1].key : null;
 }
 function chapterTitle(key){
+  if(key === CH_ALL) return 'ทุกชุด';
   if(key.slice(-2) === '/*') return CHAPTER_DATA.find(s => s.id === key.slice(0,-2)).title;
   return CH_ITEMS.find(x => x.key === key).title;
 }
@@ -1916,7 +1923,9 @@ let playingChapter = null;      // key of the chapter run in progress, null in r
 
 function renderChapterList(){
   const best = loadBest();
-  let html = '';
+  const totalQ = CHAPTER_DATA.reduce((a, sec) => a + sec.units.reduce((b, u) => b + u.rows.trim().split('\n').length, 0), 0);
+  let html = '<div class="chips"><button class="chip" data-ch="' + CH_ALL + '" aria-pressed="' + (chapterKey === CH_ALL) + '">' +
+    'ทำหมดทุกชุด · ' + totalQ + ' ข้อ</button></div>';
   CHAPTER_DATA.forEach(sec => {
     const n = sec.units.reduce((a, u) => a + u.rows.trim().split('\n').length, 0);
     html += '<div class="ch-section"><div class="setup-label">' + esc(sec.title) +
@@ -2114,7 +2123,7 @@ function finish(){
 
   const nextKey = playingChapter ? nextChapterKey(playingChapter) : null;
   if(playingChapter){
-    if(qi >= queue.length && playingChapter.slice(-2) !== '/*' && queue.length === chapterQueue(playingChapter).length){
+    if(qi >= queue.length && playingChapter !== CH_ALL && playingChapter.slice(-2) !== '/*' && queue.length === chapterQueue(playingChapter).length){
       saveBest(playingChapter, pct);
     }
     el('resetBtn').textContent = '↺ รีเซ็ต — ทำบทเดิมอีกรอบ';
