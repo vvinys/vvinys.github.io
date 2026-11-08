@@ -6,7 +6,7 @@
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Winnavy Sakulnee</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Winnavy Sakulnee, Computer Engineering student at Sripatum University and iOS developer working in Swift, SwiftUI and Metal.">
+<meta name="description" content="Winnavy Sakulnee, Computer Engineering student at Sripatum University and macOS developer building desktop widgets, customization and activity detection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -123,9 +123,9 @@ footer{padding-block:28px;color:var(--muted);font-size:14px}
   <canvas id="water" aria-hidden="true"></canvas>
   <div class="wrap hero-inner">
     <div class="glass" id="glass">
-      <p class="eyebrow">iOS Developer · Computer Engineering</p>
+      <p class="eyebrow">macOS Developer · Computer Engineering</p>
       <h1>Winnavy Sakulnee</h1>
-      <p class="lede">I build iOS interfaces in SwiftUI, with a focus on custom visual effects written in Metal.</p>
+      <p class="lede">I build macOS apps in SwiftUI, with a focus on desktop widgets, customization and system activity detection.</p>
       <div class="meta">
         <span>Sripatum University</span>
         <span>Bangkok, Thailand</span>
@@ -145,8 +145,8 @@ footer{padding-block:28px;color:var(--muted);font-size:14px}
       <p class="label">About</p>
       <h2>Interfaces that feel smooth and natural</h2>
       <div class="prose">
-        <p>I'm a Computer Engineering student at Sripatum University with a strong interest in iOS development. I build apps with Swift and SwiftUI, and I especially enjoy creating custom visual effects and UI components, including Metal shaders and reusable SwiftUI ViewModifiers.</p>
-        <p>I care about interfaces that feel polished and natural to use. I'm always learning new Apple frameworks, and I'm looking for internships and projects where I can grow as a developer and contribute to real products.</p>
+        <p>I'm a Computer Engineering student at Sripatum University with a strong interest in macOS development. I build apps with Swift and SwiftUI, and I especially enjoy making the Mac desktop more personal and more useful: widgets, desktop customization, and tools that react to what's happening on the system.</p>
+        <p>I care about software that feels polished and natural to use. I'm always learning new Apple frameworks, and I'm looking for internships and projects where I can grow as a developer and contribute to real products.</p>
       </div>
     </div>
   </section>
@@ -156,31 +156,32 @@ footer{padding-block:28px;color:var(--muted);font-size:14px}
       <p class="label">Featured project</p>
       <div class="project">
         <div>
-          <h3>LiquidGlassPanel</h3>
-          <p class="sub">A SwiftUI ViewModifier that makes a widget look like a pane of water over the wallpaper behind it.</p>
+          <h3>macOS Desktop Widgets and Activity Detection</h3>
+          <p class="sub">Widgets and desktop customization for the Mac, driven by a system that detects what's happening on macOS.</p>
           <ul class="points">
-            <li><span>Distorts the wallpaper behind a widget with a realistic water-refraction effect.</span></li>
-            <li><span>Uses a custom Metal shader (<code>WaterRefraction.metal</code>) to get past SwiftUI's limits on pixel access.</span></li>
-            <li><span>Builds the distortion from layered sine and cosine waves, targeting iOS 17 and later.</span></li>
-            <li><span>Also targets the native <code>.glassEffect</code> API in iOS 26.</span></li>
-            <li><span>Uses GeometryReader to keep the distortion aligned with the panel's exact position.</span></li>
+            <li><span>Desktop widgets that live alongside the user's wallpaper and windows.</span></li>
+            <li><span>Customization options so each user can style their desktop the way they like.</span></li>
+            <li><span>An activity detection system that watches macOS events, such as which app is in front.</span></li>
+            <li><span>Widgets that update and react to that activity as it happens.</span></li>
           </ul>
           <div class="tags">
-            <span class="tag">SwiftUI</span><span class="tag">Metal</span><span class="tag">ViewModifier</span><span class="tag">iOS 17+</span>
+            <span class="tag">macOS</span><span class="tag">SwiftUI</span><span class="tag">Widgets</span><span class="tag">Activity detection</span>
           </div>
         </div>
         <div class="code">
           <figure>
-<pre><span class="c">// Layered waves offset the sample position</span>
-<span class="t">float2</span> offset = <span class="t">float2</span>(
-  <span class="k">sin</span>(uv.y * <span class="n">18.0</span> + time * <span class="n">1.6</span>) +
-  <span class="k">sin</span>(uv.y * <span class="n">41.0</span> - time * <span class="n">2.3</span>) * <span class="n">0.4</span>,
-  <span class="k">cos</span>(uv.x * <span class="n">15.0</span> + time * <span class="n">1.2</span>) +
-  <span class="k">cos</span>(uv.x * <span class="n">37.0</span> + time * <span class="n">2.0</span>) * <span class="n">0.4</span>
-) * strength;
+<pre><span class="c">// Listen for the frontmost app changing</span>
+<span class="k">let</span> center = <span class="t">NSWorkspace</span>.shared.notificationCenter
 
-<span class="k">return</span> layer.<span class="k">sample</span>(position + offset);</pre>
-            <figcaption>The core idea, simplified. The hero at the top of this page runs the same layered-wave refraction in WebGL.</figcaption>
+center.<span class="k">addObserver</span>(
+  forName: <span class="t">NSWorkspace</span>.didActivateApplicationNotification,
+  object: <span class="k">nil</span>, queue: .main
+) { note <span class="k">in</span>
+  <span class="k">let</span> app = note.userInfo?[<span class="t">NSWorkspace</span>.applicationUserInfoKey]
+    <span class="k">as?</span> <span class="t">NSRunningApplication</span>
+  activity.current = app?.localizedName <span class="c">// widgets update</span>
+}</pre>
+            <figcaption>A simplified example of the idea: macOS reports when the user switches apps, and the widgets respond.</figcaption>
           </figure>
         </div>
       </div>
@@ -199,7 +200,7 @@ footer{padding-block:28px;color:var(--muted);font-size:14px}
           </div>
           <div>
             <h3>Focus areas</h3>
-            <div class="chips"><span class="chip">iOS Development</span><span class="chip">Custom UI components</span><span class="chip">Visual effects</span><span class="chip">Shaders</span></div>
+            <div class="chips"><span class="chip">macOS Development</span><span class="chip">Desktop widgets</span><span class="chip">Desktop customization</span><span class="chip">Activity detection</span></div>
           </div>
           <div>
             <h3>Tools</h3>
@@ -221,7 +222,7 @@ footer{padding-block:28px;color:var(--muted);font-size:14px}
     <div class="wrap">
       <p class="label">Contact</p>
       <h2>Let's connect</h2>
-      <p class="prose" style="margin:0 0 16px">I'm open to internships and collaborations in iOS development. The best way to reach me is on LinkedIn.</p>
+      <p class="prose" style="margin:0 0 16px">I'm open to internships and collaborations in macOS development. The best way to reach me is on LinkedIn.</p>
       <div class="contact-row">
         <div class="linkbox">
           <a id="li-link" href="https://www.linkedin.com/in/winnavy-sakulnee-245586449" target="_blank" rel="noopener">linkedin.com/in/winnavy-sakulnee-245586449</a>
