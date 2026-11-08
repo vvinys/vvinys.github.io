@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Winnavy Sakulnee</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Winnavy Sakulnee, Computer Engineering student at Sripatum University and iOS developer working in Swift, SwiftUI and Metal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a live refraction shader as the hero, then a single readable column with a two-column skills/education band. */
+:root{
+  --bg:#eef2f6;
+  --surface:#ffffff;
+  --fg:#0d1823;
+  --muted:#4d5d6c;
+  --line:#d3dce5;
+  --accent:#0a6fe0;
+  --accent-soft:#e1edfb;
+  --code-bg:#0f1b26;
+  --code-fg:#d6e4f0;
+  --font-display:"Syne", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body:"Figtree", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1017; --surface:#111a24; --fg:#e4ecf3; --muted:#9aabbb; --line:#223140;
+    --accent:#5aa9ff; --accent-soft:#132a42; --code-bg:#060b10; --code-fg:#cfe0ee;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1017; --surface:#111a24; --fg:#e4ecf3; --muted:#9aabbb; --line:#223140;
+  --accent:#5aa9ff; --accent-soft:#132a42; --code-bg:#060b10; --code-fg:#cfe0ee;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;background:#123a63}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .fallback{position:absolute;inset:0;background:
+  radial-gradient(60% 80% at 15% 20%, #2d8cff 0%, transparent 60%),
+  radial-gradient(50% 70% at 85% 30%, #13c2b3 0%, transparent 60%),
+  radial-gradient(60% 80% at 60% 100%, #7a5cff 0%, transparent 60%), #0d2742}
+.hero-inner{position:relative;padding-block:clamp(56px, 10vw, 112px)}
+.glass{text-shadow:0 1px 12px rgba(4,18,36,.35);max-width:620px;padding:clamp(24px, 4vw, 40px);border-radius:28px;color:#fff;
+  border:1px solid rgba(255,255,255,.28);box-shadow:0 20px 50px rgba(3,14,28,.35), inset 0 1px 0 rgba(255,255,255,.35)}
+.no-gl .glass{background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
+.eyebrow{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin:0 0 14px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(40px, 7.5vw, 72px);line-height:.98;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.lede{font-size:clamp(17px, 2.2vw, 20px);line-height:1.5;margin:18px 0 0;max-width:34ch;opacity:.95}
+.meta{display:flex;flex-wrap:wrap;gap:10px 18px;margin:22px 0 0;font-size:15px;opacity:.9}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .15s ease, background .15s ease}
+.btn-primary{background:#fff;color:#0b2540}
+.btn-ghost{color:#fff;border:1px solid rgba(255,255,255,.5)}
+.btn:hover{transform:translateY(-1px)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.hero-note{position:absolute;right:max(16px, env(safe-area-inset-right, 0px));bottom:14px;font-family:var(--font-mono);font-size:11.5px;color:rgba(255,255,255,.75);margin:0}
+
+/* Sections */
+section{padding-block:clamp(48px, 8vw, 80px);border-bottom:1px solid var(--line)}
+h2{font-family:var(--font-display);font-weight:700;font-size:clamp(26px, 4vw, 34px);letter-spacing:-.01em;line-height:1.1;margin:0 0 20px;text-wrap:balance}
+.label{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.prose{max-width:62ch}
+.prose p{margin:0 0 1em;color:var(--fg)}
+.prose p:last-child{margin-bottom:0}
+
+/* Project */
+.project{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px, 4vw, 48px);align-items:start}
+.project h3{font-family:var(--font-display);font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+.project .sub{color:var(--muted);margin:0 0 18px;font-size:15.5px}
+.points{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.points li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px}
+.points li::before{content:"";width:8px;height:8px;margin-top:10px;border-radius:50%;background:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tag{font-family:var(--font-mono);font-size:12.5px;padding:5px 10px;border-radius:6px;background:var(--accent-soft);color:var(--fg)}
+.code{min-width:0}
+.code figure{margin:0}
+.code pre{margin:0;background:var(--code-bg);color:var(--code-fg);border-radius:14px;padding:20px;overflow-x:auto;font-family:var(--font-mono);font-size:13px;line-height:1.65}
+.code figcaption{font-size:13.5px;color:var(--muted);margin-top:10px}
+.k{color:#ff8fb1}.t{color:#7cc7ff}.n{color:#ffd27a}.c{color:#6f8496}
+
+/* Skills + education */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px, 5vw, 64px)}
+.skill-groups{display:grid;gap:18px}
+.skill-groups h3,.edu h3{font-size:14px;font-weight:600;color:var(--muted);margin:0 0 8px;letter-spacing:.02em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:15px}
+.edu .school{font-family:var(--font-display);font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
+.edu .degree{margin:4px 0 0}
+.edu .where{color:var(--muted);margin:2px 0 0;font-size:15.5px}
+
+/* Contact */
+.contact-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:8px}
+.linkbox{display:flex;align-items:center;gap:10px;min-width:0;max-width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.linkbox a{font-family:var(--font-mono);font-size:14px;overflow-wrap:anywhere;text-decoration:none}
+.copy{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+footer{padding-block:28px;color:var(--muted);font-size:14px}
+
+@media (max-width:720px){
+  .project,.two{grid-template-columns:minmax(0,1fr)}
+  .hero-note{position:static;padding-top:10px}
+}
+@media (prefers-reduced-motion: reduce){ .btn{transition:none} }
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <div class="fallback" aria-hidden="true"></div>
+  <canvas id="water" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <div class="glass" id="glass">
+      <p class="eyebrow">iOS Developer · Computer Engineering</p>
+      <h1>Winnavy Sakulnee</h1>
+      <p class="lede">I build iOS interfaces in SwiftUI, with a focus on custom visual effects written in Metal.</p>
+      <div class="meta">
+        <span>Sripatum University</span>
+        <span>Bangkok, Thailand</span>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://www.linkedin.com/in/winnavy-sakulnee-245586449" target="_blank" rel="noopener">LinkedIn profile</a>
+        <a class="btn btn-ghost" href="#work">See my work</a>
+      </div>
+    </div>
+  </div>
+  <p class="hero-note">The glass panel above refracts a live WebGL shader.</p>
+</header>
+
+<main>
+  <section id="about">
+    <div class="wrap">
+      <p class="label">About</p>
+      <h2>Interfaces that feel smooth and natural</h2>
+      <div class="prose">
+        <p>I'm a Computer Engineering student at Sripatum University with a strong interest in iOS development. I build apps with Swift and SwiftUI, and I especially enjoy creating custom visual effects and UI components, including Metal shaders and reusable SwiftUI ViewModifiers.</p>
+        <p>I care about interfaces that feel polished and natural to use. I'm always learning new Apple frameworks, and I'm looking for internships and projects where I can grow as a developer and contribute to real products.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <p class="label">Featured project</p>
+      <div class="project">
+        <div>
+          <h3>LiquidGlassPanel</h3>
+          <p class="sub">A SwiftUI ViewModifier that makes a widget look like a pane of water over the wallpaper behind it.</p>
+          <ul class="points">
+            <li><span>Distorts the wallpaper behind a widget with a realistic water-refraction effect.</span></li>
+            <li><span>Uses a custom Metal shader (<code>WaterRefraction.metal</code>) to get past SwiftUI's limits on pixel access.</span></li>
+            <li><span>Builds the distortion from layered sine and cosine waves, targeting iOS 17 and later.</span></li>
+            <li><span>Also targets the native <code>.glassEffect</code> API in iOS 26.</span></li>
+            <li><span>Uses GeometryReader to keep the distortion aligned with the panel's exact position.</span></li>
+          </ul>
+          <div class="tags">
+            <span class="tag">SwiftUI</span><span class="tag">Metal</span><span class="tag">ViewModifier</span><span class="tag">iOS 17+</span>
+          </div>
+        </div>
+        <div class="code">
+          <figure>
+<pre><span class="c">// Layered waves offset the sample position</span>
+<span class="t">float2</span> offset = <span class="t">float2</span>(
+  <span class="k">sin</span>(uv.y * <span class="n">18.0</span> + time * <span class="n">1.6</span>) +
+  <span class="k">sin</span>(uv.y * <span class="n">41.0</span> - time * <span class="n">2.3</span>) * <span class="n">0.4</span>,
+  <span class="k">cos</span>(uv.x * <span class="n">15.0</span> + time * <span class="n">1.2</span>) +
+  <span class="k">cos</span>(uv.x * <span class="n">37.0</span> + time * <span class="n">2.0</span>) * <span class="n">0.4</span>
+) * strength;
+
+<span class="k">return</span> layer.<span class="k">sample</span>(position + offset);</pre>
+            <figcaption>The core idea, simplified. The hero at the top of this page runs the same layered-wave refraction in WebGL.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap two">
+      <div>
+        <p class="label">Skills</p>
+        <h2>Tools I work with</h2>
+        <div class="skill-groups">
+          <div>
+            <h3>Languages and frameworks</h3>
+            <div class="chips"><span class="chip">Swift</span><span class="chip">SwiftUI</span><span class="chip">Metal</span><span class="chip">Metal Shading Language</span></div>
+          </div>
+          <div>
+            <h3>Focus areas</h3>
+            <div class="chips"><span class="chip">iOS Development</span><span class="chip">Custom UI components</span><span class="chip">Visual effects</span><span class="chip">Shaders</span></div>
+          </div>
+          <div>
+            <h3>Tools</h3>
+            <div class="chips"><span class="chip">Xcode</span><span class="chip">Git</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="edu">
+        <p class="label">Education</p>
+        <h2>Study</h2>
+        <p class="school">Sripatum University</p>
+        <p class="degree">Bachelor of Engineering, Computer Engineering</p>
+        <p class="where">Bangkok, Thailand · Current student</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:0">
+    <div class="wrap">
+      <p class="label">Contact</p>
+      <h2>Let's connect</h2>
+      <p class="prose" style="margin:0 0 16px">I'm open to internships and collaborations in iOS development. The best way to reach me is on LinkedIn.</p>
+      <div class="contact-row">
+        <div class="linkbox">
+          <a id="li-link" href="https://www.linkedin.com/in/winnavy-sakulnee-245586449" target="_blank" rel="noopener">linkedin.com/in/winnavy-sakulnee-245586449</a>
+        </div>
+        <button class="copy" id="copy-btn" type="button">Copy link</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Winnavy Sakulnee · Computer Engineering, Sripatum University</div>
+</footer>
+
+<script>
+(function(){
+  // Copy LinkedIn link
+  var btn=document.getElementById('copy-btn'), link=document.getElementById('li-link');
+  btn.addEventListener('click',function(){
+    var done=function(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy link'},1600)};
+    var fallback=function(){var r=document.createRange();r.selectNodeContents(link);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected, press Ctrl+C';};
+    try{navigator.clipboard.writeText(link.href).then(done,fallback)}catch(e){fallback()}
+  });
+
+  // Water refraction hero
+  var hero=document.getElementById('hero'), canvas=document.getElementById('water'), glass=document.getElementById('glass');
+  var gl=null;
+  try{gl=canvas.getContext('webgl',{premultipliedAlpha:false,antialias:false})}catch(e){}
+  if(!gl){hero.classList.add('no-gl');canvas.remove();return;}
+
+  var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var fs=[
+  'precision highp float;',
+  'uniform vec2 res;uniform float t;uniform vec4 panel;uniform float rad;',
+  'float sdBox(vec2 p,vec2 b,float r){vec2 q=abs(p)-b+r;return length(max(q,0.))+min(max(q.x,q.y),0.)-r;}',
+  'vec3 wall(vec2 uv){',
+  '  vec2 a=vec2(.18+.08*sin(t*.21),.25+.10*cos(t*.17));',
+  '  vec2 b=vec2(.82+.07*cos(t*.19),.30+.12*sin(t*.23));',
+  '  vec2 c=vec2(.55+.12*sin(t*.13),.95+.06*cos(t*.29));',
+  '  vec2 d=vec2(.40+.10*cos(t*.11),.55+.10*sin(t*.15));',
+  '  float ar=res.x/res.y; vec2 s=vec2(ar,1.);',
+  '  vec3 col=vec3(.05,.14,.25);',
+  '  col+=vec3(.16,.52,1.)*exp(-length((uv-a)*s)*3.0);',
+  '  col+=vec3(.05,.78,.70)*exp(-length((uv-b)*s)*3.2);',
+  '  col+=vec3(.48,.36,1.)*exp(-length((uv-c)*s)*2.8);',
+  '  col+=vec3(1.,.58,.30)*.55*exp(-length((uv-d)*s)*4.0);',
+  '  vec2 g=fract(uv*s*vec2(14.));',
+  '  float line=smoothstep(.04,.0,min(g.x,g.y));',
+  '  col+=line*.07;',
+  '  return col;}',
+  'void main(){',
+  '  vec2 fc=gl_FragCoord.xy; vec2 uv=fc/res;',
+  '  vec2 c=panel.xy+panel.zw*.5; vec2 h=panel.zw*.5;',
+  '  float d=sdBox(fc-c,h,rad);',
+  '  vec3 col;',
+  '  if(d<0.){',
+  '    vec2 lp=(fc-panel.xy)/max(panel.zw,vec2(1.));',
+  '    vec2 off=vec2(sin(lp.y*18.+t*1.6)+sin(lp.y*41.-t*2.3)*.4, cos(lp.x*15.+t*1.2)+cos(lp.x*37.+t*2.)*.4);',
+  '    float edge=smoothstep(-40.,0.,d);',
+  '    off*=(9.+edge*22.);',
+  '    vec2 nuv=(fc+off)/res;',
+  '    col=wall(nuv)*1.08+vec3(.06,.08,.10);',
+  '    col=mix(col,vec3(.9,.95,1.),edge*edge*.22);',
+  '    col*=.72;',
+  '  } else {',
+  '    col=wall(uv);',
+  '    col*=1.-.25*exp(-max(d,0.)/30.)*step(0.,d);',
+  '  }',
+  '  gl_FragColor=vec4(col,1.);}'
+  ].join('\n');
+
+  function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){throw new Error(gl.getShaderInfoLog(s))}return s}
+  var prog;
+  try{
+    prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error('link');
+  }catch(e){hero.classList.add('no-gl');canvas.remove();return;}
+  gl.useProgram(prog);
+  var buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  var loc=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  var uRes=gl.getUniformLocation(prog,'res'),uT=gl.getUniformLocation(prog,'t'),uPanel=gl.getUniformLocation(prog,'panel'),uRad=gl.getUniformLocation(prog,'rad');
+
+  var dpr=1;
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2);
+    var r=hero.getBoundingClientRect();
+    canvas.width=Math.max(1,Math.round(r.width*dpr));canvas.height=Math.max(1,Math.round(r.height*dpr));
+    gl.viewport(0,0,canvas.width,canvas.height);
+  }
+  function draw(time){
+    var hr=hero.getBoundingClientRect(), gr=glass.getBoundingClientRect();
+    var x=(gr.left-hr.left)*dpr, w=gr.width*dpr, h=gr.height*dpr;
+    var y=(hr.bottom-gr.bottom)*dpr; // GL origin is bottom-left
+    gl.uniform2f(uRes,canvas.width,canvas.height);
+    gl.uniform1f(uT,time);
+    gl.uniform4f(uPanel,x,y,w,h);
+    gl.uniform1f(uRad,28*dpr);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+  }
+  resize();
+  window.addEventListener('resize',function(){resize();if(still)draw(4.0)});
+  var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(still){draw(4.0);return;}
+  var visible=true;
+  if('IntersectionObserver' in window){new IntersectionObserver(function(e){visible=e[0].isIntersecting;if(visible)requestAnimationFrame(loop)}).observe(hero);}
+  var start=performance.now();
+  function loop(now){ if(!visible)return; draw((now-start)/1000+4.0); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
